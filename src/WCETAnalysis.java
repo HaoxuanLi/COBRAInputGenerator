@@ -25,7 +25,7 @@ public class WCETAnalysis {
 	}
 
 	WCETAnalysis(String directory) throws IOException {
-		config = getConfig("config.properties");
+		this.config = getConfig("config.properties");
 		this.directory = directory;
 	}
 
@@ -33,12 +33,12 @@ public class WCETAnalysis {
 
 		try {
 
-			String pathtargetprogram = directory + "\\Debug";
+			String pathtargetprogram = this.directory + "\\Debug";
 
-			makeprocessbuilder = new ProcessBuilder("make");
-			makeprocessbuilder.directory(new File(pathtargetprogram));
-			makeprocess = makeprocessbuilder.inheritIO().start();
-			makeprocess.waitFor();
+			this.makeprocessbuilder = new ProcessBuilder("make");
+			this.makeprocessbuilder.directory(new File(pathtargetprogram));
+			this.makeprocess = this.makeprocessbuilder.inheritIO().start();
+			this.makeprocess.waitFor();
 			// scanStream(makeprocess);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,12 +49,12 @@ public class WCETAnalysis {
 	public void cleanprogramfile() throws IOException {
 
 		try {
-			String pathtargetprogram = directory + "\\Debug";
+			String pathtargetprogram = this.directory + "\\Debug";
 
-			makeprocessbuilder = new ProcessBuilder("make", "clean");
-			makeprocessbuilder.directory(new File(pathtargetprogram));
-			makeprocess = makeprocessbuilder.inheritIO().start();
-			makeprocess.waitFor();
+			this.makeprocessbuilder = new ProcessBuilder("make", "clean");
+			this.makeprocessbuilder.directory(new File(pathtargetprogram));
+			this.makeprocess = this.makeprocessbuilder.inheritIO().start();
+			this.makeprocess.waitFor();
 			// scanStream(makeprocess);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,11 +65,11 @@ public class WCETAnalysis {
 	public void deployprogram() throws IOException {
 
 		try {
-			String pathtargetprogram = directory + "\\Debug";
-			String atprogram = config.getProperty("atprogram");
-			String toolname = config.getProperty("toolname");
-			String interfacename = config.getProperty("interfacename");
-			String devicename = config.getProperty("devicename");
+			String pathtargetprogram = this.directory + "\\Debug";
+			String atprogram = this.config.getProperty("atprogram");
+			String toolname = this.config.getProperty("toolname");
+			String interfacename = this.config.getProperty("interfacename");
+			String devicename = this.config.getProperty("devicename");
 			String deployfilestring = "";
 
 			for (File file : new File(pathtargetprogram).listFiles()) {
@@ -81,11 +81,11 @@ public class WCETAnalysis {
 
 			String[] deploycommand = { atprogram, "-t", toolname, "-i", interfacename, "-d", devicename, "program",
 					"-f", deployfilestring };
-			programprocessbuilder = new ProcessBuilder(deploycommand);
-			programprocessbuilder.directory(new File(pathtargetprogram));
-			programprocess = programprocessbuilder.start();
+			this.programprocessbuilder = new ProcessBuilder(deploycommand);
+			this.programprocessbuilder.directory(new File(pathtargetprogram));
+			this.programprocess = this.programprocessbuilder.start();
 
-			scanStream(programprocess);
+			scanStream(this.programprocess);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,46 +96,48 @@ public class WCETAnalysis {
 	public void eraseprogram() throws IOException {
 
 		try {
-			String pathtargetprogram = directory + "\\Debug";
-			String atprogram = config.getProperty("atprogram");
-			String toolname = config.getProperty("toolname");
-			String interfacename = config.getProperty("interfacename");
-			String devicename = config.getProperty("devicename");
+			String pathtargetprogram = this.directory + "\\Debug";
+			String atprogram = this.config.getProperty("atprogram");
+			String toolname = this.config.getProperty("toolname");
+			String interfacename = this.config.getProperty("interfacename");
+			String devicename = this.config.getProperty("devicename");
 
 			String[] deploycommand = { atprogram, "-t", toolname, "-i", interfacename, "-d", devicename, "chiperase" };
 
-			programprocessbuilder = new ProcessBuilder(deploycommand);
-			programprocessbuilder.directory(new File(pathtargetprogram));
-			programprocess = programprocessbuilder.start();
+			this.programprocessbuilder = new ProcessBuilder(deploycommand);
+			this.programprocessbuilder.directory(new File(pathtargetprogram));
+			this.programprocess = this.programprocessbuilder.start();
 
-			scanStream(programprocess);
+			scanStream(this.programprocess);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void CollectResults() throws IOException {
+	public void CollectResults(long inputlength, int bytelength, Boolean appendflag) throws IOException {
 		int resultcounter = 0;
-		String serialportNO = config.getProperty("serialportNO");
+		String serialportNO = this.config.getProperty("serialportNO");
 		SerialPort serialPort = new SerialPort(serialportNO);
+		String logfilepath = this.directory + "\\log.txt";
+		Formatter logformatter = new Formatter(new BufferedWriter(new FileWriter(logfilepath, appendflag)));
 
-		String logfilepath = directory + "\\log.txt";
-		Formatter logformatter = new Formatter(new File(logfilepath));
+
 		byte[] buffer;
 
 		try {
 			serialPort.openPort();
 			serialPort.setParams(9600, 8, 1, 0);// Set params.
-			while (serialPort != null && resultcounter < 100) {
-				buffer = serialPort.readBytes(4); // Read bytes from serial port
-				String t = new String(buffer, 0, 4);
-
+			while (serialPort != null && resultcounter < inputlength) {
+				buffer = serialPort.readBytes(bytelength); // Read bytes from
+															// serial port
+				String t = new String(buffer, 0, bytelength);
 				logformatter.format("%s", t);
-				//System.out.println(t);
 				if (t.contains("\n"))
 					resultcounter++;
-
+			
+				
+				System.out.println(t);
 			}
 
 		} catch (SerialPortException e) {
@@ -150,15 +152,18 @@ public class WCETAnalysis {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Results collected!");
 		logformatter.close();
 		System.out.println("Port Closed!");
+		
+		
 
 	}
 
 	public void AnalyzeResults() throws IOException {
 		try {
-			String logfilepath = directory + "\\log.txt";
-			File pythonfile = new File(directory + "\\WCETAnalysis.py");
+			String logfilepath = this.directory + "\\log.txt";
+			File pythonfile = new File(this.directory + "\\WCETAnalysis.py");
 			Formatter pythonformatter = new Formatter(pythonfile);
 
 			pythonformatter.format("%s", "import matplotlib.pyplot as plt\n");
@@ -174,7 +179,7 @@ public class WCETAnalysis {
 			pythonformatter.close();
 
 			ProcessBuilder pythonprocessbuilder = new ProcessBuilder("python", "WCETAnalysis.py");
-			pythonprocessbuilder.directory(new File(directory));
+			pythonprocessbuilder.directory(new File(this.directory));
 			Process pythonprocess = pythonprocessbuilder.start();
 
 			scanStream(pythonprocess);
@@ -217,4 +222,29 @@ public class WCETAnalysis {
 		return (properities);
 
 	}
+
+	public void clearData() {
+		File file = new File(this.directory);
+		for (File subfile : file.listFiles()) {
+			if (subfile.isDirectory()) {
+				clearData(subfile.getAbsolutePath());
+			} else {
+				subfile.delete();
+			}
+		}
+		file.delete();
+	}
+
+	public void clearData(String directory) {
+		File file = new File(directory);
+		for (File subfile : file.listFiles()) {
+			if (subfile.isDirectory()) {
+				clearData(subfile.getAbsolutePath());
+			} else {
+				subfile.delete();
+			}
+		}
+		file.delete();
+	}
+
 }

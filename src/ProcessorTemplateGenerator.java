@@ -71,13 +71,13 @@ public class ProcessorTemplateGenerator {
 			maincformatter.format("%s", "\n\tblockInputUpdate(i);");
 
 			maincformatter.format("%s", "\n\t/*Pull up output pin*/");
-			maincformatter.format("%s", "\n\tPORTC = (1 << PC4);");
+			//maincformatter.format("%s", "\n\tPORTC = (1 << PC4);");
 
 			maincformatter.format("%s", "\n\t/*Measure the execution time of the code block*/");
 			maincformatter.format("%s", "\n\tbenchmarkBlock();");
 
 			maincformatter.format("%s", "\n\t/*Pull down output pin*/");
-			maincformatter.format("%s", "\n\tPORTC = (0 << PC4);");
+			maincformatter.format("%s", this.config.getProperty("tocflag") + " \n");
 
 			maincformatter.format("%s", "\n\ti++;");
 

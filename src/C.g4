@@ -7,7 +7,7 @@ benchmarkNodeFunction
 
 instruction
 	: 	statement 
-	|	declaration 
+	| 	externalDeclaration 
     |   ('__asm' | '__asm__') ('volatile' | '__volatile__') '(' (logicalOrExpression (',' logicalOrExpression)*)? (':' (logicalOrExpression (',' logicalOrExpression)*)?)* ')' ';'
     |   '#' Whitespace? 'define' Identifier
     | 	'#' Whitespace? 'ifndef' Identifier
@@ -41,9 +41,9 @@ assignmentTreePre
 	;
 
 assignment
-	: 	leftExpression ( (assignmentOperator| shiftOperator) (unaryOperator | '%' | '/' | '^' |shiftOperator)? rightExpression )+
+	: 	functionCall
+	|	leftExpression ( (assignmentOperator| shiftOperator) (unaryOperator | '%' | '/' | '^' |shiftOperator)? rightExpression )+
 	|	assignment ',' assignment
-	|	functionCall  	
 	;
 
 leftExpression
@@ -102,10 +102,10 @@ leftVariable
 	;
 	
 rightVariable
-	:  	Identifier
+	:  	functionCall
+	|	Identifier
     |   Constant
     |   StringLiteral+
-	| 	functionCall
 	|	Identifier ('[' rightExpression ']')+
 	|	'&' rightVariable
 	|   rightVariable '.' Identifier

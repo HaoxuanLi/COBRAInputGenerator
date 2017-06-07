@@ -8,8 +8,8 @@ import org.antlr.v4.runtime.tree.*;
 class Variable {
 	private String variable;
 	private Integer lineNumber;
-	private boolean isarray=false;
-	private String arraysize;
+//	private boolean isarray = false;
+//	private String arraysize;
 
 	public String getVariable() {
 		return variable;
@@ -26,22 +26,23 @@ class Variable {
 	public void setLineNumber(Integer lineNumber) {
 		this.lineNumber = lineNumber;
 	}
-	
-	public boolean getIsArray() {
+
+/*	public boolean getIsArray() {
 		return isarray;
 	}
 
 	public void setIsArray(boolean isarray) {
 		this.isarray = isarray;
 	}
-	
+
 	public String getArraySize() {
 		return arraysize;
 	}
 
 	public void setArraySize(String arraysize) {
 		this.arraysize = arraysize;
-	}	
+	}
+	*/
 }
 
 class Declaration {
@@ -92,7 +93,7 @@ class Declaration {
 	public void setVariableMin(String variablemin) {
 		this.variablemin = variablemin;
 	}
-	
+
 	public boolean getIsArray() {
 		return isarray;
 	}
@@ -100,14 +101,14 @@ class Declaration {
 	public void setIsArray(boolean isarray) {
 		this.isarray = isarray;
 	}
-	
+
 	public String getArraySize() {
 		return arraysize;
 	}
 
 	public void setArraySize(String arraysize) {
 		this.arraysize = arraysize;
-	}	
+	}
 }
 
 class StructDeclaration {
@@ -176,7 +177,7 @@ class StructDeclaration {
 	public void setTargetFile(String targetfile) {
 		this.targetfile = targetfile;
 	}
-	
+
 	public boolean getIsArray() {
 		return isarray;
 	}
@@ -184,14 +185,14 @@ class StructDeclaration {
 	public void setIsArray(boolean isarray) {
 		this.isarray = isarray;
 	}
-	
+
 	public String getArraySize() {
 		return arraysize;
 	}
 
 	public void setArraySize(String arraysize) {
 		this.arraysize = arraysize;
-	}	
+	}
 }
 
 public class InputsGeneratorParser {
@@ -200,10 +201,12 @@ public class InputsGeneratorParser {
 	List<Variable> rightVariableList = new ArrayList<Variable>();
 	List<Declaration> declarationList = new ArrayList<Declaration>();
 	List<StructDeclaration> structdeclarationList = new ArrayList<StructDeclaration>();
+	String blocklocaldeclaration = "";
 	int lineNumber = 0;
 	String type = "";
 	String pointer = "";
 	String structname = "";
+	Boolean isarray = false;
 
 	InputsGeneratorParser() {
 
@@ -279,19 +282,34 @@ public class InputsGeneratorParser {
 
 		@Override
 		public void enterDeclaration(CParser.DeclarationContext ctx) {
+			String blocklocaldeclaration_temp = "";
+			String initdeclaratorlist = "";
 			type = "";
 			for (CParser.DeclarationSpecifierContext declarationSpecifier : ctx.declarationSpecifiers()
 					.declarationSpecifier()) {
 				type = type + " " + declarationSpecifier.getText();
 			}
 			type = type.replaceFirst("struct", "struct ").replaceFirst("union", "union ").replaceAll("^\\s*", "");
+
+			if (ctx.initDeclaratorList() != null)
+				initdeclaratorlist = ctx.initDeclaratorList().getText();
+			if (ctx.getText().contains(";")) {
+				if (!ctx.getText().contains("(")) {
+					blocklocaldeclaration_temp = type + " " + initdeclaratorlist + ";" + "\n";
+					blocklocaldeclaration = blocklocaldeclaration + blocklocaldeclaration_temp;
+				} else if (ctx.getText().contains("=")) {
+					blocklocaldeclaration_temp = type + " " + initdeclaratorlist + ";" + "\n";
+					blocklocaldeclaration = blocklocaldeclaration + blocklocaldeclaration_temp;
+				}
+				// System.out.println(blocklocaldeclaration_temp);
+			}
+
 		}
 
 		@Override
 		public void enterParameterDeclaration(CParser.ParameterDeclarationContext ctx) {
 			type = "";
 			if (ctx.declarationSpecifiers() != null) {
-				
 				for (CParser.DeclarationSpecifierContext declarationSpecifier : ctx.declarationSpecifiers()
 						.declarationSpecifier()) {
 					type = type + " " + declarationSpecifier.getText();
@@ -299,26 +317,29 @@ public class InputsGeneratorParser {
 				type = type.replaceFirst("struct", "struct ").replaceFirst("union", "union ").replaceAll("^\\s*", "");
 			}
 		}
-		
+
 		@Override
 		public void enterDeclarator(CParser.DeclaratorContext ctx) {
 			pointer = "";
 			if (ctx.pointer() != null) {
 				pointer = "*";
 			}
+
 		}
 		
 		@Override
 		public void enterDirectDeclarator(CParser.DirectDeclaratorContext ctx) {
+			if(ctx.getText().replaceAll(" ","").matches("^\\w*\\[.*\\]"))
+				isarray = true;
+			
 			if (ctx.Identifier() != null) {
 				Declaration declaration = new Declaration();
 				declaration.setVariableType(type);
 				declaration.setVariable(pointer + ctx.getText());
 				declaration.setLineNumber(ctx.start.getLine());
+				declaration.setIsArray(isarray);
 				declarationList.add(declaration);
-				// System.out.println("\n"
-				// +ctx.directDeclarator().Identifier());
-				//System.out.println(declaration.getVariable() + " "+ declaration.getLineNumber());
+				isarray = false;
 			}
 
 		}
@@ -382,7 +403,6 @@ public class InputsGeneratorParser {
 			structdeclaration.setVariable(ctx.getText());
 			structdeclaration.setLineNumber(ctx.start.getLine());
 			structdeclarationList.add(structdeclaration);
-			
 			// System.out.println(type + ctx.getText());
 		}
 
@@ -397,7 +417,7 @@ public class InputsGeneratorParser {
 			lineNumber = Integer.parseInt(ctx.getText());
 			// System.out.println(lineNumber);
 		}
-		
+
 		@Override
 		public void enterRightExpression(CParser.RightExpressionContext ctx) {
 			pointer = "";
@@ -417,7 +437,7 @@ public class InputsGeneratorParser {
 				// "\n");
 			}
 		}
-		
+
 		@Override
 		public void enterLeftExpression(CParser.LeftExpressionContext ctx) {
 			pointer = "";
@@ -436,7 +456,7 @@ public class InputsGeneratorParser {
 				// System.out.print("left: "+ctx.getText() + lineNumber +"\n");
 			}
 		}
-		
+
 	}
 
 	class RelationalExpressionTreeListener extends CBaseListener {
@@ -530,6 +550,15 @@ public class InputsGeneratorParser {
 	}
 
 	public void setStructDeclarationList() {
+
+	}
+
+	public String getBlockLocalDeclaration() {
+		return blocklocaldeclaration;
+
+	}
+
+	public void setBlockLocalDeclaration() {
 
 	}
 }
