@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _complex_updates_init, _complex_updates_init_out, _complex_updates_pin_down, _complex_updates_pin_down_out, _complex_updates_return, _complex_updates_return_out, _complex_updates_main, _complex_updates_main_out, _main, _main_out;
+</declaration>
+	<template>
+		<name x="5" y="5">complex_updates_init</name>
+		<declaration>// Place local variables here.
+int r60_r61_WCET=8, r68_WCET=6, r68_init_WCET=0, r68_cond_WCET=0, r69_r72_WCET=657, r68_post_WCET=0;
+int r68_Counter = 0;
+int r68_LoopBound =16;
+
+clock localclock;
+</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id1" x="0" y="64">
+			<name x="16" y="48">complex_updates_init</name>
+			<label kind="comments" x="-10" y="99">void complex_updates_init( void )</label>
+			<committed/>
+		</location>
+		<location id="id2" x="0" y="128">
+			<name x="16" y="112">r60_r61</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r60_r61_WCET</label>
+			<label kind="comments" x="-10" y="163">int i;
+  volatile float x = 0;</label>
+		</location>
+		<location id="id3" x="0" y="192">
+			<name x="16" y="176">complex_updates_pin_down_r63</name>
+			<label kind="comments" x="-10" y="227">complex_updates_pin_down( &amp;complex_updates_A[0], &amp;complex_updates_B[0],
+                            &amp;complex_updates_C[0], &amp;complex_updates_D[0] );</label>
+			<committed/>
+		</location>
+		<location id="id4" x="0" y="256">
+			<name x="16" y="240">complex_updates_pin_down_out_r63</name>
+		</location>
+		<location id="id5" x="0" y="320">
+			<name x="16" y="304">r68</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r68_WCET</label>
+			<label kind="comments" x="-10" y="355">for ( i = 0 ; i &lt; N ; i++ )</label>
+		</location>
+		<location id="id6" x="0" y="384">
+			<name x="16" y="368">r68_init</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r68_init_WCET</label>
+			<label kind="comments" x="-10" y="419">i = 0 ;</label>
+		</location>
+		<location id="id7" x="0" y="448">
+			<name x="16" y="432">r68_cond</name>
+			<label kind="invariant" x="20" y="448">localclock&lt;=r68_cond_WCET</label>
+			<label kind="comments" x="-10" y="483">for( ;  i &lt; N  ; )</label>
+		</location>
+		<location id="id8" x="0" y="512">
+			<name x="16" y="496">r69_r72</name>
+			<label kind="invariant" x="20" y="512">localclock&lt;=r69_r72_WCET</label>
+			<label kind="comments" x="-10" y="547">complex_updates_A[i] += x;
+    complex_updates_B[i] += x;
+    complex_updates_C[i] += x;
+    complex_updates_D[i] += x;</label>
+		</location>
+		<location id="id9" x="0" y="576">
+			<name x="16" y="560">r68_post</name>
+			<label kind="invariant" x="20" y="576">localclock&lt;=r68_post_WCET</label>
+			<label kind="comments" x="-10" y="611">i++ ;</label>
+		</location>
+		<location id="id10" x="0" y="640">
+			<name x="16" y="624">END</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="8" y="16">_complex_updates_init?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="8" y="208">_complex_updates_pin_down!</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r60_r61_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="8" y="272">_complex_updates_pin_down_out?</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r68_WCET</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r68_init_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="8" y="464">localclock&gt;=r68_cond_WCET&amp;&amp; (r68_Counter &lt; r68_LoopBound)</label>
+			<label kind="assignment" x="8" y="480">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="8" y="528">localclock&gt;=r69_r72_WCET</label>
+			<label kind="assignment" x="8" y="544">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-100" y="512">localclock&gt;=r68_post_WCET</label>
+			<label kind="assignment" x="-100" y="528">localclock:=0, r68_Counter++</label>
+			<nail x="-105" y="576"/>
+			<nail x="-105" y="448"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id10"/>
+			<label kind="guard" x="110" y="464">localclock&gt;=r68_cond_WCET&amp;&amp; !(r68_Counter &lt; r68_LoopBound)</label>
+			<label kind="assignment" x="110" y="480">localclock:=0, r68_Counter:=0</label>
+			<nail x="105" y="448"/>
+			<nail x="105" y="640"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-100" y="576">_complex_updates_init_out!</label>
+			<label kind="assignment" x="-100" y="592">localclock:=0</label>
+			<nail x="-105" y="640"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">complex_updates_pin_down</name>
+		<declaration>// Place local variables here.
+int r79_WCET=0, r82_WCET=6, r82_init_WCET=0, r82_cond_WCET=0, r83_r90_WCET=172, r82_post_WCET=0;
+int r82_Counter = 0;
+int r82_LoopBound =16;
+
+clock localclock;
+</declaration>
+		<location id="id11" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id12" x="0" y="64">
+			<name x="16" y="48">complex_updates_pin_down</name>
+			<label kind="comments" x="-10" y="99">void complex_updates_pin_down( float *pa, float *pb, float *pc, float *pd )</label>
+			<committed/>
+		</location>
+		<location id="id13" x="0" y="128">
+			<name x="16" y="112">r79</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r79_WCET</label>
+			<label kind="comments" x="-10" y="163">register int i;</label>
+		</location>
+		<location id="id14" x="0" y="192">
+			<name x="16" y="176">r82</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r82_WCET</label>
+			<label kind="comments" x="-10" y="227">for ( i = 0; i &lt; N; i++ )</label>
+		</location>
+		<location id="id15" x="0" y="256">
+			<name x="16" y="240">r82_init</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r82_init_WCET</label>
+			<label kind="comments" x="-10" y="291">i = 0;</label>
+		</location>
+		<location id="id16" x="0" y="320">
+			<name x="16" y="304">r82_cond</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r82_cond_WCET</label>
+			<label kind="comments" x="-10" y="355">for( ;  i &lt; N ; )</label>
+		</location>
+		<location id="id17" x="0" y="384">
+			<name x="16" y="368">r83_r90</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r83_r90_WCET</label>
+			<label kind="comments" x="-10" y="419">*pa++ = 2;
+    *pa++ = 1;
+    *pb++ = 2;
+    *pb++ = 5;
+    *pc++ = 3;
+    *pc++ = 4;
+    *pd++ = 0;
+    *pd++ = 0;</label>
+		</location>
+		<location id="id18" x="0" y="448">
+			<name x="16" y="432">r82_post</name>
+			<label kind="invariant" x="20" y="448">localclock&lt;=r82_post_WCET</label>
+			<label kind="comments" x="-10" y="483">i++ ;</label>
+		</location>
+		<location id="id19" x="0" y="512">
+			<name x="16" y="496">END</name>
+			<committed/>
+		</location>
+		<init ref="id11"/>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="8" y="16">_complex_updates_pin_down?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r79_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r82_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r82_init_WCET</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r82_cond_WCET&amp;&amp; (r82_Counter &lt; r82_LoopBound)</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r83_r90_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-100" y="384">localclock&gt;=r82_post_WCET</label>
+			<label kind="assignment" x="-100" y="400">localclock:=0, r82_Counter++</label>
+			<nail x="-105" y="448"/>
+			<nail x="-105" y="320"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id19"/>
+			<label kind="guard" x="110" y="336">localclock&gt;=r82_cond_WCET&amp;&amp; !(r82_Counter &lt; r82_LoopBound)</label>
+			<label kind="assignment" x="110" y="352">localclock:=0, r82_Counter:=0</label>
+			<nail x="105" y="320"/>
+			<nail x="105" y="512"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-100" y="448">_complex_updates_pin_down_out!</label>
+			<label kind="assignment" x="-100" y="464">localclock:=0</label>
+			<nail x="-105" y="512"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">complex_updates_return</name>
+		<declaration>// Place local variables here.
+int r97_r98_WCET=0, r100_WCET=6, r100_init_WCET=0, r100_cond_WCET=0, r101_WCET=114, r100_post_WCET=0, r103_WCET=4;
+int r100_Counter = 0;
+int r100_LoopBound =16;
+
+clock localclock;
+</declaration>
+		<location id="id20" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id21" x="0" y="64">
+			<name x="16" y="48">complex_updates_return</name>
+			<label kind="comments" x="-10" y="99">int complex_updates_return( void )</label>
+			<committed/>
+		</location>
+		<location id="id22" x="0" y="128">
+			<name x="16" y="112">r97_r98</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r97_r98_WCET</label>
+			<label kind="comments" x="-10" y="163">float check_sum = 0;
+  int i;</label>
+		</location>
+		<location id="id23" x="0" y="192">
+			<name x="16" y="176">r100</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r100_WCET</label>
+			<label kind="comments" x="-10" y="227">for ( i = 0; i &lt; N; i++ )</label>
+		</location>
+		<location id="id24" x="0" y="256">
+			<name x="16" y="240">r100_init</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r100_init_WCET</label>
+			<label kind="comments" x="-10" y="291">i = 0;</label>
+		</location>
+		<location id="id25" x="0" y="320">
+			<name x="16" y="304">r100_cond</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r100_cond_WCET</label>
+			<label kind="comments" x="-10" y="355">for( ;  i &lt; N ; )</label>
+		</location>
+		<location id="id26" x="0" y="384">
+			<name x="16" y="368">r101</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r101_WCET</label>
+			<label kind="comments" x="-10" y="419">check_sum += complex_updates_D[i];</label>
+		</location>
+		<location id="id27" x="0" y="448">
+			<name x="16" y="432">r100_post</name>
+			<label kind="invariant" x="20" y="448">localclock&lt;=r100_post_WCET</label>
+			<label kind="comments" x="-10" y="483">i++ ;</label>
+		</location>
+		<location id="id28" x="0" y="512">
+			<name x="16" y="496">r103</name>
+			<label kind="invariant" x="20" y="512">localclock&lt;=r103_WCET</label>
+			<label kind="comments" x="-10" y="547">return ( check_sum != 144.0f );</label>
+		</location>
+		<location id="id29" x="0" y="576">
+			<name x="16" y="560">END</name>
+			<committed/>
+		</location>
+		<init ref="id20"/>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="8" y="16">_complex_updates_return?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r97_r98_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r100_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r100_init_WCET</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r100_cond_WCET&amp;&amp; (r100_Counter &lt; r100_LoopBound)</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r101_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id25"/>
+			<label kind="guard" x="-100" y="384">localclock&gt;=r100_post_WCET</label>
+			<label kind="assignment" x="-100" y="400">localclock:=0, r100_Counter++</label>
+			<nail x="-105" y="448"/>
+			<nail x="-105" y="320"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id28"/>
+			<label kind="guard" x="110" y="336">localclock&gt;=r100_cond_WCET&amp;&amp; !(r100_Counter &lt; r100_LoopBound)</label>
+			<label kind="assignment" x="110" y="352">localclock:=0, r100_Counter:=0</label>
+			<nail x="105" y="320"/>
+			<nail x="105" y="512"/>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="guard" x="8" y="528">localclock&gt;=r103_WCET</label>
+			<label kind="assignment" x="8" y="544">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-100" y="512">_complex_updates_return_out!</label>
+			<label kind="assignment" x="-100" y="528">localclock:=0</label>
+			<nail x="-105" y="576"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">complex_updates_main</name>
+		<declaration>// Place local variables here.
+int r113_r115_WCET=0, r118_WCET=82, r118_init_WCET=0, r118_cond_WCET=0, r119_r123_WCET=1608, r118_post_WCET=0;
+int r118_Counter = 0;
+int r118_LoopBound =16;
+
+clock localclock;
+</declaration>
+		<location id="id30" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id31" x="0" y="64">
+			<name x="16" y="48">complex_updates_main</name>
+			<label kind="comments" x="-10" y="99">void _Pragma( "entrypoint" ) complex_updates_main( void )</label>
+			<committed/>
+		</location>
+		<location id="id32" x="0" y="128">
+			<name x="16" y="112">r113_r115</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r113_r115_WCET</label>
+			<label kind="comments" x="-10" y="163">register float *p_a = &amp;complex_updates_A[0], *p_b = &amp;complex_updates_B[0];
+  register float *p_c = &amp;complex_updates_C[0], *p_d = &amp;complex_updates_D[0];
+  int i;</label>
+		</location>
+		<location id="id33" x="0" y="192">
+			<name x="16" y="176">r118</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r118_WCET</label>
+			<label kind="comments" x="-10" y="227">for ( i = 0 ; i &lt; N ; i++, p_a++ )</label>
+		</location>
+		<location id="id34" x="0" y="256">
+			<name x="16" y="240">r118_init</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r118_init_WCET</label>
+			<label kind="comments" x="-10" y="291">i = 0 ;</label>
+		</location>
+		<location id="id35" x="0" y="320">
+			<name x="16" y="304">r118_cond</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r118_cond_WCET</label>
+			<label kind="comments" x="-10" y="355">for( ;  i &lt; N  ; )</label>
+		</location>
+		<location id="id36" x="0" y="384">
+			<name x="16" y="368">r119_r123</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r119_r123_WCET</label>
+			<label kind="comments" x="-10" y="419">*p_d    = *p_c++ + *p_a++ * *p_b++ ;
+    *p_d++ -=          *p_a   * *p_b-- ;
+
+    *p_d    = *p_c++ + *p_a-- * *p_b++ ;
+    *p_d++ +=          *p_a++ * *p_b++ ;</label>
+		</location>
+		<location id="id37" x="0" y="448">
+			<name x="16" y="432">r118_post</name>
+			<label kind="invariant" x="20" y="448">localclock&lt;=r118_post_WCET</label>
+			<label kind="comments" x="-10" y="483">i++, p_a++ ;</label>
+		</location>
+		<location id="id38" x="0" y="512">
+			<name x="16" y="496">END</name>
+			<committed/>
+		</location>
+		<init ref="id30"/>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id31"/>
+			<label kind="synchronisation" x="8" y="16">_complex_updates_main?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id33"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r113_r115_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id34"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r118_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id35"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r118_init_WCET</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id36"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r118_cond_WCET&amp;&amp; (r118_Counter &lt; r118_LoopBound)</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id37"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r119_r123_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id35"/>
+			<label kind="guard" x="-100" y="384">localclock&gt;=r118_post_WCET</label>
+			<label kind="assignment" x="-100" y="400">localclock:=0, r118_Counter++</label>
+			<nail x="-105" y="448"/>
+			<nail x="-105" y="320"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id38"/>
+			<label kind="guard" x="110" y="336">localclock&gt;=r118_cond_WCET&amp;&amp; !(r118_Counter &lt; r118_LoopBound)</label>
+			<label kind="assignment" x="110" y="352">localclock:=0, r118_Counter:=0</label>
+			<nail x="105" y="320"/>
+			<nail x="105" y="512"/>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-100" y="448">_complex_updates_main_out!</label>
+			<label kind="assignment" x="-100" y="464">localclock:=0</label>
+			<nail x="-105" y="512"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">main</name>
+		<declaration>// Place local variables here.
+int r134_WCET=1571;
+clock localclock;
+</declaration>
+		<location id="id39" x="0" y="0">
+			<name x="16" y="-16">START</name>
+			<committed/>
+		</location>
+		<location id="id40" x="0" y="64">
+			<name x="16" y="48">main</name>
+			<label kind="comments" x="-10" y="99">int main( void )</label>
+			<committed/>
+		</location>
+		<location id="id41" x="0" y="128">
+			<name x="16" y="112">complex_updates_init_r130</name>
+			<label kind="comments" x="-10" y="163">complex_updates_init();</label>
+			<committed/>
+		</location>
+		<location id="id42" x="0" y="192">
+			<name x="16" y="176">complex_updates_init_out_r130</name>
+		</location>
+		<location id="id43" x="0" y="256">
+			<name x="16" y="240">complex_updates_main_r132</name>
+			<label kind="comments" x="-10" y="291">complex_updates_main();</label>
+			<committed/>
+		</location>
+		<location id="id44" x="0" y="320">
+			<name x="16" y="304">complex_updates_main_out_r132</name>
+		</location>
+		<location id="id45" x="0" y="384">
+			<name x="16" y="368">r134</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r134_WCET</label>
+			<label kind="comments" x="-10" y="419">return complex_updates_return();</label>
+		</location>
+		<location id="id46" x="0" y="448">
+			<name x="16" y="432">END</name>
+			<committed/>
+		</location>
+		<init ref="id39"/>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id40"/>
+			<label kind="assignment" x="8" y="16">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id42"/>
+			<label kind="synchronisation" x="8" y="144">_complex_updates_init!</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id41"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<label kind="synchronisation" x="8" y="272">_complex_updates_main!</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="8" y="208">_complex_updates_init_out?</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id45"/>
+			<label kind="synchronisation" x="8" y="336">_complex_updates_main_out?</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r134_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+p_complex_updates_init = complex_updates_init();
+p_complex_updates_pin_down = complex_updates_pin_down();
+p_complex_updates_return = complex_updates_return();
+p_complex_updates_main = complex_updates_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_complex_updates_init, p_complex_updates_pin_down, p_complex_updates_return, p_complex_updates_main, p_main;
+</system>
+	<queries>
+	</queries>
+</nta>

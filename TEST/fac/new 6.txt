@@ -1,0 +1,20 @@
+NET "Clk" 						LOC = "V10";
+
+NET "Clk_out" 					LOC = "G3"; # -- G3
+NET "Reset"						LOC = "A8";
+NET "Enable"					LOC = "C9";
+NET "TestRound_Start_Flag"	LOC = "D12";
+
+NET "Start_Out" 				LOC = "U15"; 
+NET "Indicator_Out" 			LOC = "U16"; 
+
+NET "ready_Out"				LOC = "J1"; # J1 is the external interupt to the embedded processor ready_out = Task_Trigger_Out
+
+NET "UART_TX" 					LOC ="N18";
+
+NET "TimeStamp" 				LOC ="G11";
+
+#NET "Task_Start_Flag" 		LOC ="F10";
+NET "Task_Finish_Flag" 		LOC ="C12";
+NET "Task_Start_Flag"		LOC = "F10";
+

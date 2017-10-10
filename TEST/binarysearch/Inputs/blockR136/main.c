@@ -31,7 +31,7 @@ int main(void){
 	/*Enable interrupt*/
 	sei();
 	/*while loop*/
-	while(1){}
+	while(i<100){}
 	/*Return*/
 	return(1);
 }
@@ -42,10 +42,9 @@ ISR(INT1_vect){
 	/*Read input values*/
 	blockInputUpdate(i);
 	/*Pull up output pin*/
-	PORTC = (1 << PC4);
 	/*Measure the execution time of the code block*/
 	benchmarkBlock();
-	/*Pull down output pin*/
-	PORTC = (0 << PC4);
+	/*Pull down output pin*/PORTC = (0 << PC4); 
+
 	i++;
 }

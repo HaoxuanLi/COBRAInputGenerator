@@ -736,6 +736,18 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterForIterationSurfix(@NotNull CParser.ForIterationSurfixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForIterationSurfix(@NotNull CParser.ForIterationSurfixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDTree(@NotNull CParser.DTreeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1115,6 +1127,18 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTypeQualifierList(@NotNull CParser.TypeQualifierListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterForIterationPrefix(@NotNull CParser.ForIterationPrefixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForIterationPrefix(@NotNull CParser.ForIterationPrefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

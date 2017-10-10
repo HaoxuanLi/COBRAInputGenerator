@@ -11,7 +11,7 @@ instruction
     |   ('__asm' | '__asm__') ('volatile' | '__volatile__') '(' (logicalOrExpression (',' logicalOrExpression)*)? (':' (logicalOrExpression (',' logicalOrExpression)*)?)* ')' ';'
     |   '#' Whitespace? 'define' Identifier
     | 	'#' Whitespace? 'ifndef' Identifier
-    | 	'#' Whitespace? 'endif' 
+    | 	'#' Whitespace? 'endif'  
     ;
 
     
@@ -28,6 +28,8 @@ assignmentTreePre
 //	|   leftVariable '(' rightVariable? ')' 		';'? 
     |   leftVariable 								';'? 
     |   selectionStatement 							';'? 
+//    |   'for' '(' expression? ';' expression? ';' (rightExpression? ','?)+ ')' statement
+//    |   'for' '(' declaration expression? ';' (rightExpression? ',')+ ')' statement
     |   structOrUnionSpecifier
    	|   Identifier ':' assignmentTreePre 							// '[LineNumber: ' lineNumber ']'    
     |   'case' constantExpression ':' assignmentTreePre			//'[LineNumber: ' lineNumber ']'	
@@ -42,10 +44,21 @@ assignmentTreePre
 
 assignment
 	: 	functionCall
-	|	leftExpression ( (assignmentOperator| shiftOperator) (unaryOperator | '%' | '/' | '^' |shiftOperator)? rightExpression )+
+	|	leftExpression ( ('='| shiftOperator) (unaryOperator | '%' | '/' | '^' |shiftOperator)? rightExpression )+
+	|	rightExpression ( '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '&=' | '^=' | '|=' | ) ( (unaryOperator | '%' | '/' | '^' |shiftOperator)? rightExpression)+
 	|	assignment ',' assignment
+	|   forIterationPrefix assignment? ';' expression? ';' rightExpression? forIterationSurfix '{'?
+    |   forIterationPrefix declaration expression? ';'rightExpression? forIterationSurfix 	'{'?
 	;
-
+	
+forIterationPrefix
+	: 'for' '('
+	;
+	
+forIterationSurfix
+	: ')'
+	;
+	
 leftExpression
 	:	pointer? leftVariable
 	|	leftVariable (unaryOperator | '%' | '/' | '^' |shiftOperator) leftExpression
@@ -58,6 +71,7 @@ rightExpression
 	|	('(' declarationSpecifiers pointer ')')? rightVariable
 	|	rightVariable (unaryOperator | '%' | '/' | '^' |shiftOperator) rightExpression
 	|	'*'? '(' rightExpression ')'
+	| 	rightExpression ',' rightExpression
 	;	
 
 relationalExpressionTree

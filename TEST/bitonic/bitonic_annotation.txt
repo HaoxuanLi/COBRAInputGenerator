@@ -1,2 +1,14 @@
-int j 78 0 31
+int i 51 0 31
 int i 78 0 31
+int j 78 0 31
+int dir 78 0 1
+int lo 93 0 31
+int cnt 93 0 32
+int dir 93 0 1
+int k 95 0 16
+int i 96 0 31
+int lo 112 0 31
+int cnt 112 0 32
+int dir 112 0 1
+int k 114 0 32
+int i 136 0 31

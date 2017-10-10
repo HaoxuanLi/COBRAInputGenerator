@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _countnegative_initSeed, _countnegative_initSeed_out, _countnegative_randomInteger, _countnegative_randomInteger_out, _countnegative_initialize, _countnegative_initialize_out, _countnegative_init, _countnegative_init_out, _countnegative_return, _countnegative_return_out, _countnegative_sum, _countnegative_sum_out, _countnegative_main, _countnegative_main_out, _main, _main_out;
+</declaration>
+	<template>
+		<name x="5" y="5">countnegative_initSeed</name>
+		<declaration>// Place local variables here.
+int r57_WCET=4;
+clock localclock;
+</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id1" x="0" y="64">
+			<name x="16" y="48">countnegative_initSeed</name>
+			<label kind="comments" x="-10" y="99">void countnegative_initSeed ( void )</label>
+			<committed/>
+		</location>
+		<location id="id2" x="0" y="128">
+			<name x="16" y="112">r57</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r57_WCET</label>
+			<label kind="comments" x="-10" y="163">countnegative_seed = 0;</label>
+		</location>
+		<location id="id3" x="0" y="192">
+			<name x="16" y="176">END</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="8" y="16">_countnegative_initSeed?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r57_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-100" y="128">_countnegative_initSeed_out!</label>
+			<label kind="assignment" x="-100" y="144">localclock:=0</label>
+			<nail x="-105" y="192"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">countnegative_randomInteger</name>
+		<declaration>// Place local variables here.
+int r65_WCET=4, r66_WCET=8;
+clock localclock;
+</declaration>
+		<location id="id4" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id5" x="0" y="64">
+			<name x="16" y="48">countnegative_randomInteger</name>
+			<label kind="comments" x="-10" y="99">int countnegative_randomInteger( void )</label>
+			<committed/>
+		</location>
+		<location id="id6" x="0" y="128">
+			<name x="16" y="112">r65</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r65_WCET</label>
+			<label kind="comments" x="-10" y="163">countnegative_seed = ( ( countnegative_seed * 133 ) + 81 ) % 8095;</label>
+		</location>
+		<location id="id7" x="0" y="192">
+			<name x="16" y="176">r66</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r66_WCET</label>
+			<label kind="comments" x="-10" y="227">return  countnegative_seed;</label>
+		</location>
+		<location id="id8" x="0" y="256">
+			<name x="16" y="240">END</name>
+			<committed/>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="8" y="16">_countnegative_randomInteger?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r65_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r66_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-100" y="192">_countnegative_randomInteger_out!</label>
+			<label kind="assignment" x="-100" y="208">localclock:=0</label>
+			<nail x="-105" y="256"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">countnegative_initialize</name>
+		<declaration>// Place local variables here.
+int r74_WCET=0, r77_r80_WCET=26498, r77_r80_1_WCET=30000, r77_r80_2_WCET=30000, r77_r80_3_WCET=30000;
+clock localclock;
+</declaration>
+		<location id="id9" x="0" y="-331">
+			<name x="16" y="-347">START</name>
+		</location>
+		<location id="id10" x="0" y="-267">
+			<name x="16" y="-283">countnegative_initialize</name>
+			<label kind="comments" x="-10" y="-232">void countnegative_initialize( int Array[MAXSIZE][MAXSIZE] )</label>
+			<committed/>
+		</location>
+		<location id="id11" x="0" y="-212">
+			<name x="16" y="-228">r74</name>
+			<label kind="invariant" x="20" y="-212">localclock&lt;=r74_WCET</label>
+			<label kind="comments" x="-10" y="-177">register int OuterIndex, InnerIndex;</label>
+		</location>
+		<location id="id12" x="0" y="170">
+			<name x="25" y="153">r77_r80</name>
+			<label kind="invariant" x="0" y="110">localclock&lt;=r77_r80_WCET</label>
+			<label kind="comments" x="-10" y="205">for ( OuterIndex = 0; OuterIndex &lt; MAXSIZE; OuterIndex++ )
+{
+	for ( InnerIndex = 0; InnerIndex &lt; MAXSIZE; InnerIndex++ )
+	{
+		Array[OuterIndex][InnerIndex] =  countnegative_randomInteger();
+	}
+}</label>
+		</location>
+		<location id="id13" x="0" y="256">
+			<name x="16" y="240">END</name>
+			<committed/>
+		</location>
+		<location id="id14" x="0" y="-8">
+			<name x="16" y="-24">r77_r80_1</name>
+			<label kind="invariant" x="17" y="-8">localclock&lt;=r77_r80_1_WCET</label>
+		</location>
+		<location id="id15" x="238" y="-8">
+			<name x="254" y="-24">r77_r80_2</name>
+			<label kind="invariant" x="255" y="-8">localclock&lt;=r77_r80_2_WCET</label>
+		</location>
+		<location id="id16" x="239" y="169">
+			<name x="255" y="153">r77_r80_3</name>
+			<label kind="invariant" x="259" y="169">localclock&lt;=r77_r80_3_WCET</label>
+		</location>
+		<init ref="id9"/>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id12"/>
+			<label kind="guard" x="18" y="136">localclock&gt;=r77_r80_3_WCET</label>
+			<label kind="assignment" x="18" y="170">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="guard" x="0" y="47">localclock&gt;=r77_r80_1_WCET</label>
+			<label kind="assignment" x="0" y="81">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="8" y="-315">_countnegative_initialize?</label>
+			<label kind="assignment" x="8" y="-299">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="assignment" x="8" y="-251">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id14"/>
+			<label kind="guard" x="0" y="-187">localclock&gt;=r74_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+			<nail x="0" y="-85"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r77_r80_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-100" y="192">_countnegative_initialize_out!</label>
+			<label kind="assignment" x="-100" y="208">localclock:=0</label>
+			<nail x="-105" y="256"/>
+			<nail x="-105" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="238" y="51">localclock&gt;=r77_r80_2_WCET</label>
+			<label kind="assignment" x="239" y="81">localclock:=0</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">countnegative_init</name>
+		<declaration>// Place local variables here.
+clock localclock;
+</declaration>
+		<location id="id17" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id18" x="0" y="64">
+			<name x="16" y="48">countnegative_init</name>
+			<label kind="comments" x="-10" y="99">void countnegative_init( void )</label>
+			<committed/>
+		</location>
+		<location id="id19" x="0" y="128">
+			<name x="16" y="112">countnegative_initSeed_r85</name>
+			<label kind="comments" x="-10" y="163">countnegative_initSeed();</label>
+			<committed/>
+		</location>
+		<location id="id20" x="0" y="192">
+			<name x="16" y="176">countnegative_initSeed_out_r85</name>
+		</location>
+		<location id="id21" x="0" y="256">
+			<name x="16" y="240">countnegative_initialize_r86</name>
+			<label kind="comments" x="-10" y="291">countnegative_initialize( countnegative_array );</label>
+			<committed/>
+		</location>
+		<location id="id22" x="0" y="320">
+			<name x="16" y="304">countnegative_initialize_out_r86</name>
+		</location>
+		<location id="id23" x="0" y="384">
+			<name x="16" y="368">END</name>
+			<committed/>
+		</location>
+		<init ref="id17"/>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="8" y="16">_countnegative_init?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="8" y="144">_countnegative_initSeed!</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="8" y="272">_countnegative_initialize!</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="8" y="208">_countnegative_initSeed_out?</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="8" y="336">_countnegative_initialize_out?</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-100" y="320">_countnegative_init_out!</label>
+			<label kind="assignment" x="-100" y="336">localclock:=0</label>
+			<nail x="-105" y="384"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">countnegative_return</name>
+		<declaration>// Place local variables here.
+int r91_r94_WCET=22, r96_WCET=4;
+clock localclock;
+</declaration>
+		<location id="id24" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id25" x="0" y="64">
+			<name x="16" y="48">countnegative_return</name>
+			<label kind="comments" x="-10" y="99">int countnegative_return( void )</label>
+			<committed/>
+		</location>
+		<location id="id26" x="0" y="128">
+			<name x="16" y="112">r91_r94</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r91_r94_WCET</label>
+			<label kind="comments" x="-10" y="163">int checksum = ( countnegative_postotal +
+                   countnegative_poscnt +
+                   countnegative_negtotal +
+                   countnegative_negcnt );</label>
+		</location>
+		<location id="id27" x="0" y="192">
+			<name x="16" y="176">r96</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r96_WCET</label>
+			<label kind="comments" x="-10" y="227">return ( ( checksum == ( int )0x1778de ) ? 0 : -1 );</label>
+		</location>
+		<location id="id28" x="0" y="256">
+			<name x="16" y="240">END</name>
+			<committed/>
+		</location>
+		<init ref="id24"/>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="8" y="16">_countnegative_return?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r91_r94_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r96_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-100" y="192">_countnegative_return_out!</label>
+			<label kind="assignment" x="-100" y="208">localclock:=0</label>
+			<nail x="-105" y="256"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">countnegative_sum</name>
+		<declaration>// Place local variables here.
+int r101_r106_WCET=0, r109_r117_WCET=0, r120_r123_WCET=32;
+clock localclock;
+</declaration>
+		<location id="id29" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id30" x="0" y="64">
+			<name x="16" y="48">countnegative_sum</name>
+			<label kind="comments" x="-10" y="99">void countnegative_sum( int Array[MAXSIZE][MAXSIZE])</label>
+			<committed/>
+		</location>
+		<location id="id31" x="0" y="128">
+			<name x="16" y="112">r101_r106</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r101_r106_WCET</label>
+			<label kind="comments" x="-10" y="163">register int Outer, Inner;
+
+  int Ptotal = 0; /* changed these to locals in order to drive worst case */
+  int Ntotal = 0;
+  int Pcnt = 0;
+  int Ncnt = 0;</label>
+		</location>
+		<location id="id32" x="0" y="192">
+			<name x="16" y="176">r109_r117</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r109_r117_WCET</label>
+			<label kind="comments" x="-10" y="227">for ( Outer = 0; Outer &lt; MAXSIZE; Outer++ )
+{
+	for ( Inner = 0; Inner &lt; MAXSIZE; Inner++ )
+	{
+		if ( Array[Outer][Inner] &gt;= 0 )
+		{
+			Ptotal += Array[Outer][Inner];
+			        Pcnt++;
+		}
+		else
+		{
+			Ntotal += Array[Outer][Inner];
+			        Ncnt++;
+		}
+	}
+}</label>
+		</location>
+		<location id="id33" x="0" y="256">
+			<name x="16" y="240">r120_r123</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r120_r123_WCET</label>
+			<label kind="comments" x="-10" y="291">countnegative_postotal = Ptotal;
+  countnegative_poscnt = Pcnt;
+  countnegative_negtotal = Ntotal;
+  countnegative_negcnt = Ncnt;</label>
+		</location>
+		<location id="id34" x="0" y="320">
+			<name x="16" y="304">END</name>
+			<committed/>
+		</location>
+		<init ref="id29"/>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="8" y="16">_countnegative_sum?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id31"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r101_r106_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id33"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r109_r117_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id34"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r120_r123_WCET</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-100" y="256">_countnegative_sum_out!</label>
+			<label kind="assignment" x="-100" y="272">localclock:=0</label>
+			<nail x="-105" y="320"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">countnegative_main</name>
+		<declaration>// Place local variables here.
+clock localclock;
+</declaration>
+		<location id="id35" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id36" x="0" y="64">
+			<name x="16" y="48">countnegative_main</name>
+			<label kind="comments" x="-10" y="99">void _Pragma( "entrypoint" ) countnegative_main ( void )</label>
+			<committed/>
+		</location>
+		<location id="id37" x="0" y="128">
+			<name x="16" y="112">countnegative_sum_r131</name>
+			<label kind="comments" x="-10" y="163">countnegative_sum(  countnegative_array );</label>
+			<committed/>
+		</location>
+		<location id="id38" x="0" y="192">
+			<name x="16" y="176">countnegative_sum_out_r131</name>
+		</location>
+		<location id="id39" x="0" y="256">
+			<name x="16" y="240">END</name>
+			<committed/>
+		</location>
+		<init ref="id35"/>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="8" y="16">_countnegative_main?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id38"/>
+			<label kind="synchronisation" x="8" y="144">_countnegative_sum!</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id37"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id39"/>
+			<label kind="synchronisation" x="8" y="208">_countnegative_sum_out?</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id35"/>
+			<label kind="synchronisation" x="-100" y="192">_countnegative_main_out!</label>
+			<label kind="assignment" x="-100" y="208">localclock:=0</label>
+			<nail x="-105" y="256"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">main</name>
+		<declaration>// Place local variables here.
+int r139_WCET=37;
+clock localclock;
+</declaration>
+		<location id="id40" x="0" y="0">
+			<name x="16" y="-16">START</name>
+			<committed/>
+		</location>
+		<location id="id41" x="0" y="64">
+			<name x="16" y="48">main</name>
+			<label kind="comments" x="-10" y="99">int main( void )</label>
+			<committed/>
+		</location>
+		<location id="id42" x="0" y="128">
+			<name x="16" y="112">countnegative_init_r136</name>
+			<label kind="comments" x="-10" y="163">countnegative_init();</label>
+			<committed/>
+		</location>
+		<location id="id43" x="0" y="192">
+			<name x="16" y="176">countnegative_init_out_r136</name>
+		</location>
+		<location id="id44" x="0" y="256">
+			<name x="16" y="240">countnegative_main_r137</name>
+			<label kind="comments" x="-10" y="291">countnegative_main();</label>
+			<committed/>
+		</location>
+		<location id="id45" x="0" y="320">
+			<name x="16" y="304">countnegative_main_out_r137</name>
+		</location>
+		<location id="id46" x="0" y="384">
+			<name x="16" y="368">r139</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r139_WCET</label>
+			<label kind="comments" x="-10" y="419">return ( countnegative_return() );</label>
+		</location>
+		<location id="id47" x="0" y="448">
+			<name x="16" y="432">END</name>
+			<committed/>
+		</location>
+		<init ref="id40"/>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id41"/>
+			<label kind="assignment" x="8" y="16">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="8" y="144">_countnegative_init!</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id42"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id45"/>
+			<label kind="synchronisation" x="8" y="272">_countnegative_main!</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<label kind="synchronisation" x="8" y="208">_countnegative_init_out?</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="synchronisation" x="8" y="336">_countnegative_main_out?</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id47"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r139_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+p_countnegative_initSeed = countnegative_initSeed();
+p_countnegative_randomInteger = countnegative_randomInteger();
+p_countnegative_initialize = countnegative_initialize();
+p_countnegative_init = countnegative_init();
+p_countnegative_return = countnegative_return();
+p_countnegative_sum = countnegative_sum();
+p_countnegative_main = countnegative_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_countnegative_initSeed, p_countnegative_randomInteger, p_countnegative_initialize, p_countnegative_init, p_countnegative_return, p_countnegative_sum, p_countnegative_main, p_main;
+</system>
+	<queries>
+	</queries>
+</nta>

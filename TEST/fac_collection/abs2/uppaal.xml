@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?><!DOCTYPE nta SYSTEM 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _fac_init, _fac_init_out, _fac_return, _fac_return_out, _fac_fac, _fac_fac_out, _fac_main, _fac_main_out, _main, _main_out;
+</declaration>
+<template>
+<name x="5" y="5">fac_init</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r48_r49_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">fac_init</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void fac_init()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r48_r49</name><label kind="invariant" x="20" y="128">localclock&lt;=r48_r49_WCET</label><label kind="comments">fac_s = 0;
+  fac_n = 5;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_fac_init?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r48_r49_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-100" y="128">_fac_init_out!</label><label kind="assignment" x="-100" y="144">localclock:=0</label><nail x="-105" y="192"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">fac_return</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r55_WCET=, r56_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">fac_return</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int fac_return()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r55</name><label kind="invariant" x="20" y="128">localclock&lt;=r55_WCET</label><label kind="comments">int expected_result = 154;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r56</name><label kind="invariant" x="20" y="192">localclock&lt;=r56_WCET</label><label kind="comments">return fac_s - expected_result;</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_fac_return?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r55_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r56_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id0"/><label kind="synchronisation" x="-100" y="192">_fac_return_out!</label><label kind="assignment" x="-100" y="208">localclock:=0</label><nail x="-105" y="256"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">fac_fac</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r67_WCET=, r68_WCET=, r70_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">fac_fac</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int fac_fac ( int n )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r67</name><label kind="invariant" x="20" y="128">localclock&lt;=r67_WCET</label><label kind="comments">if ( n == 0 )</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r68</name><label kind="invariant" x="20" y="192">localclock&lt;=r68_WCET</label><label kind="comments">return 1;</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r70</name><label kind="invariant" x="20" y="256">localclock&lt;=r70_WCET</label><label kind="comments">return ( n * fac_fac ( n - 1 ) );</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_fac_fac?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r67_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id5"/><label kind="guard" x="110" y="208">localclock&gt;=r68_WCET</label><label kind="assignment" x="110" y="224">localclock:=0</label><nail x="105" y="192"/><nail x="105" y="320"/></transition>"
+<transition><source ref="id2"/><target ref="id4"/><label kind="guard" x="110" y="144">localclock&gt;=r67_WCET</label><label kind="assignment" x="110" y="160">localclock:=0</label><nail x="105" y="128"/><nail x="105" y="256"/></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r70_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id5"/><label kind="guard" x="110" y="144">localclock&gt;=r67_WCET</label><label kind="assignment" x="110" y="160">localclock:=0</label><nail x="105" y="128"/><nail x="105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id0"/><label kind="synchronisation" x="-100" y="256">_fac_fac_out!</label><label kind="assignment" x="-100" y="272">localclock:=0</label><nail x="-105" y="320"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">fac_main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r81_WCET=, r84_WCET=, r84_init_WCET=, r84_cond_WCET=, r86_WCET=, r84_post_WCET=;
+int r84_Counter = 0;
+int r84_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">fac_main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void _Pragma( &quot;entrypoint&quot; ) fac_main ()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r81</name><label kind="invariant" x="20" y="128">localclock&lt;=r81_WCET</label><label kind="comments">int i;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r84</name><label kind="invariant" x="20" y="192">localclock&lt;=r84_WCET</label><label kind="comments">for ( i = 0;  i &lt;= fac_n; i++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r84_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r84_init_WCET</label><label kind="comments"> i = 0;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r84_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r84_cond_WCET</label><label kind="comments">for( ;   i &lt;= fac_n ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r86</name><label kind="invariant" x="20" y="384">localclock&lt;=r86_WCET</label><label kind="comments">fac_s += fac_fac ( i );</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r84_post</name><label kind="invariant" x="20" y="448">localclock&lt;=r84_post_WCET</label><label kind="comments"> i++ ;</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_fac_main?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r81_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r84_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r84_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r84_cond_WCET&amp;&amp; (r84_Counter &lt; r84_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r86_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="-100" y="384">localclock&gt;=r84_post_WCET</label><label kind="assignment" x="-100" y="400">localclock:=0, r84_Counter++</label><nail x="-105" y="448"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id8"/><label kind="guard" x="110" y="336">localclock&gt;=r84_cond_WCET&amp;&amp; !(r84_Counter &lt; r84_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r84_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="512"/></transition>"
+<transition><source ref="id8"/><target ref="id0"/><label kind="synchronisation" x="-100" y="448">_fac_main_out!</label><label kind="assignment" x="-100" y="464">localclock:=0</label><nail x="-105" y="512"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r97_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label><committed/></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int main ( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">fac_init_r94</name><label kind="invariant" x="20" y="128"></label><label kind="comments">fac_init();</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">fac_init_out_r94</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">fac_main_r95</name><label kind="invariant" x="20" y="256"></label><label kind="comments">fac_main();</label><committed/></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">fac_main_out_r95</name><label kind="invariant" x="20" y="320"></label><label kind="comments"></label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r97</name><label kind="invariant" x="20" y="384">localclock&lt;=r97_WCET</label><label kind="comments">return ( fac_return() );</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="assignment" x="8" y="16">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_fac_init!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="synchronisation" x="8" y="272">_fac_main!</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_fac_init_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="synchronisation" x="8" y="336">_fac_main_out?</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r97_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+</template>
+<system>// Place template instantiations here.
+
+p_fac_init = fac_init();
+p_fac_return = fac_return();
+p_fac_fac = fac_fac();
+p_fac_main = fac_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_fac_init, p_fac_return, p_fac_fac, p_fac_main, p_main;
+</system></nta>

@@ -18,11 +18,10 @@
 void benchmarkBlock(void);
 int main(void);
 
-
 void benchmarkBlock(void)
 {
 int i;
-    }
+}
 
 int main(void)
 {

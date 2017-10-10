@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='utf-8'?><!DOCTYPE nta SYSTEM 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _matrix1_pin_down, _matrix1_pin_down_out, _matrix1_init, _matrix1_init_out, _matrix1_return, _matrix1_return_out, _matrix1_main, _matrix1_main_out, _main, _main_out;
+</declaration>
+<template>
+<name x="5" y="5">matrix1_pin_down</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r93_r94_WCET=, r97_WCET=, r97_init_WCET=, r97_cond_WCET=, r98_WCET=, r97_post_WCET=, r101_WCET=, r101_init_WCET=, r101_cond_WCET=, r102_WCET=, r101_post_WCET=, r105_WCET=, r105_init_WCET=, r105_cond_WCET=, r106_WCET=, r105_post_WCET=;
+int r97_Counter = 0, r101_Counter = 0, r105_Counter = 0;
+int r97_LoopBound =null;
+int r101_LoopBound =null;
+int r105_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">matrix1_pin_down</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void matrix1_pin_down( int A[], int B[], int C[] )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r93_r94</name><label kind="invariant" x="20" y="128">localclock&lt;=r93_r94_WCET</label><label kind="comments">int i;
+  volatile int x = 1;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r97</name><label kind="invariant" x="20" y="192">localclock&lt;=r97_WCET</label><label kind="comments">for ( i = 0 ; i &lt; X * Y; i++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r97_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r97_init_WCET</label><label kind="comments"> i = 0 ;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r97_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r97_cond_WCET</label><label kind="comments">for( ;  i &lt; X * Y ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r98</name><label kind="invariant" x="20" y="384">localclock&lt;=r98_WCET</label><label kind="comments">A[i] = x ;</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r97_post</name><label kind="invariant" x="20" y="448">localclock&lt;=r97_post_WCET</label><label kind="comments"> i++ ;</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">r101</name><label kind="invariant" x="20" y="512">localclock&lt;=r101_WCET</label><label kind="comments">for ( i = 0 ; i &lt; Y * Z ; i++ )</label></location>
+<location id="id9" x="0" y="576"><name x="16" y="560">r101_init</name><label kind="invariant" x="20" y="576">localclock&lt;=r101_init_WCET</label><label kind="comments"> i = 0 ;</label></location>
+<location id="id10" x="0" y="640"><name x="16" y="624">r101_cond</name><label kind="invariant" x="20" y="640">localclock&lt;=r101_cond_WCET</label><label kind="comments">for( ;  i &lt; Y * Z  ; )</label></location>
+<location id="id11" x="0" y="704"><name x="16" y="688">r102</name><label kind="invariant" x="20" y="704">localclock&lt;=r102_WCET</label><label kind="comments">B[i] = x ;</label></location>
+<location id="id12" x="0" y="768"><name x="16" y="752">r101_post</name><label kind="invariant" x="20" y="768">localclock&lt;=r101_post_WCET</label><label kind="comments"> i++ ;</label></location>
+<location id="id13" x="0" y="832"><name x="16" y="816">r105</name><label kind="invariant" x="20" y="832">localclock&lt;=r105_WCET</label><label kind="comments">for ( i = 0 ; i &lt; X * Z ; i++ )</label></location>
+<location id="id14" x="0" y="896"><name x="16" y="880">r105_init</name><label kind="invariant" x="20" y="896">localclock&lt;=r105_init_WCET</label><label kind="comments"> i = 0 ;</label></location>
+<location id="id15" x="0" y="960"><name x="16" y="944">r105_cond</name><label kind="invariant" x="20" y="960">localclock&lt;=r105_cond_WCET</label><label kind="comments">for( ;  i &lt; X * Z  ; )</label></location>
+<location id="id16" x="0" y="1024"><name x="16" y="1008">r106</name><label kind="invariant" x="20" y="1024">localclock&lt;=r106_WCET</label><label kind="comments">C[i] = 0 ;</label></location>
+<location id="id17" x="0" y="1088"><name x="16" y="1072">r105_post</name><label kind="invariant" x="20" y="1088">localclock&lt;=r105_post_WCET</label><label kind="comments"> i++ ;</label></location>
+<location id="id18" x="0" y="1152"><name x="16" y="1136">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_matrix1_pin_down?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r93_r94_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r97_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r97_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r97_cond_WCET&amp;&amp; (r97_Counter &lt; r97_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r98_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="-100" y="384">localclock&gt;=r97_post_WCET</label><label kind="assignment" x="-100" y="400">localclock:=0, r97_Counter++</label><nail x="-105" y="448"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id8"/><label kind="guard" x="110" y="336">localclock&gt;=r97_cond_WCET&amp;&amp; !(r97_Counter &lt; r97_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r97_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="512"/></transition>"
+<transition><source ref="id8"/><target ref="id9"/><label kind="guard" x="8" y="528">localclock&gt;=r101_WCET</label><label kind="assignment" x="8" y="544">localclock:=0</label></transition>"
+<transition><source ref="id9"/><target ref="id10"/><label kind="guard" x="8" y="592">localclock&gt;=r101_init_WCET</label><label kind="assignment" x="8" y="608">localclock:=0</label></transition>"
+<transition><source ref="id10"/><target ref="id11"/><label kind="guard" x="8" y="656">localclock&gt;=r101_cond_WCET&amp;&amp; (r101_Counter &lt; r101_LoopBound)</label><label kind="assignment" x="8" y="672">localclock:=0</label></transition>"
+<transition><source ref="id11"/><target ref="id12"/><label kind="guard" x="8" y="720">localclock&gt;=r102_WCET</label><label kind="assignment" x="8" y="736">localclock:=0</label></transition>"
+<transition><source ref="id12"/><target ref="id10"/><label kind="guard" x="-100" y="704">localclock&gt;=r101_post_WCET</label><label kind="assignment" x="-100" y="720">localclock:=0, r101_Counter++</label><nail x="-105" y="768"/><nail x="-105" y="640"/></transition>"
+<transition><source ref="id10"/><target ref="id13"/><label kind="guard" x="110" y="656">localclock&gt;=r101_cond_WCET&amp;&amp; !(r101_Counter &lt; r101_LoopBound)</label><label kind="assignment" x="110" y="672">localclock:=0, r101_Counter:=0</label><nail x="105" y="640"/><nail x="105" y="832"/></transition>"
+<transition><source ref="id13"/><target ref="id14"/><label kind="guard" x="8" y="848">localclock&gt;=r105_WCET</label><label kind="assignment" x="8" y="864">localclock:=0</label></transition>"
+<transition><source ref="id14"/><target ref="id15"/><label kind="guard" x="8" y="912">localclock&gt;=r105_init_WCET</label><label kind="assignment" x="8" y="928">localclock:=0</label></transition>"
+<transition><source ref="id15"/><target ref="id16"/><label kind="guard" x="8" y="976">localclock&gt;=r105_cond_WCET&amp;&amp; (r105_Counter &lt; r105_LoopBound)</label><label kind="assignment" x="8" y="992">localclock:=0</label></transition>"
+<transition><source ref="id16"/><target ref="id17"/><label kind="guard" x="8" y="1040">localclock&gt;=r106_WCET</label><label kind="assignment" x="8" y="1056">localclock:=0</label></transition>"
+<transition><source ref="id17"/><target ref="id15"/><label kind="guard" x="-100" y="1024">localclock&gt;=r105_post_WCET</label><label kind="assignment" x="-100" y="1040">localclock:=0, r105_Counter++</label><nail x="-105" y="1088"/><nail x="-105" y="960"/></transition>"
+<transition><source ref="id15"/><target ref="id18"/><label kind="guard" x="110" y="976">localclock&gt;=r105_cond_WCET&amp;&amp; !(r105_Counter &lt; r105_LoopBound)</label><label kind="assignment" x="110" y="992">localclock:=0, r105_Counter:=0</label><nail x="105" y="960"/><nail x="105" y="1152"/></transition>"
+<transition><source ref="id18"/><target ref="id0"/><label kind="synchronisation" x="-100" y="1088">_matrix1_pin_down_out!</label><label kind="assignment" x="-100" y="1104">localclock:=0</label><nail x="-105" y="1152"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">matrix1_init</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">matrix1_init</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void matrix1_init( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">matrix1_pin_down_r112</name><label kind="invariant" x="20" y="128"></label><label kind="comments">matrix1_pin_down( &amp;matrix1_A[0], &amp;matrix1_B[0], &amp;matrix1_C[0] );</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">matrix1_pin_down_out_r112</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_matrix1_init?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_matrix1_pin_down!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_matrix1_pin_down_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id0"/><label kind="synchronisation" x="-100" y="192">_matrix1_init_out!</label><label kind="assignment" x="-100" y="208">localclock:=0</label><nail x="-105" y="256"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">matrix1_return</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r121_r122_WCET=, r125_WCET=, r125_init_WCET=, r125_cond_WCET=, r126_WCET=, r125_post_WCET=, r128_WCET=;
+int r125_Counter = 0;
+int r125_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">matrix1_return</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int matrix1_return( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r121_r122</name><label kind="invariant" x="20" y="128">localclock&lt;=r121_r122_WCET</label><label kind="comments">int i;
+	int checksum = 0;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r125</name><label kind="invariant" x="20" y="192">localclock&lt;=r125_WCET</label><label kind="comments">for ( i = 0; i &lt;= X*Z; i++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r125_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r125_init_WCET</label><label kind="comments"> i = 0;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r125_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r125_cond_WCET</label><label kind="comments">for( ;  i &lt;= X*Z ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r126</name><label kind="invariant" x="20" y="384">localclock&lt;=r126_WCET</label><label kind="comments">checksum += matrix1_C[i];</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r125_post</name><label kind="invariant" x="20" y="448">localclock&lt;=r125_post_WCET</label><label kind="comments"> i++ ;</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">r128</name><label kind="invariant" x="20" y="512">localclock&lt;=r128_WCET</label><label kind="comments">return ( checksum ==  1000 ? 0 : -1 );</label></location>
+<location id="id9" x="0" y="576"><name x="16" y="560">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_matrix1_return?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r121_r122_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r125_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r125_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r125_cond_WCET&amp;&amp; (r125_Counter &lt; r125_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r126_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="-100" y="384">localclock&gt;=r125_post_WCET</label><label kind="assignment" x="-100" y="400">localclock:=0, r125_Counter++</label><nail x="-105" y="448"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id8"/><label kind="guard" x="110" y="336">localclock&gt;=r125_cond_WCET&amp;&amp; !(r125_Counter &lt; r125_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r125_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="512"/></transition>"
+<transition><source ref="id8"/><target ref="id9"/><label kind="guard" x="8" y="528">localclock&gt;=r128_WCET</label><label kind="assignment" x="8" y="544">localclock:=0</label></transition>"
+<transition><source ref="id9"/><target ref="id0"/><label kind="synchronisation" x="-100" y="512">_matrix1_return_out!</label><label kind="assignment" x="-100" y="528">localclock:=0</label><nail x="-105" y="576"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">matrix1_main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r138_r142_WCET=, r145_WCET=, r145_init_WCET=, r145_cond_WCET=, r146_WCET=, r149_r157_WCET=, r145_post_WCET=;
+int r145_Counter = 0;
+int r145_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">matrix1_main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void _Pragma ( &quot;entrypoint&quot; ) matrix1_main( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r138_r142</name><label kind="invariant" x="20" y="128">localclock&lt;=r138_r142_WCET</label><label kind="comments">register int *p_a = &amp;matrix1_A[0];
+  register int *p_b = &amp;matrix1_B[0];
+  register int *p_c = &amp;matrix1_C[0];
+
+  register int f, i, k;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r145</name><label kind="invariant" x="20" y="192">localclock&lt;=r145_WCET</label><label kind="comments">for ( k = 0; k &lt; Z; k++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r145_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r145_init_WCET</label><label kind="comments"> k = 0;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r145_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r145_cond_WCET</label><label kind="comments">for( ;  k &lt; Z ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r146</name><label kind="invariant" x="20" y="384">localclock&lt;=r146_WCET</label><label kind="comments">p_a = &amp;matrix1_A[0];</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r149_r157</name><label kind="invariant" x="20" y="448">localclock&lt;=r149_r157_WCET</label><label kind="comments">for ( i = 0; i &lt; X; i++ )
+{
+	p_b = &amp;matrix1_B[k * Y];          /* take next column */
+	
+	      *p_c = 0;
+	for ( f = 0; f &lt; Y; f++ )
+	{
+		*p_c += *p_a++ * *p_b++;
+	}
+	p_c++;
+}</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">r145_post</name><label kind="invariant" x="20" y="512">localclock&lt;=r145_post_WCET</label><label kind="comments"> k++ ;</label></location>
+<location id="id9" x="0" y="576"><name x="16" y="560">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_matrix1_main?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r138_r142_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r145_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r145_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r145_cond_WCET&amp;&amp; (r145_Counter &lt; r145_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r146_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id8"/><label kind="guard" x="8" y="464">localclock&gt;=r149_r157_WCET</label><label kind="assignment" x="8" y="480">localclock:=0</label></transition>"
+<transition><source ref="id8"/><target ref="id5"/><label kind="guard" x="-100" y="448">localclock&gt;=r145_post_WCET</label><label kind="assignment" x="-100" y="464">localclock:=0, r145_Counter++</label><nail x="-105" y="512"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id9"/><label kind="guard" x="110" y="336">localclock&gt;=r145_cond_WCET&amp;&amp; !(r145_Counter &lt; r145_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r145_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="576"/></transition>"
+<transition><source ref="id9"/><target ref="id0"/><label kind="synchronisation" x="-100" y="512">_matrix1_main_out!</label><label kind="assignment" x="-100" y="528">localclock:=0</label><nail x="-105" y="576"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r168_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label><committed/></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int main( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">matrix1_init_r165</name><label kind="invariant" x="20" y="128"></label><label kind="comments">matrix1_init();</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">matrix1_init_out_r165</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">matrix1_main_r166</name><label kind="invariant" x="20" y="256"></label><label kind="comments">matrix1_main();</label><committed/></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">matrix1_main_out_r166</name><label kind="invariant" x="20" y="320"></label><label kind="comments"></label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r168</name><label kind="invariant" x="20" y="384">localclock&lt;=r168_WCET</label><label kind="comments">return matrix1_return();</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="assignment" x="8" y="16">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_matrix1_init!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="synchronisation" x="8" y="272">_matrix1_main!</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_matrix1_init_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="synchronisation" x="8" y="336">_matrix1_main_out?</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r168_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+</template>
+<system>// Place template instantiations here.
+
+p_matrix1_pin_down = matrix1_pin_down();
+p_matrix1_init = matrix1_init();
+p_matrix1_return = matrix1_return();
+p_matrix1_main = matrix1_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_matrix1_pin_down, p_matrix1_init, p_matrix1_return, p_matrix1_main, p_main;
+</system></nta>

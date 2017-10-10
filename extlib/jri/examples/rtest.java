@@ -164,7 +164,7 @@ public class rtest {
         long xp6 = re.rniPutString("data.frame");
         re.rniSetAttr(xp5, "class", xp6);
         
-        // assign the whole thing to the "b" variable
+        // assign the whole thing to the "b" Variable
         re.rniAssign("b", xp5, 0);
         
         {

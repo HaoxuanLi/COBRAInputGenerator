@@ -1,0 +1,4 @@
+registerint OuterIndex 74 0 20 0
+registerint InnerIndex 74 0 20 0
+registerint Outer 101 0 20 0
+registerint Inner 101 0 20 0

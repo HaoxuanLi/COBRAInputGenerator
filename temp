@@ -1,0 +1,150 @@
+	this.inputscformatter.format("%s", "\tasm(\n");
+			this.inputscformatter.format("%s", "\t/*Assign the inputs values to the block*/\n");
+			
+			// store register values to register_address_block
+			this.inputscformatter.format("%s", "\t/*store register values to register_address_block*/\n");
+			for (int r = 0; r < this.registerlength; r++) {
+				this.inputscformatter.format("%s",
+						"\t\"sts	0x" + Integer.toHexString(Integer.parseInt(register_address_block, 16) + r) + ", r"
+								+ r + "\\n\\t\"\n");
+			}
+			
+			for(Declaration declaration: this.declarationlistfinal){
+				if(declaration.getOriginalAddress()!=null){
+					for(int variablelengthcounter=0; variablelengthcounter<declaration.getVariableLength(); variablelengthcounter++){
+						this.inputscformatter.format("%s", "\t\"lds	"+ "r14" + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + variablelengthcounter) +"\\n\\t\"\n");
+						this.inputscformatter.format("%s", "\t\"sts	"+ "0x"+ Integer.toHexString(Integer.parseInt(declaration.getOriginalAddress(), 16) + variablelengthcounter) + ", r14" +"\\n\\t\"\n");
+					}
+				}
+				else{
+					String initializationassembly = declaration.getInitializationAssembly();
+					String[] initializationassemblyline = initializationassembly.split("\\n");
+					int linecounter=0;
+					int stdinstuctioncounter=0;
+					for(linecounter=0; linecounter<initializationassemblyline.length;linecounter++){
+						String[] initializationassemblyline_split = initializationassemblyline[linecounter].replaceAll(",.*", "").replaceAll("\\s+", " ").split("\\s"); 
+						String register = initializationassemblyline_split[initializationassemblyline_split.length-1];
+						int registernumber = Integer.parseInt(initializationassemblyline_split[initializationassemblyline_split.length-1].replaceAll("r", ""));
+						String assemblyinstruction = initializationassemblyline_split[initializationassemblyline_split.length-2];
+						if(assemblyinstruction.matches("ldi|lds|ld|ldd|mov")){	
+							this.inputscformatter.format("%s", "\t\"lds	"+ register + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + linecounter) +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registernumber) + ", " + register +"\\n\\t\"\n");
+							
+						}else if(assemblyinstruction.matches("movw")){
+							this.inputscformatter.format("%s", "\t\"lds	"+ register + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + linecounter) +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"lds	"+ "r" + ((linecounter+1)*2-1) + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) +  ((linecounter+1)*2-1)) +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registernumber) + ", s" + register +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) +  ((linecounter+1)*2-1)) + "," + "r" + ((linecounter+1)*2-1) +"\\n\\t\"\n");				
+						
+						}else if(assemblyinstruction.matches("st|std")){
+							boolean setframepointerflag = false;
+							if(register.matches("^Y.*")){
+								if(!setframepointerflag){
+									this.inputscformatter.format("%s", "\t\"lds	"+ "r28" + ", 0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 28) +"\\n\\t\"\n");
+									this.inputscformatter.format("%s", "\t\"lds	"+ "r29" + ", 0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 29) +"\\n\\t\"\n");
+									this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 28) + ", r28" + "\\n\\t\"\n");
+									this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 29) + ", r29" + "\\n\\t\"\n");
+									setframepointerflag = true;
+								}
+								this.inputscformatter.format("%s", "\t\"lds	"+ "r14" + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + stdinstuctioncounter) +"\\n\\t\"\n");
+								this.inputscformatter.format("%s", "\n\t\"" + assemblyinstruction + ", r14" + "\\n\\t\"");
+								
+								stdinstuctioncounter++;
+							}else{
+								IOException e = new IOException();
+								throw e;
+							}
+						
+						}else{
+							IOException e = new IOException();
+							throw e;
+						}
+					}
+				}				
+			}
+			
+			// restore register values from register_address_block
+			this.inputscformatter.format("%s", "\t/*restore register values to register_address_block*/\n");
+			for (int r = 0; r < this.registerlength; r++) {
+				this.inputscformatter.format("%s", "\t\"lds	r" + r + ", 0x"
+						+ Integer.toHexString(Integer.parseInt(register_address_block, 16) + r) + "\\n\\t\"\n");
+			}
+			
+			this.inputscformatter.format("%s", "\t);\n");
+			
+			
+			
+				this.inputscformatter.format("%s", "\tasm(\n");
+			this.inputscformatter.format("%s", "\t/*Assign the inputs values to the block*/\n");
+			
+			// store register values to register_address_block
+			this.inputscformatter.format("%s", "\t/*store register values to register_address_block*/\n");
+			for (int r = 0; r < this.registerlength; r++) {
+				this.inputscformatter.format("%s",
+						"\t\"sts	0x" + Integer.toHexString(Integer.parseInt(register_address_block, 16) + r) + ", r"
+								+ r + "\\n\\t\"\n");
+			}
+			
+			for(Declaration declaration: this.declarationlistfinal){
+				if(declaration.getOriginalAddress()!=null){
+					for(int variablelengthcounter=0; variablelengthcounter<declaration.getVariableLength(); variablelengthcounter++){
+						this.inputscformatter.format("%s", "\t\"lds	"+ "r14" + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + variablelengthcounter) +"\\n\\t\"\n");
+						this.inputscformatter.format("%s", "\t\"sts	"+ "0x"+ Integer.toHexString(Integer.parseInt(declaration.getOriginalAddress(), 16) + variablelengthcounter) + ", r14" +"\\n\\t\"\n");
+					}
+				}
+				else{
+					String initializationassembly = declaration.getInitializationAssembly();
+					String[] initializationassemblyline = initializationassembly.split("\\n");
+					int linecounter=0;
+					int stdinstuctioncounter=0;
+					for(linecounter=0; linecounter<initializationassemblyline.length;linecounter++){
+						String[] initializationassemblyline_split = initializationassemblyline[linecounter].replaceAll(",.*", "").replaceAll("\\s+", " ").split("\\s"); 
+						String register = initializationassemblyline_split[initializationassemblyline_split.length-1];
+						int registernumber = Integer.parseInt(initializationassemblyline_split[initializationassemblyline_split.length-1].replaceAll("r", ""));
+						String assemblyinstruction = initializationassemblyline_split[initializationassemblyline_split.length-2];
+						if(assemblyinstruction.matches("ldi|lds|ld|ldd|mov")){	
+							this.inputscformatter.format("%s", "\t\"lds	"+ register + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + linecounter) +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registernumber) + ", " + register +"\\n\\t\"\n");
+							
+						}else if(assemblyinstruction.matches("movw")){
+							this.inputscformatter.format("%s", "\t\"lds	"+ register + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + linecounter) +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"lds	"+ "r" + ((linecounter+1)*2-1) + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) +  ((linecounter+1)*2-1)) +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registernumber) + ", s" + register +"\\n\\t\"\n");
+							this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) +  ((linecounter+1)*2-1)) + "," + "r" + ((linecounter+1)*2-1) +"\\n\\t\"\n");				
+						
+						}else if(assemblyinstruction.matches("st|std")){
+							boolean setframepointerflag = false;
+							if(register.matches("^Y.*")){
+								if(!setframepointerflag){
+									this.inputscformatter.format("%s", "\t\"lds	"+ "r28" + ", 0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 28) +"\\n\\t\"\n");
+									this.inputscformatter.format("%s", "\t\"lds	"+ "r29" + ", 0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 29) +"\\n\\t\"\n");
+									this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 28) + ", r28" + "\\n\\t\"\n");
+									this.inputscformatter.format("%s", "\t\"sts	0x"+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + 29) + ", r29" + "\\n\\t\"\n");
+									setframepointerflag = true;
+								}
+								this.inputscformatter.format("%s", "\t\"lds	"+ "r14" + ", 0x"+ Integer.toHexString(Integer.parseInt(declaration.getBlockAddress(), 16) + stdinstuctioncounter) +"\\n\\t\"\n");
+								this.inputscformatter.format("%s", "\n\t\"" + assemblyinstruction + ", r14" + "\\n\\t\"");
+								
+								stdinstuctioncounter++;
+							}else{
+								IOException e = new IOException();
+								throw e;
+							}
+						
+						}else{
+							IOException e = new IOException();
+							throw e;
+						}
+					}
+				}				
+			}
+			
+			// restore register values from register_address_block
+			this.inputscformatter.format("%s", "\t/*restore register values to register_address_block*/\n");
+			for (int r = 0; r < this.registerlength; r++) {
+				this.inputscformatter.format("%s", "\t\"lds	r" + r + ", 0x"
+						+ Integer.toHexString(Integer.parseInt(register_address_block, 16) + r) + "\\n\\t\"\n");
+			}
+			
+			this.inputscformatter.format("%s", "\t);\n");
+			

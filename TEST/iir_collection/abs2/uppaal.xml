@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='utf-8'?><!DOCTYPE nta SYSTEM 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _iir_init, _iir_init_out, _iir_return, _iir_return_out, _iir_main, _iir_main_out, _main, _main_out;
+</declaration>
+<template>
+<name x="5" y="5">iir_init</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r76_r79_WCET=, r83_WCET=, r83_init_WCET=, r83_cond_WCET=, r84_WCET=, r83_post_WCET=, r87_WCET=, r87_init_WCET=, r87_cond_WCET=, r88_WCET=, r87_post_WCET=, r90_WCET=, r95_WCET=, r97_WCET=, r97_init_WCET=, r97_cond_WCET=, r98_WCET=, r97_post_WCET=, r100_WCET=, r102_WCET=, r102_init_WCET=, r102_cond_WCET=, r103_WCET=, r102_post_WCET=;
+int r83_Counter = 0, r87_Counter = 0, r97_Counter = 0, r102_Counter = 0;
+int r83_LoopBound =null;
+int r87_LoopBound =null;
+int r97_LoopBound =null;
+int r102_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">iir_init</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void iir_init( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r76_r79</name><label kind="invariant" x="20" y="128">localclock&lt;=r76_r79_WCET</label><label kind="comments">int f;
+  unsigned int i;
+  unsigned char *p;
+  volatile char bitmask = 0;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r83</name><label kind="invariant" x="20" y="192">localclock&lt;=r83_WCET</label><label kind="comments">for ( f = 0 ; f &lt; 5 * 4; f++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r83_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r83_init_WCET</label><label kind="comments"> f = 0 ;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r83_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r83_cond_WCET</label><label kind="comments">for( ;  f &lt; 5 * 4 ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r84</name><label kind="invariant" x="20" y="384">localclock&lt;=r84_WCET</label><label kind="comments">iir_coefficients[ f ] = 7;</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r83_post</name><label kind="invariant" x="20" y="448">localclock&lt;=r83_post_WCET</label><label kind="comments"> f++ ;</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">r87</name><label kind="invariant" x="20" y="512">localclock&lt;=r87_WCET</label><label kind="comments">for ( f = 0 ; f &lt; 2 * 4; f++ )</label></location>
+<location id="id9" x="0" y="576"><name x="16" y="560">r87_init</name><label kind="invariant" x="20" y="576">localclock&lt;=r87_init_WCET</label><label kind="comments"> f = 0 ;</label></location>
+<location id="id10" x="0" y="640"><name x="16" y="624">r87_cond</name><label kind="invariant" x="20" y="640">localclock&lt;=r87_cond_WCET</label><label kind="comments">for( ;  f &lt; 2 * 4 ; )</label></location>
+<location id="id11" x="0" y="704"><name x="16" y="688">r88</name><label kind="invariant" x="20" y="704">localclock&lt;=r88_WCET</label><label kind="comments">iir_wi[ f ] = 0;</label></location>
+<location id="id12" x="0" y="768"><name x="16" y="752">r87_post</name><label kind="invariant" x="20" y="768">localclock&lt;=r87_post_WCET</label><label kind="comments"> f++ ;</label></location>
+<location id="id13" x="0" y="832"><name x="16" y="816">r90</name><label kind="invariant" x="20" y="832">localclock&lt;=r90_WCET</label><label kind="comments">iir_x = ( float ) 1;</label></location>
+<location id="id14" x="0" y="896"><name x="16" y="880">r95</name><label kind="invariant" x="20" y="896">localclock&lt;=r95_WCET</label><label kind="comments">p = (unsigned char *) &amp;iir_coefficients[ 0 ];</label></location>
+<location id="id15" x="0" y="960"><name x="16" y="944">r97</name><label kind="invariant" x="20" y="960">localclock&lt;=r97_WCET</label><label kind="comments">for ( i = 0; i &lt; sizeof( iir_coefficients ); ++i, ++p )</label></location>
+<location id="id16" x="0" y="1024"><name x="16" y="1008">r97_init</name><label kind="invariant" x="20" y="1024">localclock&lt;=r97_init_WCET</label><label kind="comments"> i = 0;</label></location>
+<location id="id17" x="0" y="1088"><name x="16" y="1072">r97_cond</name><label kind="invariant" x="20" y="1088">localclock&lt;=r97_cond_WCET</label><label kind="comments">for( ;  i &lt; sizeof( iir_coefficients ) ; )</label></location>
+<location id="id18" x="0" y="1152"><name x="16" y="1136">r98</name><label kind="invariant" x="20" y="1152">localclock&lt;=r98_WCET</label><label kind="comments">*p ^= bitmask;</label></location>
+<location id="id19" x="0" y="1216"><name x="16" y="1200">r97_post</name><label kind="invariant" x="20" y="1216">localclock&lt;=r97_post_WCET</label><label kind="comments"> ++i, ++p ;</label></location>
+<location id="id20" x="0" y="1280"><name x="16" y="1264">r100</name><label kind="invariant" x="20" y="1280">localclock&lt;=r100_WCET</label><label kind="comments">p = (unsigned char *) &amp;iir_wi[ 0 ];</label></location>
+<location id="id21" x="0" y="1344"><name x="16" y="1328">r102</name><label kind="invariant" x="20" y="1344">localclock&lt;=r102_WCET</label><label kind="comments">for ( i = 0; i &lt; sizeof( iir_wi ); ++i, ++p )</label></location>
+<location id="id22" x="0" y="1408"><name x="16" y="1392">r102_init</name><label kind="invariant" x="20" y="1408">localclock&lt;=r102_init_WCET</label><label kind="comments"> i = 0;</label></location>
+<location id="id23" x="0" y="1472"><name x="16" y="1456">r102_cond</name><label kind="invariant" x="20" y="1472">localclock&lt;=r102_cond_WCET</label><label kind="comments">for( ;  i &lt; sizeof( iir_wi ) ; )</label></location>
+<location id="id24" x="0" y="1536"><name x="16" y="1520">r103</name><label kind="invariant" x="20" y="1536">localclock&lt;=r103_WCET</label><label kind="comments">*p ^= bitmask;</label></location>
+<location id="id25" x="0" y="1600"><name x="16" y="1584">r102_post</name><label kind="invariant" x="20" y="1600">localclock&lt;=r102_post_WCET</label><label kind="comments"> ++i, ++p ;</label></location>
+<location id="id26" x="0" y="1664"><name x="16" y="1648">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_iir_init?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r76_r79_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r83_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r83_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r83_cond_WCET&amp;&amp; (r83_Counter &lt; r83_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r84_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="-100" y="384">localclock&gt;=r83_post_WCET</label><label kind="assignment" x="-100" y="400">localclock:=0, r83_Counter++</label><nail x="-105" y="448"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id8"/><label kind="guard" x="110" y="336">localclock&gt;=r83_cond_WCET&amp;&amp; !(r83_Counter &lt; r83_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r83_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="512"/></transition>"
+<transition><source ref="id8"/><target ref="id9"/><label kind="guard" x="8" y="528">localclock&gt;=r87_WCET</label><label kind="assignment" x="8" y="544">localclock:=0</label></transition>"
+<transition><source ref="id9"/><target ref="id10"/><label kind="guard" x="8" y="592">localclock&gt;=r87_init_WCET</label><label kind="assignment" x="8" y="608">localclock:=0</label></transition>"
+<transition><source ref="id10"/><target ref="id11"/><label kind="guard" x="8" y="656">localclock&gt;=r87_cond_WCET&amp;&amp; (r87_Counter &lt; r87_LoopBound)</label><label kind="assignment" x="8" y="672">localclock:=0</label></transition>"
+<transition><source ref="id11"/><target ref="id12"/><label kind="guard" x="8" y="720">localclock&gt;=r88_WCET</label><label kind="assignment" x="8" y="736">localclock:=0</label></transition>"
+<transition><source ref="id12"/><target ref="id10"/><label kind="guard" x="-100" y="704">localclock&gt;=r87_post_WCET</label><label kind="assignment" x="-100" y="720">localclock:=0, r87_Counter++</label><nail x="-105" y="768"/><nail x="-105" y="640"/></transition>"
+<transition><source ref="id10"/><target ref="id13"/><label kind="guard" x="110" y="656">localclock&gt;=r87_cond_WCET&amp;&amp; !(r87_Counter &lt; r87_LoopBound)</label><label kind="assignment" x="110" y="672">localclock:=0, r87_Counter:=0</label><nail x="105" y="640"/><nail x="105" y="832"/></transition>"
+<transition><source ref="id13"/><target ref="id14"/><label kind="guard" x="8" y="848">localclock&gt;=r90_WCET</label><label kind="assignment" x="8" y="864">localclock:=0</label></transition>"
+<transition><source ref="id14"/><target ref="id15"/><label kind="guard" x="8" y="912">localclock&gt;=r95_WCET</label><label kind="assignment" x="8" y="928">localclock:=0</label></transition>"
+<transition><source ref="id15"/><target ref="id16"/><label kind="guard" x="8" y="976">localclock&gt;=r97_WCET</label><label kind="assignment" x="8" y="992">localclock:=0</label></transition>"
+<transition><source ref="id16"/><target ref="id17"/><label kind="guard" x="8" y="1040">localclock&gt;=r97_init_WCET</label><label kind="assignment" x="8" y="1056">localclock:=0</label></transition>"
+<transition><source ref="id17"/><target ref="id18"/><label kind="guard" x="8" y="1104">localclock&gt;=r97_cond_WCET&amp;&amp; (r97_Counter &lt; r97_LoopBound)</label><label kind="assignment" x="8" y="1120">localclock:=0</label></transition>"
+<transition><source ref="id18"/><target ref="id19"/><label kind="guard" x="8" y="1168">localclock&gt;=r98_WCET</label><label kind="assignment" x="8" y="1184">localclock:=0</label></transition>"
+<transition><source ref="id19"/><target ref="id17"/><label kind="guard" x="-100" y="1152">localclock&gt;=r97_post_WCET</label><label kind="assignment" x="-100" y="1168">localclock:=0, r97_Counter++</label><nail x="-105" y="1216"/><nail x="-105" y="1088"/></transition>"
+<transition><source ref="id17"/><target ref="id20"/><label kind="guard" x="110" y="1104">localclock&gt;=r97_cond_WCET&amp;&amp; !(r97_Counter &lt; r97_LoopBound)</label><label kind="assignment" x="110" y="1120">localclock:=0, r97_Counter:=0</label><nail x="105" y="1088"/><nail x="105" y="1280"/></transition>"
+<transition><source ref="id20"/><target ref="id21"/><label kind="guard" x="8" y="1296">localclock&gt;=r100_WCET</label><label kind="assignment" x="8" y="1312">localclock:=0</label></transition>"
+<transition><source ref="id21"/><target ref="id22"/><label kind="guard" x="8" y="1360">localclock&gt;=r102_WCET</label><label kind="assignment" x="8" y="1376">localclock:=0</label></transition>"
+<transition><source ref="id22"/><target ref="id23"/><label kind="guard" x="8" y="1424">localclock&gt;=r102_init_WCET</label><label kind="assignment" x="8" y="1440">localclock:=0</label></transition>"
+<transition><source ref="id23"/><target ref="id24"/><label kind="guard" x="8" y="1488">localclock&gt;=r102_cond_WCET&amp;&amp; (r102_Counter &lt; r102_LoopBound)</label><label kind="assignment" x="8" y="1504">localclock:=0</label></transition>"
+<transition><source ref="id24"/><target ref="id25"/><label kind="guard" x="8" y="1552">localclock&gt;=r103_WCET</label><label kind="assignment" x="8" y="1568">localclock:=0</label></transition>"
+<transition><source ref="id25"/><target ref="id23"/><label kind="guard" x="-100" y="1536">localclock&gt;=r102_post_WCET</label><label kind="assignment" x="-100" y="1552">localclock:=0, r102_Counter++</label><nail x="-105" y="1600"/><nail x="-105" y="1472"/></transition>"
+<transition><source ref="id23"/><target ref="id26"/><label kind="guard" x="110" y="1488">localclock&gt;=r102_cond_WCET&amp;&amp; !(r102_Counter &lt; r102_LoopBound)</label><label kind="assignment" x="110" y="1504">localclock:=0, r102_Counter:=0</label><nail x="105" y="1472"/><nail x="105" y="1664"/></transition>"
+<transition><source ref="id26"/><target ref="id0"/><label kind="synchronisation" x="-100" y="1600">_iir_init_out!</label><label kind="assignment" x="-100" y="1616">localclock:=0</label><nail x="-105" y="1664"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">iir_return</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r109_r110_WCET=, r114_WCET=, r114_init_WCET=, r114_cond_WCET=, r115_WCET=, r114_post_WCET=, r117_WCET=;
+int r114_Counter = 0;
+int r114_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">iir_return</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int iir_return( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r109_r110</name><label kind="invariant" x="20" y="128">localclock&lt;=r109_r110_WCET</label><label kind="comments">float checksum = 0.0;
+  int f;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r114</name><label kind="invariant" x="20" y="192">localclock&lt;=r114_WCET</label><label kind="comments">for ( f = 0 ; f &lt; 2 * 4; f++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r114_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r114_init_WCET</label><label kind="comments"> f = 0 ;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r114_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r114_cond_WCET</label><label kind="comments">for( ;  f &lt; 2 * 4 ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r115</name><label kind="invariant" x="20" y="384">localclock&lt;=r115_WCET</label><label kind="comments">checksum += iir_wi[ f ];</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r114_post</name><label kind="invariant" x="20" y="448">localclock&lt;=r114_post_WCET</label><label kind="comments"> f++ ;</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">r117</name><label kind="invariant" x="20" y="512">localclock&lt;=r117_WCET</label><label kind="comments">return( (int) checksum );</label></location>
+<location id="id9" x="0" y="576"><name x="16" y="560">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_iir_return?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r109_r110_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r114_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r114_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r114_cond_WCET&amp;&amp; (r114_Counter &lt; r114_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r115_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="-100" y="384">localclock&gt;=r114_post_WCET</label><label kind="assignment" x="-100" y="400">localclock:=0, r114_Counter++</label><nail x="-105" y="448"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id8"/><label kind="guard" x="110" y="336">localclock&gt;=r114_cond_WCET&amp;&amp; !(r114_Counter &lt; r114_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r114_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="512"/></transition>"
+<transition><source ref="id8"/><target ref="id9"/><label kind="guard" x="8" y="528">localclock&gt;=r117_WCET</label><label kind="assignment" x="8" y="544">localclock:=0</label></transition>"
+<transition><source ref="id9"/><target ref="id0"/><label kind="synchronisation" x="-100" y="512">_iir_return_out!</label><label kind="assignment" x="-100" y="528">localclock:=0</label><nail x="-105" y="576"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">iir_main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r127_r137_WCET=, r140_WCET=, r140_init_WCET=, r140_cond_WCET=, r141_r152_WCET=, r140_post_WCET=;
+int r140_Counter = 0;
+int r140_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">iir_main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void _Pragma( &quot;entrypoint&quot; ) iir_main( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r127_r137</name><label kind="invariant" x="20" y="128">localclock&lt;=r127_r137_WCET</label><label kind="comments">register float w;
+  int f;
+  register volatile float *ptr_coeff, *ptr_wi1, *ptr_wi2;
+  register float y;
+
+
+  ptr_coeff = &amp;iir_coefficients[ 0 ];
+  ptr_wi1 = &amp;iir_wi[ 0 ];
+  ptr_wi2 = &amp;iir_wi[ 1 ];
+
+  y = iir_x ;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r140</name><label kind="invariant" x="20" y="192">localclock&lt;=r140_WCET</label><label kind="comments">for ( f = 0 ; f &lt; 4 ; f++ )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r140_init</name><label kind="invariant" x="20" y="256">localclock&lt;=r140_init_WCET</label><label kind="comments"> f = 0 ;</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r140_cond</name><label kind="invariant" x="20" y="320">localclock&lt;=r140_cond_WCET</label><label kind="comments">for( ;  f &lt; 4  ; )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r141_r152</name><label kind="invariant" x="20" y="384">localclock&lt;=r141_r152_WCET</label><label kind="comments">w = y - *ptr_coeff++ * *ptr_wi1;
+    w -= *ptr_coeff++ * *ptr_wi2;
+
+    y = *ptr_coeff++ * w;
+    y += *ptr_coeff++ * *ptr_wi1;
+    y += *ptr_coeff++ * *ptr_wi2;
+
+    *ptr_wi2++ = *ptr_wi1;
+    *ptr_wi1++ = w;
+
+    ptr_wi2++;
+    ptr_wi1++;</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r140_post</name><label kind="invariant" x="20" y="448">localclock&lt;=r140_post_WCET</label><label kind="comments"> f++ ;</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_iir_main?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r127_r137_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r140_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r140_init_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r140_cond_WCET&amp;&amp; (r140_Counter &lt; r140_LoopBound)</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r141_r152_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="-100" y="384">localclock&gt;=r140_post_WCET</label><label kind="assignment" x="-100" y="400">localclock:=0, r140_Counter++</label><nail x="-105" y="448"/><nail x="-105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id8"/><label kind="guard" x="110" y="336">localclock&gt;=r140_cond_WCET&amp;&amp; !(r140_Counter &lt; r140_LoopBound)</label><label kind="assignment" x="110" y="352">localclock:=0, r140_Counter:=0</label><nail x="105" y="320"/><nail x="105" y="512"/></transition>"
+<transition><source ref="id8"/><target ref="id0"/><label kind="synchronisation" x="-100" y="448">_iir_main_out!</label><label kind="assignment" x="-100" y="464">localclock:=0</label><nail x="-105" y="512"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r162_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label><committed/></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int main( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">iir_init_r159</name><label kind="invariant" x="20" y="128"></label><label kind="comments">iir_init();</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">iir_init_out_r159</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">iir_main_r160</name><label kind="invariant" x="20" y="256"></label><label kind="comments">iir_main();</label><committed/></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">iir_main_out_r160</name><label kind="invariant" x="20" y="320"></label><label kind="comments"></label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r162</name><label kind="invariant" x="20" y="384">localclock&lt;=r162_WCET</label><label kind="comments">return( iir_return() - 400 != 0 );</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="assignment" x="8" y="16">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_iir_init!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="synchronisation" x="8" y="272">_iir_main!</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_iir_init_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="synchronisation" x="8" y="336">_iir_main_out?</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r162_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+</template>
+<system>// Place template instantiations here.
+
+p_iir_init = iir_init();
+p_iir_return = iir_return();
+p_iir_main = iir_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_iir_init, p_iir_return, p_iir_main, p_main;
+</system></nta>

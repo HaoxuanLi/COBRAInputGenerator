@@ -1,0 +1,4 @@
+registervolatileint  i 54 0 10 0
+int i 78 0 10 0
+int i 94 2 11 0
+nt j 94 2 10 0

@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _binarysearch_initSeed, _binarysearch_initSeed_out, _binarysearch_randomInteger, _binarysearch_randomInteger_out, _binarysearch_init, _binarysearch_init_out, _binarysearch_return, _binarysearch_return_out, _binarysearch_binary_search, _binarysearch_binary_search_out, _binarysearch_main, _binarysearch_main_out, _main, _main_out;
+</declaration>
+	<template>
+		<name x="5" y="5">binarysearch_initSeed</name>
+		<declaration>// Place local variables here.
+int r73_WCET=4;
+clock localclock;
+</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id1" x="0" y="64">
+			<name x="16" y="48">binarysearch_initSeed</name>
+			<label kind="comments" x="-10" y="99">void binarysearch_initSeed( void )</label>
+			<committed/>
+		</location>
+		<location id="id2" x="0" y="128">
+			<name x="16" y="112">r73</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r73_WCET</label>
+			<label kind="comments" x="-10" y="163">binarysearch_seed = 0;</label>
+		</location>
+		<location id="id3" x="0" y="192">
+			<name x="16" y="176">END</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="8" y="16">_binarysearch_initSeed?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r73_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-100" y="128">_binarysearch_initSeed_out!</label>
+			<label kind="assignment" x="-100" y="144">localclock:=0</label>
+			<nail x="-105" y="192"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">binarysearch_randomInteger</name>
+		<declaration>// Place local variables here.
+int r82_WCET=256, r83_WCET=8;
+clock localclock;
+</declaration>
+		<location id="id4" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id5" x="0" y="64">
+			<name x="16" y="48">binarysearch_randomInteger</name>
+			<label kind="comments" x="-10" y="99">long binarysearch_randomInteger( void )</label>
+			<committed/>
+		</location>
+		<location id="id6" x="0" y="128">
+			<name x="16" y="112">r82</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r82_WCET</label>
+			<label kind="comments" x="-10" y="163">binarysearch_seed = ( ( binarysearch_seed * 133 ) + 81 ) % 8095;</label>
+		</location>
+		<location id="id7" x="0" y="192">
+			<name x="16" y="176">r83</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r83_WCET</label>
+			<label kind="comments" x="-10" y="227">return( binarysearch_seed );</label>
+		</location>
+		<location id="id8" x="0" y="256">
+			<name x="16" y="240">END</name>
+			<committed/>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="8" y="16">_binarysearch_randomInteger?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r82_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r83_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-100" y="192">_binarysearch_randomInteger_out!</label>
+			<label kind="assignment" x="-100" y="208">localclock:=0</label>
+			<nail x="-105" y="256"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">binarysearch_init</name>
+		<declaration>// Place local variables here.
+int r89_WCET=0, r94_WCET=0, r94_init_WCET=0, r94_cond_WCET=0, r95_WCET=285, r96_WCET=285, r94_post_WCET=0;
+int r94_Counter = 0;
+int r94_LoopBound =15;
+
+clock localclock;
+</declaration>
+		<location id="id9" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id10" x="0" y="64">
+			<name x="16" y="48">binarysearch_init</name>
+			<label kind="comments" x="-10" y="99">void binarysearch_init( void )</label>
+			<committed/>
+		</location>
+		<location id="id11" x="0" y="128">
+			<name x="16" y="112">r89</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r89_WCET</label>
+			<label kind="comments" x="-10" y="163">int i;</label>
+		</location>
+		<location id="id12" x="0" y="192">
+			<name x="16" y="176">binarysearch_initSeed_r91</name>
+			<label kind="comments" x="-10" y="227">binarysearch_initSeed();</label>
+			<committed/>
+		</location>
+		<location id="id13" x="0" y="256">
+			<name x="16" y="240">binarysearch_initSeed_out_r91</name>
+		</location>
+		<location id="id14" x="0" y="320">
+			<name x="16" y="304">r94</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r94_WCET</label>
+			<label kind="comments" x="-10" y="355">for ( i = 0; i &lt; 15; ++i )</label>
+		</location>
+		<location id="id15" x="0" y="384">
+			<name x="16" y="368">r94_init</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r94_init_WCET</label>
+			<label kind="comments" x="-10" y="419">i = 0;</label>
+		</location>
+		<location id="id16" x="0" y="448">
+			<name x="16" y="432">r94_cond</name>
+			<label kind="invariant" x="20" y="448">localclock&lt;=r94_cond_WCET</label>
+			<label kind="comments" x="-10" y="483">for( ;  i &lt; 15 ; )</label>
+		</location>
+		<location id="id17" x="0" y="512">
+			<name x="16" y="496">r95</name>
+			<label kind="invariant" x="20" y="512">localclock&lt;=r95_WCET</label>
+			<label kind="comments" x="-10" y="547">binarysearch_data[ i ].key = binarysearch_randomInteger();</label>
+		</location>
+		<location id="id18" x="0" y="576">
+			<name x="16" y="560">r96</name>
+			<label kind="invariant" x="20" y="576">localclock&lt;=r96_WCET</label>
+			<label kind="comments" x="-10" y="611">binarysearch_data[ i ].value = binarysearch_randomInteger();</label>
+		</location>
+		<location id="id19" x="0" y="640">
+			<name x="16" y="624">r94_post</name>
+			<label kind="invariant" x="20" y="640">localclock&lt;=r94_post_WCET</label>
+			<label kind="comments" x="-10" y="675">++i ;</label>
+		</location>
+		<location id="id20" x="0" y="704">
+			<name x="16" y="688">END</name>
+			<committed/>
+		</location>
+		<init ref="id9"/>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="8" y="16">_binarysearch_init?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="8" y="208">_binarysearch_initSeed!</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r89_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="8" y="272">_binarysearch_initSeed_out?</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r94_WCET</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r94_init_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="guard" x="8" y="464">localclock&gt;=r94_cond_WCET&amp;&amp; (r94_Counter &lt; r94_LoopBound)</label>
+			<label kind="assignment" x="8" y="480">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="guard" x="8" y="528">localclock&gt;=r95_WCET</label>
+			<label kind="assignment" x="8" y="544">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="guard" x="8" y="592">localclock&gt;=r96_WCET</label>
+			<label kind="assignment" x="8" y="608">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-100" y="576">localclock&gt;=r94_post_WCET</label>
+			<label kind="assignment" x="-100" y="592">localclock:=0, r94_Counter++</label>
+			<nail x="-105" y="640"/>
+			<nail x="-105" y="448"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id20"/>
+			<label kind="guard" x="110" y="464">localclock&gt;=r94_cond_WCET&amp;&amp; !(r94_Counter &lt; r94_LoopBound)</label>
+			<label kind="assignment" x="110" y="480">localclock:=0, r94_Counter:=0</label>
+			<nail x="105" y="448"/>
+			<nail x="105" y="704"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-100" y="640">_binarysearch_init_out!</label>
+			<label kind="assignment" x="-100" y="656">localclock:=0</label>
+			<nail x="-105" y="704"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">binarysearch_return</name>
+		<declaration>// Place local variables here.
+int r103_WCET=4;
+clock localclock;
+</declaration>
+		<location id="id21" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id22" x="0" y="64">
+			<name x="16" y="48">binarysearch_return</name>
+			<label kind="comments" x="-10" y="99">int binarysearch_return( void )</label>
+			<committed/>
+		</location>
+		<location id="id23" x="0" y="128">
+			<name x="16" y="112">r103</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r103_WCET</label>
+			<label kind="comments" x="-10" y="163">return( binarysearch_result );</label>
+		</location>
+		<location id="id24" x="0" y="192">
+			<name x="16" y="176">END</name>
+			<committed/>
+		</location>
+		<init ref="id21"/>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="8" y="16">_binarysearch_return?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r103_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-100" y="128">_binarysearch_return_out!</label>
+			<label kind="assignment" x="-100" y="144">localclock:=0</label>
+			<nail x="-105" y="192"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">binarysearch_binary_search</name>
+		<declaration>// Place local variables here.
+int r113_r117_WCET=0, r120_WCET=0, r120_cond_WCET=0, r121_WCET=16, r123_WCET=0, r125_r126_WCET=28, r129_r133_WCET=29, r120_post_WCET=0, r136_WCET=4;
+int r120_Counter = 0;
+int r120_LoopBound =4;
+
+clock localclock;
+</declaration>
+		<location id="id25" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id26" x="0" y="64">
+			<name x="16" y="48">binarysearch_binary_search</name>
+			<label kind="comments" x="-10" y="99">int binarysearch_binary_search( int x )</label>
+			<committed/>
+		</location>
+		<location id="id27" x="0" y="128">
+			<name x="16" y="112">r113_r117</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r113_r117_WCET</label>
+			<label kind="comments" x="-10" y="163">int fvalue, mid, up, low;
+
+  low = 0;
+  up = 14;
+  fvalue = -1;</label>
+		</location>
+		<location id="id28" x="0" y="192">
+			<name x="16" y="176">r120</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r120_WCET</label>
+			<label kind="comments" x="-10" y="227">while ( low &lt;= up )</label>
+		</location>
+		<location id="id29" x="0" y="256">
+			<name x="16" y="240">r120_cond</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r120_cond_WCET</label>
+			<label kind="comments" x="-10" y="291">while(low&lt;=up)</label>
+		</location>
+		<location id="id30" x="0" y="320">
+			<name x="16" y="304">r121</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r121_WCET</label>
+			<label kind="comments" x="-10" y="355">mid = ( low + up ) &gt;&gt; 1;</label>
+		</location>
+		<location id="id31" x="0" y="384">
+			<name x="16" y="368">r123</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r123_WCET</label>
+			<label kind="comments" x="-10" y="419">if ( binarysearch_data[ mid ].key == x )</label>
+		</location>
+		<location id="id32" x="0" y="448">
+			<name x="16" y="432">r125_r126</name>
+			<label kind="invariant" x="20" y="448">localclock&lt;=r125_r126_WCET</label>
+			<label kind="comments" x="-10" y="483">up = low - 1;
+      fvalue = binarysearch_data[ mid ].value;</label>
+		</location>
+		<location id="id33" x="0" y="512">
+			<name x="16" y="496">r129_r133</name>
+			<label kind="invariant" x="20" y="512">localclock&lt;=r129_r133_WCET</label>
+			<label kind="comments" x="-10" y="547">if ( binarysearch_data[ mid ].key &gt; x )
+{
+	up = mid - 1;
+}
+else
+{
+	low = mid + 1;
+}</label>
+		</location>
+		<location id="id34" x="0" y="576">
+			<name x="16" y="560">r120_post</name>
+			<label kind="comments" x="-10" y="611">while_post</label>
+			<committed/>
+		</location>
+		<location id="id35" x="0" y="640">
+			<name x="16" y="624">r136</name>
+			<label kind="invariant" x="20" y="640">localclock&lt;=r136_WCET</label>
+			<label kind="comments" x="-10" y="675">return( fvalue );</label>
+		</location>
+		<location id="id36" x="0" y="704">
+			<name x="16" y="688">END</name>
+			<committed/>
+		</location>
+		<init ref="id25"/>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="8" y="16">_binarysearch_binary_search?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r113_r117_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r120_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r120_cond_WCET&amp;&amp; (r120_Counter &lt; r120_LoopBound)</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id31"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r121_WCET</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r123_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id33"/>
+			<label kind="guard" x="110" y="400">localclock&gt;=r123_WCET</label>
+			<label kind="assignment" x="110" y="416">localclock:=0</label>
+			<nail x="105" y="384"/>
+			<nail x="105" y="512"/>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id34"/>
+			<label kind="guard" x="110" y="464">localclock&gt;=r125_r126_WCET</label>
+			<label kind="assignment" x="110" y="480">localclock:=0</label>
+			<nail x="105" y="448"/>
+			<nail x="105" y="576"/>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id34"/>
+			<label kind="guard" x="8" y="528">localclock&gt;=r129_r133_WCET</label>
+			<label kind="assignment" x="8" y="544">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id34"/>
+			<label kind="guard" x="110" y="400">localclock&gt;=r123_WCET</label>
+			<label kind="assignment" x="110" y="416">localclock:=0</label>
+			<nail x="105" y="384"/>
+			<nail x="105" y="576"/>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id29"/>
+			<label kind="assignment" x="-100" y="512">localclock:=0, r120_Counter++</label>
+			<nail x="-105" y="576"/>
+			<nail x="-105" y="256"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id35"/>
+			<label kind="guard" x="110" y="272">localclock&gt;=r120_cond_WCET&amp;&amp; !(r120_Counter &lt; r120_LoopBound)</label>
+			<label kind="assignment" x="110" y="288">localclock:=0, r120_Counter:=0</label>
+			<nail x="105" y="256"/>
+			<nail x="105" y="640"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id36"/>
+			<label kind="guard" x="8" y="656">localclock&gt;=r136_WCET</label>
+			<label kind="assignment" x="8" y="672">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-100" y="640">_binarysearch_binary_search_out!</label>
+			<label kind="assignment" x="-100" y="656">localclock:=0</label>
+			<nail x="-105" y="704"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">binarysearch_main</name>
+		<declaration>// Place local variables here.
+int r146_WCET=147;
+clock localclock;
+</declaration>
+		<location id="id37" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id38" x="0" y="64">
+			<name x="16" y="48">binarysearch_main</name>
+			<label kind="comments" x="-10" y="99">void _Pragma( "entrypoint" ) binarysearch_main( void )</label>
+			<committed/>
+		</location>
+		<location id="id39" x="0" y="128">
+			<name x="16" y="112">r146</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r146_WCET</label>
+			<label kind="comments" x="-10" y="163">binarysearch_result = binarysearch_binary_search( 8 );</label>
+		</location>
+		<location id="id40" x="0" y="192">
+			<name x="16" y="176">END</name>
+			<committed/>
+		</location>
+		<init ref="id37"/>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id38"/>
+			<label kind="synchronisation" x="8" y="16">_binarysearch_main?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id39"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id40"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r146_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id37"/>
+			<label kind="synchronisation" x="-100" y="128">_binarysearch_main_out!</label>
+			<label kind="assignment" x="-100" y="144">localclock:=0</label>
+			<nail x="-105" y="192"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">main</name>
+		<declaration>// Place local variables here.
+int r155_WCET=10;
+clock localclock;
+</declaration>
+		<location id="id41" x="0" y="0">
+			<name x="16" y="-16">START</name>
+			<committed/>
+		</location>
+		<location id="id42" x="0" y="64">
+			<name x="16" y="48">main</name>
+			<label kind="comments" x="-10" y="99">int main( void )</label>
+			<committed/>
+		</location>
+		<location id="id43" x="0" y="128">
+			<name x="16" y="112">binarysearch_init_r152</name>
+			<label kind="comments" x="-10" y="163">binarysearch_init();</label>
+			<committed/>
+		</location>
+		<location id="id44" x="0" y="192">
+			<name x="16" y="176">binarysearch_init_out_r152</name>
+		</location>
+		<location id="id45" x="0" y="256">
+			<name x="16" y="240">binarysearch_main_r153</name>
+			<label kind="comments" x="-10" y="291">binarysearch_main();</label>
+			<committed/>
+		</location>
+		<location id="id46" x="0" y="320">
+			<name x="16" y="304">binarysearch_main_out_r153</name>
+		</location>
+		<location id="id47" x="0" y="384">
+			<name x="16" y="368">r155</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r155_WCET</label>
+			<label kind="comments" x="-10" y="419">return( binarysearch_return() - (-1) != 0 );</label>
+		</location>
+		<location id="id48" x="0" y="448">
+			<name x="16" y="432">END</name>
+			<committed/>
+		</location>
+		<init ref="id41"/>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id42"/>
+			<label kind="assignment" x="8" y="16">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<label kind="synchronisation" x="8" y="144">_binarysearch_init!</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id43"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="synchronisation" x="8" y="272">_binarysearch_main!</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id45"/>
+			<label kind="synchronisation" x="8" y="208">_binarysearch_init_out?</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id47"/>
+			<label kind="synchronisation" x="8" y="336">_binarysearch_main_out?</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id48"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r155_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+p_binarysearch_initSeed = binarysearch_initSeed();
+p_binarysearch_randomInteger = binarysearch_randomInteger();
+p_binarysearch_init = binarysearch_init();
+p_binarysearch_return = binarysearch_return();
+p_binarysearch_binary_search = binarysearch_binary_search();
+p_binarysearch_main = binarysearch_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_binarysearch_initSeed, p_binarysearch_randomInteger, p_binarysearch_init, p_binarysearch_return, p_binarysearch_binary_search, p_binarysearch_main, p_main;
+</system>
+	<queries>
+	</queries>
+</nta>

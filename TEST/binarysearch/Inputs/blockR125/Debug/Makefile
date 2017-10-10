@@ -33,38 +33,34 @@ LINKER_SCRIPT_DEP :=
 SUBDIRS :=  
 
 Add inputs and outputs from these tool invocations to the build variables C_SRCS +=  \
+../binarysearch.c \
 ../inputs.c \
-../main.c \
-../../../binarysearch.c
+../main.c
 
 OBJS +=  \
+binarysearch.o \
 inputs.o \
-main.o \
-binarysearch.o
+main.o
 
 OBJS_AS_ARGS +=  \
+binarysearch.o \
 inputs.o \
-main.o \
-binarysearch.o
+main.o
 
 C_DEPS +=  \
+binarysearch.d \
 inputs.d \
-main.d \
-binarysearch.d
+main.d
 
 C_DEPS_AS_ARGS +=   \
+binarysearch.d \
 inputs.d \
-main.d \
-binarysearch.d
+main.d
 
 OUTPUT_FILE_PATH +=blockR125.elf
 
 OUTPUT_FILE_PATH_AS_ARGS +=blockR125.elf
 ./%.o: .././%.c
-	@echo Building file: $<
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DDEBUG  -I$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\include$(QUOTE)  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=$(DEVICE)$ -c -std=gnu99 -MD -MP -MF $(QUOTE)$(@:%.o=%.d)$(QUOTE) -MT$(QUOTE)$(@:%.o=%.d)$(QUOTE) -MT$(QUOTE)$(@:%.o=%.o)$(QUOTE)   -o $(QUOTE)$@$(QUOTE) $(QUOTE)$<$(QUOTE) 
-	@echo Finished building: $<
-./%.o: ../../.././%.c
 	@echo Building file: $<
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DDEBUG  -I$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\include$(QUOTE)  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=$(DEVICE)$ -c -std=gnu99 -MD -MP -MF $(QUOTE)$(@:%.o=%.d)$(QUOTE) -MT$(QUOTE)$(@:%.o=%.d)$(QUOTE) -MT$(QUOTE)$(@:%.o=%.o)$(QUOTE)   -o $(QUOTE)$@$(QUOTE) $(QUOTE)$<$(QUOTE) 
 	@echo Finished building: $<
@@ -75,11 +71,12 @@ ifneq ($(strip $(C_DEPS)),)
 endif 
 endif
 
-# Build Target .elf file
+# Build Target .elf .map .lss file
 all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(C_SRCS) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map=$(QUOTE)$(PRJ_NAME).map$(QUOTE) -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=$(DEVICE)$  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe$(QUOTE) -h -S $(QUOTE)$(PRJ_NAME).elf$(QUOTE) > $(QUOTE)$(PRJ_NAME).lss$(QUOTE)
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe$(QUOTE) $(QUOTE)$(PRJ_NAME).elf$(QUOTE)
 
 # Clean Files

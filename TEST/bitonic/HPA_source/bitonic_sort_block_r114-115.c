@@ -20,6 +20,8 @@ int main(void);
 
 void benchmarkBlock(void)
 {
+	int c=100, a=100,i;
+	
 int k = cnt;
   k /= 2;
 }

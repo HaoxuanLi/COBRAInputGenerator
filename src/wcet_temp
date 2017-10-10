@@ -1,0 +1,304 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JFrame;
+
+class ProcessorPointerAddresses{
+	private String framePointerAddress;
+	private String stackPointerAddressOfOriginalCode;
+	private String stackPointerAddressOfBlockCode;
+	
+	
+	public String getFramePointerAddress() {
+		return framePointerAddress;
+	}
+
+	public void setFramePointerAddress(String framePointerAddress) {
+		this.framePointerAddress = framePointerAddress;
+	}
+
+	public String getStackPointerAddressOfOriginalCode() {
+		return stackPointerAddressOfOriginalCode;
+	}
+
+	public void setStackPointerAddressOfOriginalCode(String stackPointerAddressOfOriginalCode) {
+		this.stackPointerAddressOfOriginalCode = stackPointerAddressOfOriginalCode;
+	}
+
+	public String getStackPointerAddressOfBlockCode() {
+		return stackPointerAddressOfBlockCode;
+	}
+
+	public void setStackPointerAddressOfBlockCode(String stackPointerAddressOfBlockCode) {
+		this.stackPointerAddressOfBlockCode = stackPointerAddressOfBlockCode;
+	}
+	
+	public ProcessorPointerAddresses(){
+		
+	}
+	
+	public ProcessorPointerAddresses(String framePointerAddress, String stackPointerAddressOfOriginalCode, String stackPointerAddressOfBlockCode){
+		this.framePointerAddress = framePointerAddress;
+		this.stackPointerAddressOfBlockCode    = stackPointerAddressOfBlockCode;
+		this.stackPointerAddressOfOriginalCode = stackPointerAddressOfOriginalCode;
+	}
+}
+
+public class WCET {
+	int generatedInputLength;
+	String originalFileDirectoryAbsolutePath;
+	String workDirectoryAbsolutePath;
+	String blockFileDirectoryAbsolutePath;
+	String originalFileAbsolutePath;
+	String annotationFileAbsolutePath;
+	int processorRegisterLength = 32;
+	String stepNumber;
+
+	
+
+	public void getConfigProperties() throws IOException{
+		ConfigFileReader configFileReader = new ConfigFileReader(); 
+		this.originalFileDirectoryAbsolutePath = configFileReader.getOriginalFileAbsolutePath();
+		this.workDirectoryAbsolutePath = configFileReader.getWorkDirectoryAbsolutePath();
+		this.blockFileDirectoryAbsolutePath = configFileReader.getBlockFileDirectoryAbsolutePath();
+		t
+		getAnnotationFile();
+		getProcessorRegisterLength();
+	}
+	
+	public void makeWorkDirectory() {
+		if (!new File(workDirectoryAbsolutePath).exists())
+			new File(workDirectoryAbsolutePath).mkdir();
+	}
+	
+	public void setGeneratedInputLength(int generatedInputLength){
+		this.generatedInputLength = generatedInputLength;
+		
+	}
+	public WCET() throws Exception {
+
+		getConfigProperties();
+		makeWorkDirectory();		
+		setGeneratedInputLength(20);
+		
+		String stepNumber = "4";
+		String framePointerAddress = "10fb";
+		String stackPointerAddressOfOriginalCode = "10f3";
+		String stackPointerAddressOfBlockCode = "10e3";
+		
+		ProcessorPointerAddresses processorPointerAddresses = new ProcessorPointerAddresses(framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode );
+		
+		
+		String filename = "iir_init_node_r97_r98";
+		
+		String[] filename_split = filename.split("_");
+		int filename_split_counter = 0;
+		String blockFile = config.getProperty("originalFileDirectoryAbsolutePath") + "\\UPPAAL_source" + "\\" + filename + ".c";
+		Boolean logflag = false;
+		
+		for (String startlinenumber : filename_split) {
+			Matcher m = Pattern.compile("r([0-9]+)").matcher(startlinenumber);
+			if (m.matches()) {
+				filename_split[filename_split_counter] = m.group(1);
+				filename_split_counter++;
+			}
+		}
+
+		File file = new File(this.originalFileDirectoryAbsolutePath + "\\Inputs\\blockR" + filename_split[0]);
+		if (!file.exists())
+			file.mkdir();
+
+		File originalfiles = new File(this.originalFileDirectoryAbsolutePath);
+
+		for (File originalFileAbsolutePath : originalfiles.listFiles()) {
+			if ((originalFileAbsolutePath.getName().endsWith(".c") || originalFileAbsolutePath.getName().endsWith(".h"))
+					&& !new File(file.getAbsolutePath() + "\\" + originalFileAbsolutePath.getName()).exists())
+				Files.copy(originalFileAbsolutePath.toPath(),
+						new File(file.getAbsolutePath() + "\\" + originalFileAbsolutePath.getName()).toPath());
+		}
+
+		
+		
+		WCETAnalysis a1 = new WCETAnalysis(file.getAbsolutePath());
+		
+		for (int i = 0; i < 1; i++) {
+
+
+			if (stepNumber.equals("1")) {
+				new ProcessorTemplateGenerator(file.getAbsolutePath(), generatedInputLength, stepNumber, framePointerAddress,
+						stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+				new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"), blockFile, originalFileAbsolutePath, annotationFileAbsolutePath,
+						generatedInputLength, logflag, stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode,
+						processorRegisterLength);
+				Set<Declaration> declarationListFinal = new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"),
+						blockFile, originalFileAbsolutePath, annotationFileAbsolutePath, generatedInputLength, logflag, stepNumber, framePointerAddress,
+						stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength).getDeclarationlistfinal();
+				new OriginalFileModifier(file.getAbsolutePath(), blockFile, declarationListFinal,
+						stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+				new MakefileGenerator(file.getAbsolutePath());
+				a1.cleanprogramfile();
+				a1.makeprogramfile();
+
+			} else if (stepNumber.equals("2")) {
+				new ProcessorTemplateGenerator(file.getAbsolutePath(), generatedInputLength, stepNumber, framePointerAddress,
+						stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+				new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"), blockFile, originalFileAbsolutePath, annotationFileAbsolutePath,
+						generatedInputLength, logflag, stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode,
+						processorRegisterLength);
+				Set<Declaration> declarationListFinal = new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"),
+						blockFile, originalFileAbsolutePath, annotationFileAbsolutePath, generatedInputLength, logflag, stepNumber, framePointerAddress,
+						stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength).getDeclarationlistfinal();
+				new OriginalFileModifier(file.getAbsolutePath(), blockFile, declarationListFinal,
+						stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+				a1.cleanprogramfile();
+				a1.makeprogramfile();
+			} else if (stepNumber == "3") {
+				new ProcessorTemplateGenerator(file.getAbsolutePath(), generatedInputLength, stepNumber, framePointerAddress,
+						stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+				a1.cleanprogramfile();
+				a1.makeprogramfile();
+				new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"), blockFile, originalFileAbsolutePath, annotationFileAbsolutePath,
+						generatedInputLength, logflag, stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode,
+						processorRegisterLength);
+				Set<Declaration> declarationListFinal = new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"),
+						blockFile, originalFileAbsolutePath, annotationFileAbsolutePath, generatedInputLength, logflag, stepNumber, framePointerAddress,
+						stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength).getDeclarationlistfinal();
+				new OriginalFileModifier(file.getAbsolutePath(), blockFile, declarationListFinal,
+						stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+				a1.cleanprogramfile();
+				a1.makeprogramfile();
+
+			} else if (stepNumber == "4") {
+				for (int i1 = 0; i1 < 2; i1++) {
+					if(i1==1)
+					 logflag = true;
+					new ProcessorTemplateGenerator(file.getAbsolutePath(), generatedInputLength, stepNumber, framePointerAddress,
+							stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+					a1.cleanprogramfile();
+					a1.makeprogramfile();
+					new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"), blockFile, originalFileAbsolutePath, annotationFileAbsolutePath,
+							generatedInputLength, logflag, stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode,
+							processorRegisterLength);
+					Set<Declaration> declarationListFinal = new InputsGenerator(config.getProperty("originalFileDirectoryAbsolutePath"),
+							blockFile, originalFileAbsolutePath, annotationFileAbsolutePath, generatedInputLength, logflag, stepNumber, framePointerAddress,
+							stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength).getDeclarationlistfinal();
+					new OriginalFileModifier(file.getAbsolutePath(), blockFile, declarationListFinal,
+							stepNumber, framePointerAddress, stackPointerAddressOfOriginalCode, stackPointerAddressOfBlockCode, processorRegisterLength);
+					a1.cleanprogramfile();
+					a1.makeprogramfile();
+
+					// change rcall targets
+					File inputsfile = new File(
+							"C:\\Users\\HLi\\AppData\\Roaming\\Local Libraries\\Local Documents\\workspaceJava\\WCET\\TEST\\"
+									+ programname + "\\Inputs\\blockR" + filename_split[0] + "\\inputs.c");
+					File lssfile = new File(
+							"C:\\Users\\HLi\\AppData\\Roaming\\Local Libraries\\Local Documents\\workspaceJava\\WCET\\TEST\\"
+									+ programname + "\\Inputs\\blockR" + filename_split[0] + "\\Debug\\blockR"
+									+ filename_split[0] + ".lss");
+					BufferedReader inputsfilereader = new BufferedReader(new FileReader(inputsfile));
+					BufferedReader lssfilereader = new BufferedReader(new FileReader(lssfile));
+
+					String rcalltarget = "";
+
+					boolean blockcontentflag = false;
+					String lssfilereaderline = "";
+					while ((lssfilereaderline = lssfilereader.readLine()) != null) {
+
+						if (lssfilereaderline.matches(".*<BlockContent_Start>:$"))
+							blockcontentflag = true;
+
+						if (lssfilereaderline.matches(".*<BlockContent_End>:$"))
+							blockcontentflag = false;
+
+						if (blockcontentflag) {
+							if (lssfilereaderline.replaceAll("^\\s*", "").matches("\\w+:(\\s+\\w+)+\\s+.*")) {
+								if (lssfilereaderline.contains("rcall"))
+									rcalltarget = rcalltarget + " "
+											+ lssfilereaderline.replaceAll("^\\s*", "").replaceAll(":.*", "");
+
+							}
+						}
+					}
+					lssfilereader.close();
+
+					String inputsfilereaderline = "";
+					blockcontentflag = false;
+					String[] rcalltarget_split = rcalltarget.replaceAll("^\\s*", "").split(" ");
+					File inputsfile_temp = new File(
+							"C:\\Users\\HLi\\AppData\\Roaming\\Local Libraries\\Local Documents\\workspaceJava\\WCET\\TEST\\"
+									+ programname + "\\Inputs\\blockR" + filename_split[0] + "\\inputs_temp.c");
+					Formatter inputcformatter_temp = new Formatter(inputsfile_temp);
+
+					int rcallcounter = 0;
+					while ((inputsfilereaderline = inputsfilereader.readLine()) != null) {
+						if (inputsfilereaderline.matches("\\s*\"BlockContent_Start:.*"))
+							blockcontentflag = true;
+
+						if (inputsfilereaderline.matches("\\s*\"BlockContent_End:.*"))
+							blockcontentflag = false;
+
+						if (blockcontentflag) {
+							if (inputsfilereaderline.contains("rcall")) {
+								int jumpnumber = 0;
+								if (i1 == 0)
+									jumpnumber = Integer.parseInt(inputsfilereaderline.replaceAll("^.*//0x", ""), 16)
+											- Integer.parseInt(rcalltarget_split[rcallcounter], 16) - 2;
+								if (i1 == 1)
+									jumpnumber = Integer.parseInt(inputsfilereaderline.replaceAll("^.*//0x", ""), 16)
+											- Integer.parseInt(rcalltarget_split[rcallcounter], 16);
+
+								if (jumpnumber > 0)
+									inputsfilereaderline = "\t\"rcall .+" + jumpnumber + "\\n\\t\"";
+								else
+									inputsfilereaderline = "\t\"rcall ." + jumpnumber + "\\n\\t\"";
+
+								rcallcounter++;
+							}
+						}
+						inputcformatter_temp.format("%s", inputsfilereaderline + "\n");
+					}
+					inputcformatter_temp.close();
+					inputsfilereader.close();
+
+					inputsfile.delete();
+					inputsfile_temp.renameTo(inputsfile);
+
+				}
+				a1.cleanprogramfile();
+				a1.makeprogramfile();
+
+			}
+
+		/*	 Collect c1 = new Collect(file.getAbsolutePath(), generatedInputLength, true);
+			 c1.start();
+
+			// a1.AnalyzeResults();
+			if(stepNumber!="3"){
+				a1.eraseprogram();
+				a1.deployprogram();
+			}
+			 c1.join();
+*/
+			if(stepNumber!="3"){
+				a1.eraseprogram();
+				a1.deployprogram();
+			}
+		}
+
+		//
+
+		return;
+	}
+
+}

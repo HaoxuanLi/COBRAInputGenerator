@@ -608,6 +608,16 @@ public interface CListener extends ParseTreeListener {
 	 */
 	void exitDeclarationSpecifier(@NotNull CParser.DeclarationSpecifierContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CParser#forIterationSurfix}.
+	 * @param ctx the parse tree
+	 */
+	void enterForIterationSurfix(@NotNull CParser.ForIterationSurfixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#forIterationSurfix}.
+	 * @param ctx the parse tree
+	 */
+	void exitForIterationSurfix(@NotNull CParser.ForIterationSurfixContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CParser#dTree}.
 	 * @param ctx the parse tree
 	 */
@@ -927,6 +937,16 @@ public interface CListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypeQualifierList(@NotNull CParser.TypeQualifierListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#forIterationPrefix}.
+	 * @param ctx the parse tree
+	 */
+	void enterForIterationPrefix(@NotNull CParser.ForIterationPrefixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#forIterationPrefix}.
+	 * @param ctx the parse tree
+	 */
+	void exitForIterationPrefix(@NotNull CParser.ForIterationPrefixContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CParser#assignment}.
 	 * @param ctx the parse tree

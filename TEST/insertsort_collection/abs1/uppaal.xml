@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _insertsort_initialize, _insertsort_initialize_out, _insertsort_init, _insertsort_init_out, _insertsort_return, _insertsort_return_out, _insertsort_main, _insertsort_main_out, _main, _main_out;
+</declaration>
+	<template>
+		<name x="5" y="5">insertsort_initialize</name>
+		<declaration>// Place local variables here.
+int r54_WCET=0, r56_r57_WCET=30000, r56_r57_1_WCET=31409, r56_r57_2_WCET=31000, r56_r57_3_WCET=31000, r56_r57_4_WCET=30000, r56_r57_5_WCET=30000, r56_r57_6_WCET=30000, r56_r57_7_WCET=30000, r56_r57_8_WCET=30000, r56_r57_9_WCET=30000;
+clock localclock;
+</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id1" x="0" y="64">
+			<name x="16" y="48">insertsort_initialize</name>
+			<label kind="comments" x="-10" y="99">void insertsort_initialize(unsigned int* array)</label>
+			<committed/>
+		</location>
+		<location id="id2" x="0" y="128">
+			<name x="16" y="112">r54</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r54_WCET</label>
+			<label kind="comments" x="-10" y="163">register volatile int i;</label>
+		</location>
+		<location id="id3" x="0" y="192">
+			<name x="16" y="176">r56_r57</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r56_r57_WCET</label>
+			<label kind="comments" x="-10" y="227">for ( i = 0; i &lt; 10; i++ )
+{
+	insertsort_a[i] = array[i];
+}</label>
+		</location>
+		<location id="id4" x="0" y="256">
+			<name x="16" y="240">END</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="8" y="16">_insertsort_initialize?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r54_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r56_r57_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-100" y="192">_insertsort_initialize_out!</label>
+			<label kind="assignment" x="-100" y="208">localclock:=0</label>
+			<nail x="-105" y="256"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">insertsort_init</name>
+		<declaration>// Place local variables here.
+int r64_r71_WCET=26;
+clock localclock;
+</declaration>
+		<location id="id5" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id6" x="0" y="64">
+			<name x="16" y="48">insertsort_init</name>
+			<label kind="comments" x="-10" y="99">void insertsort_init()</label>
+			<committed/>
+		</location>
+		<location id="id7" x="0" y="128">
+			<name x="16" y="112">r64_r71</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r64_r71_WCET</label>
+			<label kind="comments" x="-10" y="163">unsigned int a[11] = {0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+
+    insertsort_iters_i = 0;
+    insertsort_min_i = 100000;
+	insertsort_max_i = 0;
+    insertsort_iters_a = 0;
+    insertsort_min_a = 100000;
+    insertsort_max_a = 0;</label>
+		</location>
+		<location id="id8" x="0" y="192">
+			<name x="16" y="176">insertsort_initialize_r73</name>
+			<label kind="comments" x="-10" y="227">insertsort_initialize(a);</label>
+			<committed/>
+		</location>
+		<location id="id9" x="0" y="256">
+			<name x="16" y="240">insertsort_initialize_out_r73</name>
+		</location>
+		<location id="id10" x="0" y="320">
+			<name x="16" y="304">END</name>
+			<committed/>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="8" y="16">_insertsort_init?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="8" y="208">_insertsort_initialize!</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r64_r71_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="8" y="272">_insertsort_initialize_out?</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-100" y="256">_insertsort_init_out!</label>
+			<label kind="assignment" x="-100" y="272">localclock:=0</label>
+			<nail x="-105" y="320"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">insertsort_return</name>
+		<declaration>// Place local variables here.
+int r78_WCET=0, r80_r81_WCET=117, r83_WCET=4;
+clock localclock;
+</declaration>
+		<location id="id11" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id12" x="0" y="64">
+			<name x="16" y="48">insertsort_return</name>
+			<label kind="comments" x="-10" y="99">int insertsort_return()</label>
+			<committed/>
+		</location>
+		<location id="id13" x="0" y="128">
+			<name x="16" y="112">r78</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r78_WCET</label>
+			<label kind="comments" x="-10" y="163">int i, returnValue=0;</label>
+		</location>
+		<location id="id14" x="0" y="192">
+			<name x="16" y="176">r80_r81</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r80_r81_WCET</label>
+			<label kind="comments" x="-10" y="227">for ( i = 0; i &lt; 10; i++ )
+{
+	returnValue += insertsort_a[i];
+}</label>
+		</location>
+		<location id="id15" x="0" y="256">
+			<name x="16" y="240">r83</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r83_WCET</label>
+			<label kind="comments" x="-10" y="291">return (returnValue + (-52) ) != 0;</label>
+		</location>
+		<location id="id16" x="0" y="320">
+			<name x="16" y="304">END</name>
+			<committed/>
+		</location>
+		<init ref="id11"/>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="8" y="16">_insertsort_return?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r78_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r80_r81_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r83_WCET</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-100" y="256">_insertsort_return_out!</label>
+			<label kind="assignment" x="-100" y="272">localclock:=0</label>
+			<nail x="-105" y="320"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">insertsort_main</name>
+		<declaration>// Place local variables here.
+int r94_r97_WCET=4, r100_r124_WCET=1510, r127_r128_WCET=15, r129_r130_WCET=15;
+clock localclock;
+</declaration>
+		<location id="id17" x="0" y="0">
+			<name x="16" y="-16">START</name>
+		</location>
+		<location id="id18" x="0" y="64">
+			<name x="16" y="48">insertsort_main</name>
+			<label kind="comments" x="-10" y="99">void _Pragma( "entrypoint" ) insertsort_main()</label>
+			<committed/>
+		</location>
+		<location id="id19" x="0" y="128">
+			<name x="16" y="112">r94_r97</name>
+			<label kind="invariant" x="20" y="128">localclock&lt;=r94_r97_WCET</label>
+			<label kind="comments" x="-10" y="163">int  i,j, temp;
+    i = 2;
+
+    insertsort_iters_i = 0;</label>
+		</location>
+		<location id="id20" x="0" y="192">
+			<name x="16" y="176">r100_r124</name>
+			<label kind="invariant" x="20" y="192">localclock&lt;=r100_r124_WCET</label>
+			<label kind="comments" x="-10" y="227">while(i &lt;= 10)
+{
+	insertsort_iters_i++;
+	
+	        j = i;
+	
+	        insertsort_iters_a = 0;
+	while (insertsort_a[j] &lt; insertsort_a[j-1])
+	{
+		insertsort_iters_a++;
+		
+		            temp = insertsort_a[j];
+		            insertsort_a[j] = insertsort_a[j-1];
+		            insertsort_a[j-1] = temp;
+		            j--;
+	}
+	if ( insertsort_iters_a &lt; insertsort_min_a )
+	{
+		insertsort_min_a = insertsort_iters_a;
+	}
+	if ( insertsort_iters_a &gt; insertsort_max_a )
+	{
+		insertsort_max_a = insertsort_iters_a;
+	}
+	i++;
+}</label>
+		</location>
+		<location id="id21" x="0" y="256">
+			<name x="16" y="240">r127_r128</name>
+			<label kind="invariant" x="20" y="256">localclock&lt;=r127_r128_WCET</label>
+			<label kind="comments" x="-10" y="291">if ( insertsort_iters_i &lt; insertsort_min_i )
+{
+	insertsort_min_i = insertsort_iters_i;
+}</label>
+		</location>
+		<location id="id22" x="0" y="320">
+			<name x="16" y="304">r129_r130</name>
+			<label kind="invariant" x="20" y="320">localclock&lt;=r129_r130_WCET</label>
+			<label kind="comments" x="-10" y="355">if ( insertsort_iters_i &gt; insertsort_max_i )
+{
+	insertsort_max_i = insertsort_iters_i;
+}</label>
+		</location>
+		<location id="id23" x="0" y="384">
+			<name x="16" y="368">END</name>
+			<committed/>
+		</location>
+		<init ref="id17"/>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="8" y="16">_insertsort_main?</label>
+			<label kind="assignment" x="8" y="32">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id20"/>
+			<label kind="guard" x="8" y="144">localclock&gt;=r94_r97_WCET</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id21"/>
+			<label kind="guard" x="8" y="208">localclock&gt;=r100_r124_WCET</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="guard" x="8" y="272">localclock&gt;=r127_r128_WCET</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="guard" x="8" y="336">localclock&gt;=r129_r130_WCET</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-100" y="320">_insertsort_main_out!</label>
+			<label kind="assignment" x="-100" y="336">localclock:=0</label>
+			<nail x="-105" y="384"/>
+			<nail x="-105" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">main</name>
+		<declaration>// Place local variables here.
+int r137_WCET=117;
+clock localclock;
+</declaration>
+		<location id="id24" x="0" y="0">
+			<name x="16" y="-16">START</name>
+			<committed/>
+		</location>
+		<location id="id25" x="0" y="64">
+			<name x="16" y="48">main</name>
+			<label kind="comments" x="-10" y="99">int main( void )</label>
+			<committed/>
+		</location>
+		<location id="id26" x="0" y="128">
+			<name x="16" y="112">insertsort_init_r135</name>
+			<label kind="comments" x="-10" y="163">insertsort_init();</label>
+			<committed/>
+		</location>
+		<location id="id27" x="0" y="192">
+			<name x="16" y="176">insertsort_init_out_r135</name>
+		</location>
+		<location id="id28" x="0" y="256">
+			<name x="16" y="240">insertsort_main_r136</name>
+			<label kind="comments" x="-10" y="291">insertsort_main();</label>
+			<committed/>
+		</location>
+		<location id="id29" x="0" y="320">
+			<name x="16" y="304">insertsort_main_out_r136</name>
+		</location>
+		<location id="id30" x="0" y="384">
+			<name x="16" y="368">r137</name>
+			<label kind="invariant" x="20" y="384">localclock&lt;=r137_WCET</label>
+			<label kind="comments" x="-10" y="419">return (insertsort_return());</label>
+		</location>
+		<location id="id31" x="0" y="448">
+			<name x="16" y="432">END</name>
+			<committed/>
+		</location>
+		<init ref="id24"/>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="assignment" x="8" y="16">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="8" y="144">_insertsort_init!</label>
+			<label kind="assignment" x="8" y="160">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="assignment" x="8" y="80">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="8" y="272">_insertsort_main!</label>
+			<label kind="assignment" x="8" y="288">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="8" y="208">_insertsort_init_out?</label>
+			<label kind="assignment" x="8" y="224">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="8" y="336">_insertsort_main_out?</label>
+			<label kind="assignment" x="8" y="352">localclock:=0</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id31"/>
+			<label kind="guard" x="8" y="400">localclock&gt;=r137_WCET</label>
+			<label kind="assignment" x="8" y="416">localclock:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+p_insertsort_initialize = insertsort_initialize();
+p_insertsort_init = insertsort_init();
+p_insertsort_return = insertsort_return();
+p_insertsort_main = insertsort_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_insertsort_initialize, p_insertsort_init, p_insertsort_return, p_insertsort_main, p_main;
+</system>
+	<queries>
+	</queries>
+</nta>

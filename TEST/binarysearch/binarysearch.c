@@ -29,7 +29,7 @@
   This program is derived from the SNU-RT Benchmark Suite for Worst
   Case Timing Analysis by Sung-Soo Lim
 */
-
+#include "binarysearch.h"
 
 /*
   Forward declaration of functions
@@ -41,7 +41,7 @@ void binarysearch_init( void );
 int binarysearch_return( void );
 int binarysearch_binary_search( int );
 void binarysearch_main( void );
-
+int main( void );
 
 
 /*
@@ -50,10 +50,10 @@ void binarysearch_main( void );
 
 volatile int binarysearch_seed;
 
-struct binarysearch_DATA {
-  int key;
-  int value;
-};
+
+
+
+
 
 struct binarysearch_DATA binarysearch_data[ 15 ];
 

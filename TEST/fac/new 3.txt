@@ -1,0 +1,119 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    14:25:09 10/04/2016 
+-- Design Name: 
+-- Module Name:    Task_Trigger - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use work.FPGA_Inputs_Pkg.all;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity Task_Trigger is
+	port (
+		Clk					: in std_logic; 
+		Reset 				: in std_logic;
+		Enable				: in std_logic;
+		TestRound_Start_Flag	: in std_logic;
+		Task_Finish_Flag	: in std_logic;
+		Start_Out			: out std_logic;
+		Indicator_Out		: out std_logic;
+		Task_Trigger_Out	: out std_logic:='1';
+		Task_Start_Flag	: out std_logic
+		);
+
+end Task_Trigger;
+
+architecture Behavioral of Task_Trigger is
+	constant Serial_Cummunication_Interval: integer := Serial_Communication_MAX/2;
+	constant Input_Length_Trigger:  integer := Input_length*2 ;
+	signal Counter: integer range 0 to Input_Length_Trigger;
+	signal Delay_Counter: integer range 0 to Delay;
+	signal Task_Trigger_temp: std_logic := '0';
+	signal Start: std_logic := '0';
+	signal Task_Finish_Flag_temp :STD_LOGIC:='0';
+	signal Task_Start_Flag_temp: std_logic:='0';
+	signal Serial_Communication_Flag: std_logic:='0';
+	signal Serial_Cummunication: integer range 0 to Serial_Cummunication_Interval;
+	
+begin
+	
+	Trigger: process (Clk, Reset, Enable)
+	begin	
+	if rising_edge(Clk) then
+		if (Reset = '1') then
+			Counter	 <= 0;
+			Delay_Counter <= 0;
+			Task_Trigger_temp <= '1';
+			Task_Start_Flag_temp <= '1';
+			Start <= '0';
+		else
+			if Enable = '1' then
+				Start <= '1';
+				counter <= Input_Length_Trigger;
+				Delay_Counter <= 0;
+			end if;
+			if Start = '1' then	
+				if TestRound_Start_Flag = '1' then
+					Counter <= 0;	
+				end if;
+				
+				if (Delay_Counter < Delay ) then
+					Delay_Counter <= Delay_Counter+1;
+				else
+					if (Counter < Input_Length_Trigger) then
+						if Task_Finish_Flag_temp = '1' and Task_Finish_Flag = '0' then
+							Serial_Communication_Flag <= '1';
+						end if;
+							
+						if Serial_Communication_Flag = '1' then
+							if (Serial_Cummunication < Serial_Cummunication_Interval) then
+								Serial_Cummunication <= Serial_Cummunication + 1;
+							else
+								Task_Trigger_temp	<= '1';
+								Task_Start_Flag_temp<='1';
+								Counter <= Counter+1;	
+								Serial_Communication_Flag <= '0';	
+								Serial_Cummunication <= 0;
+															
+							end if;					
+						else
+							Task_Start_Flag_temp <='0';
+							Task_Trigger_temp <= '0';	
+						end if;	
+					end if;			
+				end if;
+				Task_Finish_Flag_temp <= Task_Finish_Flag;
+			end if;
+		end if;	
+	end if;
+	end process Trigger;
+	Task_Trigger_Out <= Task_Trigger_temp;
+	Task_Start_Flag <= Task_Start_Flag_temp;
+	Indicator_Out <= Task_Start_Flag_temp;
+	Start_Out <= Start;
+
+end Behavioral;

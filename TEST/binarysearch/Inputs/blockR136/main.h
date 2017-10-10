@@ -1,6 +1,7 @@
 /* Automatically-generated file. Do not edit! */ 
 
 /*Include headerfiles*/
+#include "../../binarysearch.h"
 #include <stdio.h>
 #include <avr/io.h>
 /*Define macros*/

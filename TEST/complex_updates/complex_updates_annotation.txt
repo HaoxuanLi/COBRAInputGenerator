@@ -1,0 +1,8 @@
+int i 60 0 15 69
+int i 60 0 15 70
+int i 60 0 15 71
+int i 60 0 15 72
+registerint i 79 0 15 0
+float check_sum 97 0 0 0
+int i 98 0 15 100
+int i 115 0 16 0

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='utf-8'?><!DOCTYPE nta SYSTEM 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// Created with COBRA-Framework Export Tool v0.1
+// Developed by: Thomas Huybrechts - MOSAIC 2016
+// Place global variables here.
+clock globalclock;
+chan  _prime_initSeed, _prime_initSeed_out, _prime_randomInteger, _prime_randomInteger_out, _prime_init, _prime_init_out, _prime_return, _prime_return_out, _prime_divides, _prime_divides_out, _prime_even, _prime_even_out, _prime_prime, _prime_prime_out, _prime_swap, _prime_swap_out, _prime_main, _prime_main_out, _main, _main_out;
+</declaration>
+<template>
+<name x="5" y="5">prime_initSeed</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r55_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_initSeed</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void prime_initSeed()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r55</name><label kind="invariant" x="20" y="128">localclock&lt;=r55_WCET</label><label kind="comments">prime_seed = 0;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_initSeed?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r55_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-100" y="128">_prime_initSeed_out!</label><label kind="assignment" x="-100" y="144">localclock:=0</label><nail x="-105" y="192"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_randomInteger</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r61_WCET=, r62_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_randomInteger</name><label kind="invariant" x="20" y="64"></label><label kind="comments">unsigned int prime_randomInteger()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r61</name><label kind="invariant" x="20" y="128">localclock&lt;=r61_WCET</label><label kind="comments">prime_seed = ( ( prime_seed * 133 ) + 81 ) % 8095;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r62</name><label kind="invariant" x="20" y="192">localclock&lt;=r62_WCET</label><label kind="comments">return ( prime_seed );</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_randomInteger?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r61_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r62_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id0"/><label kind="synchronisation" x="-100" y="192">_prime_randomInteger_out!</label><label kind="assignment" x="-100" y="208">localclock:=0</label><nail x="-105" y="256"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_init</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r70_WCET=, r71_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_init</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void prime_init ()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">prime_initSeed_r68</name><label kind="invariant" x="20" y="128"></label><label kind="comments">prime_initSeed();</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">prime_initSeed_out_r68</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r70</name><label kind="invariant" x="20" y="256">localclock&lt;=r70_WCET</label><label kind="comments">prime_x = prime_randomInteger();</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r71</name><label kind="invariant" x="20" y="320">localclock&lt;=r71_WCET</label><label kind="comments">prime_y = prime_randomInteger();</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_init?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_prime_initSeed!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_prime_initSeed_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r70_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r71_WCET</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id0"/><label kind="synchronisation" x="-100" y="320">_prime_init_out!</label><label kind="assignment" x="-100" y="336">localclock:=0</label><nail x="-105" y="384"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_return</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r77_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_return</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int prime_return ()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r77</name><label kind="invariant" x="20" y="128">localclock&lt;=r77_WCET</label><label kind="comments">return prime_result;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_return?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r77_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-100" y="128">_prime_return_out!</label><label kind="assignment" x="-100" y="144">localclock:=0</label><nail x="-105" y="192"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_divides</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r87_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_divides</name><label kind="invariant" x="20" y="64"></label><label kind="comments">unsigned char prime_divides ( unsigned int n, unsigned int m )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r87</name><label kind="invariant" x="20" y="128">localclock&lt;=r87_WCET</label><label kind="comments">return ( m % n == 0 );</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_divides?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r87_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-100" y="128">_prime_divides_out!</label><label kind="assignment" x="-100" y="144">localclock:=0</label><nail x="-105" y="192"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_even</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r93_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_even</name><label kind="invariant" x="20" y="64"></label><label kind="comments">unsigned char prime_even ( unsigned int n )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r93</name><label kind="invariant" x="20" y="128">localclock&lt;=r93_WCET</label><label kind="comments">return ( prime_divides ( 2, n ) );</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_even?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r93_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-100" y="128">_prime_even_out!</label><label kind="assignment" x="-100" y="144">localclock:=0</label><nail x="-105" y="192"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_prime</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r99_WCET=, r100_WCET=, r101_WCET=, r104_WCET=, r104_init_WCET=, r104_cond_WCET=, r105_r106_WCET=, r104_post_WCET=, r108_WCET=;
+int r104_Counter = 0;
+int r104_LoopBound =null;
+
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_prime</name><label kind="invariant" x="20" y="64"></label><label kind="comments">unsigned char prime_prime ( unsigned int n )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r99</name><label kind="invariant" x="20" y="128">localclock&lt;=r99_WCET</label><label kind="comments">unsigned int i;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">r100</name><label kind="invariant" x="20" y="192">localclock&lt;=r100_WCET</label><label kind="comments">if ( prime_even ( n ) )</label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r101</name><label kind="invariant" x="20" y="256">localclock&lt;=r101_WCET</label><label kind="comments">return ( n == 2 );</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">r104</name><label kind="invariant" x="20" y="320">localclock&lt;=r104_WCET</label><label kind="comments">for ( i = 3; i * i &lt;= n; i += 2 )</label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r104_init</name><label kind="invariant" x="20" y="384">localclock&lt;=r104_init_WCET</label><label kind="comments"> i = 3;</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">r104_cond</name><label kind="invariant" x="20" y="448">localclock&lt;=r104_cond_WCET</label><label kind="comments">for( ;  i * i &lt;= n ; )</label></location>
+<location id="id8" x="0" y="512"><name x="16" y="496">r105_r106</name><label kind="invariant" x="20" y="512">localclock&lt;=r105_r106_WCET</label><label kind="comments">if ( prime_divides ( i, n ) )
+{
+	return 0;
+}</label></location>
+<location id="id9" x="0" y="576"><name x="16" y="560">r104_post</name><label kind="invariant" x="20" y="576">localclock&lt;=r104_post_WCET</label><label kind="comments"> i += 2 ;</label></location>
+<location id="id10" x="0" y="640"><name x="16" y="624">r108</name><label kind="invariant" x="20" y="640">localclock&lt;=r108_WCET</label><label kind="comments">return ( n &gt; 1 );</label></location>
+<location id="id11" x="0" y="704"><name x="16" y="688">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_prime?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r99_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="guard" x="8" y="208">localclock&gt;=r100_WCET</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id11"/><label kind="guard" x="110" y="272">localclock&gt;=r101_WCET</label><label kind="assignment" x="110" y="288">localclock:=0</label><nail x="105" y="256"/><nail x="105" y="704"/></transition>"
+<transition><source ref="id3"/><target ref="id5"/><label kind="guard" x="110" y="208">localclock&gt;=r100_WCET</label><label kind="assignment" x="110" y="224">localclock:=0</label><nail x="105" y="192"/><nail x="105" y="320"/></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="guard" x="8" y="336">localclock&gt;=r104_WCET</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r104_init_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+<transition><source ref="id7"/><target ref="id8"/><label kind="guard" x="8" y="464">localclock&gt;=r104_cond_WCET&amp;&amp; (r104_Counter &lt; r104_LoopBound)</label><label kind="assignment" x="8" y="480">localclock:=0</label></transition>"
+<transition><source ref="id8"/><target ref="id9"/><label kind="guard" x="8" y="528">localclock&gt;=r105_r106_WCET</label><label kind="assignment" x="8" y="544">localclock:=0</label></transition>"
+<transition><source ref="id9"/><target ref="id7"/><label kind="guard" x="-100" y="512">localclock&gt;=r104_post_WCET</label><label kind="assignment" x="-100" y="528">localclock:=0, r104_Counter++</label><nail x="-105" y="576"/><nail x="-105" y="448"/></transition>"
+<transition><source ref="id7"/><target ref="id10"/><label kind="guard" x="110" y="464">localclock&gt;=r104_cond_WCET&amp;&amp; !(r104_Counter &lt; r104_LoopBound)</label><label kind="assignment" x="110" y="480">localclock:=0, r104_Counter:=0</label><nail x="105" y="448"/><nail x="105" y="640"/></transition>"
+<transition><source ref="id10"/><target ref="id11"/><label kind="guard" x="8" y="656">localclock&gt;=r108_WCET</label><label kind="assignment" x="8" y="672">localclock:=0</label></transition>"
+<transition><source ref="id11"/><target ref="id0"/><label kind="synchronisation" x="-100" y="640">_prime_prime_out!</label><label kind="assignment" x="-100" y="656">localclock:=0</label><nail x="-105" y="704"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_swap</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r114_r116_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_swap</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void prime_swap ( unsigned int *a, unsigned int *b )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">r114_r116</name><label kind="invariant" x="20" y="128">localclock&lt;=r114_r116_WCET</label><label kind="comments">unsigned int tmp = *a;
+  *a = *b;
+  *b = tmp;</label></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_swap?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="guard" x="8" y="144">localclock&gt;=r114_r116_WCET</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-100" y="128">_prime_swap_out!</label><label kind="assignment" x="-100" y="144">localclock:=0</label><nail x="-105" y="192"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">prime_main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r128_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">prime_main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">void _Pragma( &quot;entrypoint&quot; ) prime_main()</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">prime_swap_r126</name><label kind="invariant" x="20" y="128"></label><label kind="comments">prime_swap ( &amp;prime_x, &amp;prime_y );</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">prime_swap_out_r126</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">r128</name><label kind="invariant" x="20" y="256">localclock&lt;=r128_WCET</label><label kind="comments">prime_result = !( !prime_prime( prime_x ) &amp;&amp; !prime_prime( prime_y ) );</label></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="synchronisation" x="8" y="16">_prime_main?</label><label kind="assignment" x="8" y="32">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_prime_swap!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_prime_swap_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="guard" x="8" y="272">localclock&gt;=r128_WCET</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id0"/><label kind="synchronisation" x="-100" y="256">_prime_main_out!</label><label kind="assignment" x="-100" y="272">localclock:=0</label><nail x="-105" y="320"/><nail x="-105" y="0"/></transition>"
+</template>
+<template>
+<name x="5" y="5">main</name>
+<parameter></parameter>
+<declaration>// Place local variables here.
+int r137_WCET=;
+clock localclock;
+</declaration>
+<location id="id0" x="0" y="0"><name x="16" y="-16">START</name><label kind="invariant" x="20" y="0"></label><label kind="comments"></label><committed/></location>
+<location id="id1" x="0" y="64"><name x="16" y="48">main</name><label kind="invariant" x="20" y="64"></label><label kind="comments">int main( void )</label><committed/></location>
+<location id="id2" x="0" y="128"><name x="16" y="112">prime_init_r134</name><label kind="invariant" x="20" y="128"></label><label kind="comments">prime_init();</label><committed/></location>
+<location id="id3" x="0" y="192"><name x="16" y="176">prime_init_out_r134</name><label kind="invariant" x="20" y="192"></label><label kind="comments"></label></location>
+<location id="id4" x="0" y="256"><name x="16" y="240">prime_main_r135</name><label kind="invariant" x="20" y="256"></label><label kind="comments">prime_main();</label><committed/></location>
+<location id="id5" x="0" y="320"><name x="16" y="304">prime_main_out_r135</name><label kind="invariant" x="20" y="320"></label><label kind="comments"></label></location>
+<location id="id6" x="0" y="384"><name x="16" y="368">r137</name><label kind="invariant" x="20" y="384">localclock&lt;=r137_WCET</label><label kind="comments">return ( prime_return() ) ;</label></location>
+<location id="id7" x="0" y="448"><name x="16" y="432">END</name><label kind="comments"></label><committed/></location>
+<init ref="id0"/>
+<transition><source ref="id0"/><target ref="id1"/><label kind="assignment" x="8" y="16">localclock:=0</label></transition>"
+<transition><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="8" y="144">_prime_init!</label><label kind="assignment" x="8" y="160">localclock:=0</label></transition>"
+<transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="8" y="80">localclock:=0</label></transition>"
+<transition><source ref="id4"/><target ref="id5"/><label kind="synchronisation" x="8" y="272">_prime_main!</label><label kind="assignment" x="8" y="288">localclock:=0</label></transition>"
+<transition><source ref="id3"/><target ref="id4"/><label kind="synchronisation" x="8" y="208">_prime_init_out?</label><label kind="assignment" x="8" y="224">localclock:=0</label></transition>"
+<transition><source ref="id5"/><target ref="id6"/><label kind="synchronisation" x="8" y="336">_prime_main_out?</label><label kind="assignment" x="8" y="352">localclock:=0</label></transition>"
+<transition><source ref="id6"/><target ref="id7"/><label kind="guard" x="8" y="400">localclock&gt;=r137_WCET</label><label kind="assignment" x="8" y="416">localclock:=0</label></transition>"
+</template>
+<system>// Place template instantiations here.
+
+p_prime_initSeed = prime_initSeed();
+p_prime_randomInteger = prime_randomInteger();
+p_prime_init = prime_init();
+p_prime_return = prime_return();
+p_prime_divides = prime_divides();
+p_prime_even = prime_even();
+p_prime_prime = prime_prime();
+p_prime_swap = prime_swap();
+p_prime_main = prime_main();
+p_main = main();
+
+// List one or more processes to be composed into a system.
+system p_prime_initSeed, p_prime_randomInteger, p_prime_init, p_prime_return, p_prime_divides, p_prime_even, p_prime_prime, p_prime_swap, p_prime_main, p_main;
+</system></nta>
