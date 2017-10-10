@@ -5,214 +5,35 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.*;
 
-class Variable {
-	private String variable;
-	private Integer lineNumber;
-//	private boolean isarray = false;
-//	private String arraysize;
+import VariableClasses.Declaration;
+import VariableClasses.StructDeclaration;
+import VariableClasses.Variable;
 
-	public String getVariable() {
-		return variable;
-	}
 
-	public void setVariable(String variable) {
-		this.variable = variable;
-	}
 
-	public Integer getLineNumber() {
-		return lineNumber;
-	}
 
-	public void setLineNumber(Integer lineNumber) {
-		this.lineNumber = lineNumber;
-	}
 
-/*	public boolean getIsArray() {
-		return isarray;
-	}
 
-	public void setIsArray(boolean isarray) {
-		this.isarray = isarray;
-	}
-
-	public String getArraySize() {
-		return arraysize;
-	}
-
-	public void setArraySize(String arraysize) {
-		this.arraysize = arraysize;
-	}
-	*/
-}
-
-class Declaration {
-	private String variableType;
-	private String variable;
-	private Integer lineNumber;
-	private String variablemax;
-	private String variablemin;
-	private boolean isarray;
-	private String arraysize;
-
-	public String getVariableType() {
-		return variableType;
-	}
-
-	public void setVariableType(String variableType) {
-		this.variableType = variableType;
-	}
-
-	public String getVariable() {
-		return variable;
-	}
-
-	public void setVariable(String variable) {
-		this.variable = variable;
-	}
-
-	public Integer getLineNumber() {
-		return lineNumber;
-	}
-
-	public void setLineNumber(Integer lineNumber) {
-		this.lineNumber = lineNumber;
-	}
-
-	public String getVariableMax() {
-		return variablemax;
-	}
-
-	public void setVariableMax(String variablemax) {
-		this.variablemax = variablemax;
-	}
-
-	public String getVariableMin() {
-		return variablemin;
-	}
-
-	public void setVariableMin(String variablemin) {
-		this.variablemin = variablemin;
-	}
-
-	public boolean getIsArray() {
-		return isarray;
-	}
-
-	public void setIsArray(boolean isarray) {
-		this.isarray = isarray;
-	}
-
-	public String getArraySize() {
-		return arraysize;
-	}
-
-	public void setArraySize(String arraysize) {
-		this.arraysize = arraysize;
-	}
-}
-
-class StructDeclaration {
-	private String structname;
-	private String variableType;
-	private String variable;
-	private Integer lineNumber;
-	private String variablemax;
-	private String variablemin;
-	private String targetfile;
-	private boolean isarray;
-	private String arraysize;
-
-	public String getStructName() {
-		return structname;
-	}
-
-	public void setStructName(String structname) {
-		this.structname = structname;
-	}
-
-	public String getVariableType() {
-		return variableType;
-	}
-
-	public void setVariableType(String variableType) {
-		this.variableType = variableType;
-	}
-
-	public String getVariable() {
-		return variable;
-	}
-
-	public void setVariable(String variable) {
-		this.variable = variable;
-	}
-
-	public Integer getLineNumber() {
-		return lineNumber;
-	}
-
-	public void setLineNumber(Integer lineNumber) {
-		this.lineNumber = lineNumber;
-	}
-
-	public String getVariableMax() {
-		return variablemax;
-	}
-
-	public void setVariableMax(String variablemax) {
-		this.variablemax = variablemax;
-	}
-
-	public String getVariableMin() {
-		return variablemin;
-	}
-
-	public void setVariableMin(String variablemin) {
-		this.variablemin = variablemin;
-	}
-
-	public String getTargetFile() {
-		return targetfile;
-	}
-
-	public void setTargetFile(String targetfile) {
-		this.targetfile = targetfile;
-	}
-
-	public boolean getIsArray() {
-		return isarray;
-	}
-
-	public void setIsArray(boolean isarray) {
-		this.isarray = isarray;
-	}
-
-	public String getArraySize() {
-		return arraysize;
-	}
-
-	public void setArraySize(String arraysize) {
-		this.arraysize = arraysize;
-	}
-}
-
-public class InputsGeneratorParser {
+public class CobraCCodeParser {
 
 	List<Variable> leftVariableList = new ArrayList<Variable>();
 	List<Variable> rightVariableList = new ArrayList<Variable>();
 	List<Declaration> declarationList = new ArrayList<Declaration>();
 	List<StructDeclaration> structdeclarationList = new ArrayList<StructDeclaration>();
-	String blocklocaldeclaration = "";
+	String blockLocalDeclaration = "";
 	int lineNumber = 0;
 	String type = "";
 	String pointer = "";
-	String structname = "";
-	Boolean isarray = false;
-
-	InputsGeneratorParser() {
+	String structName = "";
+	String arraySize = "";
+	Boolean isArray = false;
+	Boolean isForLoopCounter = false;
+	
+	CobraCCodeParser() {
 
 	}
 
-	InputsGeneratorParser(String code) {
+	CobraCCodeParser(String code) {
 		CharStream charStream = new ANTLRInputStream(code);
 		CLexer lexer = new CLexer(charStream);
 		lexer.removeErrorListeners();
@@ -279,6 +100,8 @@ public class InputsGeneratorParser {
 	}
 
 	class BenchmarkNodeFunctionListener extends CBaseListener {
+		
+
 
 		@Override
 		public void enterDeclaration(CParser.DeclarationContext ctx) {
@@ -296,12 +119,11 @@ public class InputsGeneratorParser {
 			if (ctx.getText().contains(";")) {
 				if (!ctx.getText().contains("(")) {
 					blocklocaldeclaration_temp = type + " " + initdeclaratorlist + ";" + "\n";
-					blocklocaldeclaration = blocklocaldeclaration + blocklocaldeclaration_temp;
+					blockLocalDeclaration = blockLocalDeclaration + blocklocaldeclaration_temp;
 				} else if (ctx.getText().contains("=")) {
 					blocklocaldeclaration_temp = type + " " + initdeclaratorlist + ";" + "\n";
-					blocklocaldeclaration = blocklocaldeclaration + blocklocaldeclaration_temp;
+					blockLocalDeclaration = blockLocalDeclaration + blocklocaldeclaration_temp;
 				}
-				// System.out.println(blocklocaldeclaration_temp);
 			}
 
 		}
@@ -321,27 +143,29 @@ public class InputsGeneratorParser {
 		@Override
 		public void enterDeclarator(CParser.DeclaratorContext ctx) {
 			pointer = "";
-			if (ctx.pointer() != null) {
+			if (ctx.pointer()!=null && ctx.pointer().getText().equals("*")) {
 				pointer = "*";
 			}
-
 		}
 		
 		@Override
 		public void enterDirectDeclarator(CParser.DirectDeclaratorContext ctx) {
-			if(ctx.getText().replaceAll(" ","").matches("^\\w*\\[.*\\]"))
-				isarray = true;
+			if(ctx.getText().replaceAll(" ","").matches("^\\w*\\[.*\\]")){
+				isArray = true;
+				arraySize = ctx.getText().replaceFirst("[^\\[]*\\[", "").replaceAll("\\]$", "").replaceAll("\\]\\[", ",");
+				}		
 			
 			if (ctx.Identifier() != null) {
 				Declaration declaration = new Declaration();
-				declaration.setVariableType(type);
-				declaration.setVariable(pointer + ctx.getText());
+				declaration.setDeclarationType(type);
+				declaration.setDeclarationName(pointer + ctx.getText().replaceAll("\\s+", "").replaceAll("\\[.*", ""));
 				declaration.setLineNumber(ctx.start.getLine());
-				declaration.setIsArray(isarray);
+				declaration.setIsArray(isArray);
+				declaration.setArraySize(arraySize);
 				declarationList.add(declaration);
-				isarray = false;
+				isArray = false;
+				arraySize = "";
 			}
-
 		}
 
 		@Override
@@ -373,6 +197,7 @@ public class InputsGeneratorParser {
 					Interval interval = new Interval(a, b);
 					ParserAssignment(
 							"[LineNumber: " + ctx.start.getLine() + "]" + ctx.start.getInputStream().getText(interval));
+					//System.out.println(ctx.start.getInputStream().getText(interval));
 				}
 			} catch (Exception e) {
 			}
@@ -381,29 +206,44 @@ public class InputsGeneratorParser {
 
 		@Override
 		public void enterStructOrUnionSpecifier(CParser.StructOrUnionSpecifierContext ctx) {
-			if (ctx.getText().contains("{") && ctx.Identifier() != null)
-				structname = ctx.Identifier().getText();
+			if (ctx.getText().contains("{") && ctx.Identifier() != null){
+				StructDeclaration structDeclaration = new StructDeclaration();
+				structName = ctx.Identifier().getText();
+				String structDelcarationType = ctx.structOrUnion().getText();
+				String structDeclarationName = ctx.Identifier().getText();
+				structDeclaration.setDeclarationType(structDelcarationType);
+				structDeclaration.setDeclarationName(structDeclarationName);
+				structdeclarationList.add(structDeclaration);
+				
+			}
 			if (ctx.Identifier() == null)
 				System.out.println(
 						"Struct declaration without struct name is not  impelemented, inputs file may be wrong!");
 		}
+		
 
 		@Override
 		public void enterSpecifierQualifierList(CParser.SpecifierQualifierListContext ctx) {
 			type = ctx.getText();
-			// System.out.println(type);
-
 		}
 
 		@Override
 		public void enterStructDeclarator(CParser.StructDeclaratorContext ctx) {
-			StructDeclaration structdeclaration = new StructDeclaration();
-			structdeclaration.setStructName(structname);
-			structdeclaration.setVariableType(type);
-			structdeclaration.setVariable(ctx.getText());
-			structdeclaration.setLineNumber(ctx.start.getLine());
-			structdeclarationList.add(structdeclaration);
-			// System.out.println(type + ctx.getText());
+		//	System.out.print("\n"+ctx.getText()+"\n");
+			Declaration nonStructComponent = new Declaration();
+			Boolean isArray_Local=false;
+			String arraySize_Local="";
+			nonStructComponent.setDeclarationName(ctx.getText().replaceAll("\\s+", "").replaceAll("\\[.*", ""));
+			nonStructComponent.setDeclarationType(type);
+			
+			if(ctx.getText().replaceAll(" ","").matches("^\\w*\\[.*\\]")){
+				isArray_Local = true;
+				arraySize_Local = ctx.getText().replaceFirst("[^\\[]*\\[", "").replaceAll("\\]$", "").replaceAll("\\]\\[", ",");
+			}		
+			nonStructComponent.setIsArray(isArray_Local);
+			nonStructComponent.setArraySize(arraySize_Local);
+			
+			structdeclarationList.get(structdeclarationList.size()-1).addNonStructComponentToList(nonStructComponent);
 		}
 
 	}
@@ -411,7 +251,7 @@ public class InputsGeneratorParser {
 	// List<Data> list = new ArrayList<Data>();
 
 	class AssignmentTreeListener extends CBaseListener {
-
+		
 		@Override
 		public void enterLineNumber(CParser.LineNumberContext ctx) {
 			lineNumber = Integer.parseInt(ctx.getText());
@@ -421,27 +261,33 @@ public class InputsGeneratorParser {
 		@Override
 		public void enterRightExpression(CParser.RightExpressionContext ctx) {
 			pointer = "";
-			if (ctx.pointer() != null) {
+			if (ctx.pointer()!=null && ctx.pointer().getText().equals("*")) {
 				pointer = "*";
 			}
 		}
-
+		
+		@Override
+		public void enterForIterationPrefix(CParser.ForIterationPrefixContext ctx){
+			//System.out.println(ctx.getParent().getText());
+			isForLoopCounter = true;
+		}
 		@Override
 		public void enterRightVariable(CParser.RightVariableContext ctx) {
 			if (ctx.Identifier() != null) {
 				Variable rightVariable = new Variable();
-				rightVariable.setVariable(pointer + ctx.getText());
+				rightVariable.setVariableName(pointer + ctx.getText());
 				rightVariable.setLineNumber(lineNumber);
+				rightVariable.setIsForLoopCounter(isForLoopCounter);
 				rightVariableList.add(rightVariable);
-				// System.out.print("right: " + ctx.getText() + lineNumber +
-				// "\n");
+				isForLoopCounter = false;
 			}
+			
 		}
 
 		@Override
 		public void enterLeftExpression(CParser.LeftExpressionContext ctx) {
 			pointer = "";
-			if (ctx.pointer() != null) {
+			if (ctx.pointer()!=null && ctx.pointer().getText().equals("*")) {
 				pointer = "*";
 			}
 		}
@@ -450,13 +296,12 @@ public class InputsGeneratorParser {
 		public void enterLeftVariable(CParser.LeftVariableContext ctx) {
 			if (ctx.Identifier() != null) {
 				Variable leftVariable = new Variable();
-				leftVariable.setVariable(pointer + ctx.getText());
+				leftVariable.setVariableName(pointer + ctx.getText());
 				leftVariable.setLineNumber(lineNumber);
 				leftVariableList.add(leftVariable);
 				// System.out.print("left: "+ctx.getText() + lineNumber +"\n");
 			}
 		}
-
 	}
 
 	class RelationalExpressionTreeListener extends CBaseListener {
@@ -464,22 +309,23 @@ public class InputsGeneratorParser {
 		public void enterLineNumber(CParser.LineNumberContext ctx) {
 			lineNumber = Integer.parseInt(ctx.getText());
 		}
-
+		
+		@Override
+		public void enterForIterationPrefix(CParser.ForIterationPrefixContext ctx){
+			isForLoopCounter = true;
+			System.out.println(ctx.getText());
+		}
 		@Override
 		public void enterRightVariable(CParser.RightVariableContext ctx) {
 			if (ctx.Identifier() != null) {
 				Variable rightVariable = new Variable();
-				rightVariable.setVariable(ctx.getText());
+				rightVariable.setVariableName(ctx.getText());
 				rightVariable.setLineNumber(lineNumber);
+				rightVariable.setIsForLoopCounter(isForLoopCounter);
 				rightVariableList.add(rightVariable);
+				isForLoopCounter = false;
 			}
-
 		}
-
-	}
-
-	public void getContext() {
-
 	}
 
 	public static class ThrowingErrorListener extends BaseErrorListener {
@@ -495,9 +341,7 @@ public class InputsGeneratorParser {
 				// recovery mode.
 				e = new InlineRecognitionException(msg, recognizer, ((Parser) recognizer).getInputStream(),
 						((Parser) recognizer).getContext(), (Token) offendingSymbol);
-
 			}
-
 			ParserRuleContext syntaxerrorctx = (ParserRuleContext) e.getCtx();
 
 			while (syntaxerrorctx.getChildCount() != 0) {
@@ -554,7 +398,7 @@ public class InputsGeneratorParser {
 	}
 
 	public String getBlockLocalDeclaration() {
-		return blocklocaldeclaration;
+		return blockLocalDeclaration;
 
 	}
 
