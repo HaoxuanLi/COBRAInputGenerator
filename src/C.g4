@@ -116,7 +116,11 @@ leftVariable
 	;
 	
 rightVariable
-	:  	functionCall
+
+	:	Sizeof rightVariable
+    |   Sizeof '(' typeName ')'
+    |   Alignof '(' typeName ')'  	
+    | 	functionCall
 	|	Identifier
     |   Constant
     |   StringLiteral+
@@ -129,9 +133,7 @@ rightVariable
     |   '++' rightVariable 
     |   '--' rightVariable 
     |	'(' rightVariable ')'
-    |	'sizeof' rightVariable
-    |   'sizeof' '(' typeName ')'
-    |   '_Alignof' '(' typeName ')'
+
 	;
 
 primaryExpression
@@ -593,8 +595,8 @@ selectionStatement
 iterationStatement
     :   'while' '(' expression ')' statement
     |   'do' statement 'while' '(' expression ')' ';'
-    |   'for' '(' expression? ';' expression? ';' expression? ')' statement
-    |   'for' '(' declaration expression? ';' expression? ')' statement
+    |   forIterationPrefix expression? ';' expression? ';' expression? ')' statement
+    |   forIterationPrefix declaration expression? ';' expression? ')' statement
     ;  
 
 jumpStatement

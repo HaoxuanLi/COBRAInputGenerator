@@ -54,8 +54,8 @@ int main(void){
 	asm(
 	"in	r14, 0x3d\n\t"
 	"in	r15, 0x3e\n\t"
-	"sts	0x0afd, r14\n\t"
-	"sts	0xafe, r15\n\t"
+	"sts	0x1517, r14\n\t"
+	"sts	0x1518, r15\n\t"
 	);
 	/*GPIO Pins*/
 	DDRA = 0x00;
@@ -79,7 +79,7 @@ int main(void){
 	/*Enable external interrupt handler*/
 	sei();
 	/*while loop*/
-	while(measurementRoundCounter<20){}
+	while(measurementRoundCounter<5000){}
 	/*Return*/
 	return(1);
 }

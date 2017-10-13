@@ -66,9 +66,9 @@ public class InputGenerator {
 	}
 
 	public void createInputDeclarationList() throws IOException {
-		List<Variable> rightVariableList = getRightVariableList();
+		this.rightVariableList = getRightVariableList();
 
-		addDeclartionsOfRightVariablesToTheList(rightVariableList, this.inputDeclarationList);
+		addDeclartionsOfRightVariablesToTheList(this.rightVariableList, this.inputDeclarationList);
 	}
 
 	public List<Variable> getRightVariableList() throws IOException {
@@ -251,7 +251,7 @@ public class InputGenerator {
 			// there is no need to add loop counters
 			if (getIsDeclarationForThisRightVariable(declaration, rightVariable)
 					&& !getIsDeclarationAlreadyExistInDeclarationList(declaration, declarationListOfTheBlock)
-					&& !rightVariable.getIsForLoopCounter() && !getIsDeclarationAPointer(declaration)) {
+					&& !(declaration.getIsForLoopCounter() && rightVariable.getIsForLoopCounter()) && !getIsDeclarationAPointer(declaration)) {
 				declarationListOfTheBlock.add(declaration);
 			}
 		}
@@ -309,7 +309,7 @@ public class InputGenerator {
 				inputsLogFileFormatter.format("%s", inputsTxtFileReaderLine + "\n");
 			}
 
-			inputsLogFileFormatter.format("%s", inputsTxtFileReaderLine + "\n\n\n");
+			inputsLogFileFormatter.format("%s", "\n\n");
 			inputsTxtFileReader.close();
 			inputsLogFileFormatter.close();
 		}
@@ -443,7 +443,7 @@ public class InputGenerator {
 		for (Annotation annotation : this.annotationList) {
 			for (Declaration nonStructInput : this.nonStructInputList) {
 				if (getIsAnnotationForOneInputAtASpecificLocation(annotation)) {
-					integrateAnnotationForNonStructInputAtASpecificLocation(annotation, nonStructInput);
+					integrateAnnotationForNonStructInputAtASpecificLocation(annotation, nonStructInput);			
 				} else {
 					// if (declaration.getIsArray())
 					// integrateAnnotationForAllTheNonSpecificInputsOfThisStructDefinitionDeclaration(annotation,
@@ -499,6 +499,7 @@ public class InputGenerator {
 	}
 
 	private void integrateAnnotationForNonStructInputAtASpecificLocation(Annotation annotation, Declaration input) {
+	
 		if (!getIsAnnotationForStructComponentVariable(annotation)) {
 			for (Variable variable : this.rightVariableList) {
 				if (variable.getLineNumber().equals(annotation.getVariableLineNumber())
@@ -754,7 +755,7 @@ public class InputGenerator {
 			this.randomFormatter.format("%s",
 					"temp = replace.sub(\"\\s+|\\n\",\",\", temp).replace(\"{,\",\"{\").replace(\",}\",\"}\").replace(\",,\",\",\") \n");
 			this.randomFormatter.format("%s", "print(\'" + inputType + " " + inputName + "_inputs["
-					+ this.generatedInputLength + "] = \' + temp + \';\' " + ") \n");
+					+ this.generatedInputLength + "] = \' + temp  " + ") \n");
 		} else {
 			this.randomFormatter.format("%s",
 					"temp = str(" + "np.random." + inputDistributionType + "(low=" + min + ",high=" + max + "+1"
@@ -765,7 +766,7 @@ public class InputGenerator {
 					"temp = temp.replace(\"[,\",\"[\").replace(\",]\",\"]\").replace(\"[\",\"{\").replace(\"]\",\"}\")\n");
 			this.randomFormatter.format("%s",
 					"print(\'" + inputType + " " + inputName + "_inputs[" + this.generatedInputLength + "]" + "["
-							+ arraySize.replace(",", "][") + "]" + "= \' + temp + \';\' " + ") \n");
+							+ arraySize.replace(",", "][") + "]" + "= \' + temp  " + ") \n");
 		}
 	}
 

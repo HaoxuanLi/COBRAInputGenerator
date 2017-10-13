@@ -84,8 +84,8 @@ public class WCET {
 			new OriginalFileModifier( this.wcetTargetInfo);
 			a1.cleanprogramfile();
 			a1.makeprogramfile();
-			a1.eraseprogram();
-			a1.deployprogram();
+		//	a1.eraseprogram();
+		//	a1.deployprogram();
 		} else if (stepNumber == "3") {
 			new ProcessorTemplateMainFileGenerator(this.wcetTargetInfo);
 			a1.cleanprogramfile();
@@ -103,8 +103,7 @@ public class WCET {
 			a1.cleanprogramfile();
 			a1.makeprogramfile();
 			inputsSourceFileGenerator.constructSourseFileForInsertingBlockContentToTimingMeasurementModule(); //adjust the rcall target address as it changed
-		}
-		else if (stepNumber == "5") {
+		} else if (stepNumber == "5") {
 			inputsSourceFileGenerator.finalStepToAdjustRcall();
 			new OriginalFileModifier(this.wcetTargetInfo);
 			a1.cleanprogramfile();
@@ -112,10 +111,6 @@ public class WCET {
 			a1.eraseprogram();
 			a1.deployprogram();
 		}
-
-
-
-		//
 
 		return;
 	}

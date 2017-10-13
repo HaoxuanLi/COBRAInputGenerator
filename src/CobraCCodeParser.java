@@ -9,25 +9,19 @@ import VariableClasses.Declaration;
 import VariableClasses.StructDeclaration;
 import VariableClasses.Variable;
 
-
-
-
-
-
 public class CobraCCodeParser {
 
-	List<Variable> leftVariableList = new ArrayList<Variable>();
-	List<Variable> rightVariableList = new ArrayList<Variable>();
-	List<Declaration> declarationList = new ArrayList<Declaration>();
-	List<StructDeclaration> structdeclarationList = new ArrayList<StructDeclaration>();
-	String blockLocalDeclaration = "";
-	int lineNumber = 0;
-	String type = "";
-	String pointer = "";
-	String structName = "";
-	String arraySize = "";
-	Boolean isArray = false;
-	Boolean isForLoopCounter = false;
+	private List<Variable> leftVariableList = new ArrayList<Variable>();
+	private List<Variable> rightVariableList = new ArrayList<Variable>();
+	private List<Declaration> declarationList = new ArrayList<Declaration>();
+	private List<StructDeclaration> structdeclarationList = new ArrayList<StructDeclaration>();
+	private String blockLocalDeclaration = "";
+	private int lineNumber = 0;
+	private String type = "";
+	private String pointer = "";
+	private String arraySize = "";
+	private Boolean isArray = false;
+	private String forLoopCounterName;
 	
 	CobraCCodeParser() {
 
@@ -100,8 +94,6 @@ public class CobraCCodeParser {
 	}
 
 	class BenchmarkNodeFunctionListener extends CBaseListener {
-		
-
 
 		@Override
 		public void enterDeclaration(CParser.DeclarationContext ctx) {
@@ -143,18 +135,19 @@ public class CobraCCodeParser {
 		@Override
 		public void enterDeclarator(CParser.DeclaratorContext ctx) {
 			pointer = "";
-			if (ctx.pointer()!=null && ctx.pointer().getText().equals("*")) {
+			if (ctx.pointer() != null && ctx.pointer().getText().equals("*")) {
 				pointer = "*";
 			}
 		}
-		
+
 		@Override
 		public void enterDirectDeclarator(CParser.DirectDeclaratorContext ctx) {
-			if(ctx.getText().replaceAll(" ","").matches("^\\w*\\[.*\\]")){
+			if (ctx.getText().replaceAll(" ", "").matches("^\\w*\\[.*\\]")) {
 				isArray = true;
-				arraySize = ctx.getText().replaceFirst("[^\\[]*\\[", "").replaceAll("\\]$", "").replaceAll("\\]\\[", ",");
-				}		
-			
+				arraySize = ctx.getText().replaceFirst("[^\\[]*\\[", "").replaceAll("\\]$", "").replaceAll("\\]\\[",
+						",");
+			}
+
 			if (ctx.Identifier() != null) {
 				Declaration declaration = new Declaration();
 				declaration.setDeclarationType(type);
@@ -162,6 +155,7 @@ public class CobraCCodeParser {
 				declaration.setLineNumber(ctx.start.getLine());
 				declaration.setIsArray(isArray);
 				declaration.setArraySize(arraySize);
+				declaration.setIsForLoopCounter(false);
 				declarationList.add(declaration);
 				isArray = false;
 				arraySize = "";
@@ -183,13 +177,13 @@ public class CobraCCodeParser {
 				String expression = "[LineNumber: " + ctx.start.getLine() + "]" + ctx.getText();
 				// System.out.println(expression);
 				ParserRelationalExpressoin(expression);
+
 			}
 		}
 
 		@Override
 		public void enterBlockItem(CParser.BlockItemContext ctx) {
 			// if (ctx.getChildCount() == 3) {
-
 			try {
 				if (!ctx.getText().contains("{")) {
 					int a = ctx.start.getStartIndex();
@@ -197,7 +191,12 @@ public class CobraCCodeParser {
 					Interval interval = new Interval(a, b);
 					ParserAssignment(
 							"[LineNumber: " + ctx.start.getLine() + "]" + ctx.start.getInputStream().getText(interval));
-					//System.out.println(ctx.start.getInputStream().getText(interval));
+				} else {
+					int a = ctx.start.getStartIndex();
+					int b = ctx.stop.getStopIndex();
+					Interval interval = new Interval(a, b);
+					ParserAssignment("[LineNumber: " + ctx.start.getLine() + "]" + ctx.start.getInputStream()
+							.getText(interval).replaceAll("\\n", "").replaceAll("\\{.*", ""));
 				}
 			} catch (Exception e) {
 			}
@@ -206,21 +205,19 @@ public class CobraCCodeParser {
 
 		@Override
 		public void enterStructOrUnionSpecifier(CParser.StructOrUnionSpecifierContext ctx) {
-			if (ctx.getText().contains("{") && ctx.Identifier() != null){
+			if (ctx.getText().contains("{") && ctx.Identifier() != null) {
 				StructDeclaration structDeclaration = new StructDeclaration();
-				structName = ctx.Identifier().getText();
 				String structDelcarationType = ctx.structOrUnion().getText();
 				String structDeclarationName = ctx.Identifier().getText();
 				structDeclaration.setDeclarationType(structDelcarationType);
 				structDeclaration.setDeclarationName(structDeclarationName);
 				structdeclarationList.add(structDeclaration);
-				
+
 			}
 			if (ctx.Identifier() == null)
 				System.out.println(
 						"Struct declaration without struct name is not  impelemented, inputs file may be wrong!");
 		}
-		
 
 		@Override
 		public void enterSpecifierQualifierList(CParser.SpecifierQualifierListContext ctx) {
@@ -229,21 +226,35 @@ public class CobraCCodeParser {
 
 		@Override
 		public void enterStructDeclarator(CParser.StructDeclaratorContext ctx) {
-		//	System.out.print("\n"+ctx.getText()+"\n");
+			// System.out.print("\n"+ctx.getText()+"\n");
 			Declaration nonStructComponent = new Declaration();
-			Boolean isArray_Local=false;
-			String arraySize_Local="";
+			Boolean isArray_Local = false;
+			String arraySize_Local = "";
 			nonStructComponent.setDeclarationName(ctx.getText().replaceAll("\\s+", "").replaceAll("\\[.*", ""));
 			nonStructComponent.setDeclarationType(type);
-			
-			if(ctx.getText().replaceAll(" ","").matches("^\\w*\\[.*\\]")){
+
+			if (ctx.getText().replaceAll(" ", "").matches("^\\w*\\[.*\\]")) {
 				isArray_Local = true;
-				arraySize_Local = ctx.getText().replaceFirst("[^\\[]*\\[", "").replaceAll("\\]$", "").replaceAll("\\]\\[", ",");
-			}		
+				arraySize_Local = ctx.getText().replaceFirst("[^\\[]*\\[", "").replaceAll("\\]$", "")
+						.replaceAll("\\]\\[", ",");
+			}
 			nonStructComponent.setIsArray(isArray_Local);
 			nonStructComponent.setArraySize(arraySize_Local);
-			
-			structdeclarationList.get(structdeclarationList.size()-1).addNonStructComponentToList(nonStructComponent);
+
+			structdeclarationList.get(structdeclarationList.size() - 1).addNonStructComponentToList(nonStructComponent);
+		}
+
+		@Override
+		public void enterForIterationPrefix(CParser.ForIterationPrefixContext ctx) {
+			String declarationName = ctx.getParent().getText().replaceAll("\\s", "").replaceAll(";.*|for\\(", "")
+					.replaceAll("=.*", "");
+
+			for (int i = declarationList.size() - 1; i >= 0; i--) {
+				if (declarationList.get(i).getDeclarationName().equals(declarationName)) {
+					declarationList.get(i).setIsForLoopCounter(true);
+					break;
+				}
+			}
 		}
 
 	}
@@ -251,7 +262,8 @@ public class CobraCCodeParser {
 	// List<Data> list = new ArrayList<Data>();
 
 	class AssignmentTreeListener extends CBaseListener {
-		
+		private Boolean isSizeofOrAlignof = false;
+
 		@Override
 		public void enterLineNumber(CParser.LineNumberContext ctx) {
 			lineNumber = Integer.parseInt(ctx.getText());
@@ -261,33 +273,42 @@ public class CobraCCodeParser {
 		@Override
 		public void enterRightExpression(CParser.RightExpressionContext ctx) {
 			pointer = "";
-			if (ctx.pointer()!=null && ctx.pointer().getText().equals("*")) {
+			if (ctx.pointer() != null && ctx.pointer().getText().equals("*")) {
 				pointer = "*";
 			}
 		}
+
+		@Override
+		public void enterForIterationPrefix(CParser.ForIterationPrefixContext ctx) {
+			forLoopCounterName = ctx.getParent().getText().replaceAll("\\s", "").replaceAll(";.*|for\\(", "")
+					.replaceAll("=.*", "");
+		}
 		
 		@Override
-		public void enterForIterationPrefix(CParser.ForIterationPrefixContext ctx){
-			//System.out.println(ctx.getParent().getText());
-			isForLoopCounter = true;
-		}
-		@Override
 		public void enterRightVariable(CParser.RightVariableContext ctx) {
-			if (ctx.Identifier() != null) {
-				Variable rightVariable = new Variable();
-				rightVariable.setVariableName(pointer + ctx.getText());
-				rightVariable.setLineNumber(lineNumber);
-				rightVariable.setIsForLoopCounter(isForLoopCounter);
-				rightVariableList.add(rightVariable);
-				isForLoopCounter = false;
+
+			if (ctx.Sizeof() != null || ctx.Alignof() != null && ctx.typeName() == null) {
+				isSizeofOrAlignof = true;
 			}
-			
+
+			if (ctx.Identifier() != null) {
+				if (!isSizeofOrAlignof) {
+					Variable rightVariable = new Variable();
+					rightVariable.setVariableName(ctx.getText());
+					rightVariable.setLineNumber(lineNumber);
+					Boolean isForLoopCounter = ctx.getText().equals(forLoopCounterName);
+					rightVariable.setIsForLoopCounter(isForLoopCounter);
+					rightVariableList.add(rightVariable);
+				} else {
+					isSizeofOrAlignof = false;
+				}
+			}
 		}
 
 		@Override
 		public void enterLeftExpression(CParser.LeftExpressionContext ctx) {
 			pointer = "";
-			if (ctx.pointer()!=null && ctx.pointer().getText().equals("*")) {
+			if (ctx.pointer() != null && ctx.pointer().getText().equals("*")) {
 				pointer = "*";
 			}
 		}
@@ -299,31 +320,36 @@ public class CobraCCodeParser {
 				leftVariable.setVariableName(pointer + ctx.getText());
 				leftVariable.setLineNumber(lineNumber);
 				leftVariableList.add(leftVariable);
-				// System.out.print("left: "+ctx.getText() + lineNumber +"\n");
 			}
 		}
 	}
 
 	class RelationalExpressionTreeListener extends CBaseListener {
+		private Boolean isSizeofOrAlignof = false;
+
 		@Override
 		public void enterLineNumber(CParser.LineNumberContext ctx) {
 			lineNumber = Integer.parseInt(ctx.getText());
 		}
-		
-		@Override
-		public void enterForIterationPrefix(CParser.ForIterationPrefixContext ctx){
-			isForLoopCounter = true;
-			System.out.println(ctx.getText());
-		}
+
 		@Override
 		public void enterRightVariable(CParser.RightVariableContext ctx) {
+
+			if (ctx.Sizeof() != null || ctx.Alignof() != null && ctx.typeName() == null) {
+				isSizeofOrAlignof = true;
+			}
+
 			if (ctx.Identifier() != null) {
-				Variable rightVariable = new Variable();
-				rightVariable.setVariableName(ctx.getText());
-				rightVariable.setLineNumber(lineNumber);
-				rightVariable.setIsForLoopCounter(isForLoopCounter);
-				rightVariableList.add(rightVariable);
-				isForLoopCounter = false;
+				if (!isSizeofOrAlignof) {
+					Variable rightVariable = new Variable();
+					rightVariable.setVariableName(ctx.getText());
+					rightVariable.setLineNumber(lineNumber);
+					Boolean isForLoopCounter = ctx.getText().equals(forLoopCounterName);
+					rightVariable.setIsForLoopCounter(isForLoopCounter);
+					rightVariableList.add(rightVariable);
+				} else {
+					isSizeofOrAlignof = false;
+				}
 			}
 		}
 	}

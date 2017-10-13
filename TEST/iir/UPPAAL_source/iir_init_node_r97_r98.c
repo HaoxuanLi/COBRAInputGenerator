@@ -20,8 +20,8 @@ int main(void);
 
 void benchmarkNode(void)
 {
-	for ( i = 0; i < sizeof( iir_coefficients ); ++i, ++p ){
-		*p ^= bitmask + *p;}
+  for ( i = 0; i < sizeof( iir_coefficients ); ++i, ++p ){
+  *p ^= bitmask;}
 }
 
 int main(void)

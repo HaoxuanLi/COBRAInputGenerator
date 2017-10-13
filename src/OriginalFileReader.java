@@ -55,7 +55,6 @@ public class OriginalFileReader {
 		
 		pointerTargetVariable.setVariableName(pointerTargetVariableName);
 		pointerTargetVariable.setLineNumber(pointerTargetLineNumber);
-		pointerTargetVariable.setIsForLoopCounter(false);
 		
 		return pointerTargetVariable;
 		

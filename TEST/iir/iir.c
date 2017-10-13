@@ -95,7 +95,7 @@ void iir_init( void )
   p = (unsigned char *) &iir_coefficients[ 0 ];
   _Pragma( "loopbound min 80 max 80" )
   for ( i = 0; i < sizeof( iir_coefficients ); ++i, ++p )
-    *p ^= bitmask + *p;
+    *p ^= bitmask;
 
   p = (unsigned char *) &iir_wi[ 0 ];
   _Pragma( "loopbound min 32 max 32" )

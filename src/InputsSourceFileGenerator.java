@@ -23,29 +23,26 @@ public class InputsSourceFileGenerator {
 	private String stackPointerValueOfOriginalCode;
 	private String stackPointerValueOfBlockCode;
 
-
 	private List<Declaration> inputDeclarationList = new ArrayList<Declaration>();
 	private List<Declaration> nonStructInputList = new ArrayList<Declaration>();
 	private List<StructDeclaration> structInputList = new ArrayList<StructDeclaration>();
 
 	private int processorRegisterLength;
 	private int blockStartLineNumber;
-	
+
 	private MapFileReader mapFileReader;
 	private LssFileReader lssFileReader;
 	private WCETTargetInfo wcetTargetInfo;
 	private InputGenerator inputGenerator;
-	
-	
+
 	public InputsSourceFileGenerator(WCETTargetInfo wcetTargetInfo) throws Exception {
 
 		readWcetTargetInfo(wcetTargetInfo);
-		
-		
+
 		this.inputGenerator = new InputGenerator(this.wcetTargetInfo);
-		
+
 		this.inputDeclarationList = this.inputGenerator.getInputDeclarationList();
-		this.structInputList = this.inputGenerator.getStructInputList();		
+		this.structInputList = this.inputGenerator.getStructInputList();
 		this.nonStructInputList = this.inputGenerator.getNonStructInputList();
 		this.blockInputsForwardDeclaration = getBlockInputsForwardDeclaration();
 
@@ -53,14 +50,14 @@ public class InputsSourceFileGenerator {
 	}
 
 	public void readWcetTargetInfo(WCETTargetInfo wcetTargetInfo) {
-		//wcetTargetInfo.getTicStamp();
-		//wcetTargetInfo.getTocStamp();
+		// wcetTargetInfo.getTicStamp();
+		// wcetTargetInfo.getTocStamp();
 		this.wcetTargetInfo = wcetTargetInfo;
 		this.originalFileDirectoryAbsolutePath = wcetTargetInfo.getOriginalFileDirectoryAbsolutePath();
 		this.workDirectoryAbsolutePath = wcetTargetInfo.getWorkDirectoryAbsolutePath();
 		this.avrFilesOutputDirectoryAbsolutePath = wcetTargetInfo.getAvrFilesOutputDirectoryAbsolutePath();
 		this.originalFileAbsolutePath = wcetTargetInfo.getOriginalFileAbsolutePath();
-		this.blockStartLineNumber = wcetTargetInfo.getBlockStartLineNumber(); 
+		this.blockStartLineNumber = wcetTargetInfo.getBlockStartLineNumber();
 		this.framePointerValue = wcetTargetInfo.getFramePointerValue();
 		this.stackPointerValueOfBlockCode = wcetTargetInfo.getStackPointerValueOfBlockCode();
 		this.stackPointerValueOfOriginalCode = wcetTargetInfo.getStackPointerValueOfOriginalCode();
@@ -68,7 +65,6 @@ public class InputsSourceFileGenerator {
 		this.mapFileReader = new MapFileReader(wcetTargetInfo);
 		this.lssFileReader = new LssFileReader(wcetTargetInfo);
 	}
-
 
 	public List<File> getHeaderFileList() {
 		List<File> headerFileList = new ArrayList<File>();
@@ -91,13 +87,12 @@ public class InputsSourceFileGenerator {
 		return parseHeaderFile(headerFile);
 	}
 
-	public void setOriginalHeaderFileAbsolutePathForstructDefinitionDeclarationList(List<StructDeclaration> structDefinitionDeclarationList,
-			String originalHeaderFileAbsolutePath) {
+	public void setOriginalHeaderFileAbsolutePathForstructDefinitionDeclarationList(
+			List<StructDeclaration> structDefinitionDeclarationList, String originalHeaderFileAbsolutePath) {
 		for (StructDeclaration structdeclaration : structDefinitionDeclarationList) {
 			structdeclaration.setOriginalHeaderFileAbsolutePath(originalHeaderFileAbsolutePath);
 		}
 	}
-
 
 	public void appendMacrosForInputGeneration(String macrosForInputGeneration, String newRewrittenMacro) {
 		macrosForInputGeneration = macrosForInputGeneration.replaceAll(newRewrittenMacro, "") + newRewrittenMacro;
@@ -114,7 +109,6 @@ public class InputsSourceFileGenerator {
 		return macroForInputGeneration;
 
 	}
-
 
 	public File getMapFile() throws FileNotFoundException {
 		File mapFile = null;
@@ -176,12 +170,10 @@ public class InputsSourceFileGenerator {
 		}
 	}
 
-
 	private boolean getIsDeclarationConstant(Declaration declaration) {
 		boolean isDeclarationConstant = declaration.getDeclarationType().matches("(const)+.*");
 		return isDeclarationConstant;
 	}
-
 
 	private String replaceOperatorsInNameWithLetters(String nameString) {
 		String replacedName = nameString.replaceAll("\\+", "plus").replaceAll("\\" + "-", "minus")
@@ -343,12 +335,12 @@ public class InputsSourceFileGenerator {
 		// String blockInputsForwardDeclaration = "";
 		for (Declaration declaration : this.inputDeclarationList) {
 			if (!declaration.getIsArray())
-				blockInputsForwardDeclarationUpdate(
-						declaration.getDeclarationType().replaceAll("register ", "") + " " + declaration.getDeclarationName() + "_block" + ";");
+				blockInputsForwardDeclarationUpdate(declaration.getDeclarationType().replaceAll("register ", "") + " "
+						+ declaration.getDeclarationName() + "_block" + ";");
 			else
-				blockInputsForwardDeclarationUpdate(
-						declaration.getDeclarationType().replaceAll("register ", "") + " " + declaration.getDeclarationName() + "_block" + "["
-								+ declaration.getArraySize().replaceAll(",", "\\]\\[") + "];");
+				blockInputsForwardDeclarationUpdate(declaration.getDeclarationType().replaceAll("register ", "") + " "
+						+ declaration.getDeclarationName() + "_block" + "["
+						+ declaration.getArraySize().replaceAll(",", "\\]\\[") + "];");
 		}
 
 		return this.blockInputsForwardDeclaration;
@@ -364,40 +356,40 @@ public class InputsSourceFileGenerator {
 			this.blockInputUpdateFunctionBody = this.blockInputUpdateFunctionBody + update + "\n\t";
 	}
 
-
 	public Boolean getIsStructComponentAStructOrUnion(String structComponentName) {
 		Boolean isStructComponentAStruct = structComponentName.matches("((struct)+.*)|((union)+.*)");
 		return isStructComponentAStruct;
 	}
 
-	
-//	public void updateBlockInputUpdateFunctionBodyForStructInput(StructDeclaration structInput){
-//		String structInputName = structInput.getDeclarationName();
-//		if (!structInput.getIsArray()) {
-//			if (!structInput.getDeclarationType().matches("(struct.*)|(union.*)")) {
-//				/*
-//				 * String update = this.structInputName + "." +
-//				 * structInput.getStructComponentName() + " = " +
-//				 * this.structInputName + "_" +
-//				 * structInput.getDeclarationName().replaceAll("\\+",
-//				 * "plus").replaceAll("\\" + "-", "minus") .replaceAll("^\\*",
-//				 * "").replaceAll("\\*", "mul").replaceAll("\\/", "div")
-//				 * .replaceAll("\\(|\\)", "bra").replaceAll(",", "com") +
-//				 * "_inputs[blockInputUpdate_i];";
-//				 * updateBlockInputUpdateFunctionBody(update);
-//				 */
-//			} else {
-//				String update = structInputName + "_block" + "." + structInput.getDeclarationName() + " = "
-//						+ structInput.getDeclarationName().replaceAll("\\+", "plus").replaceAll("\\" + "-", "minus")
-//								.replaceAll("^\\*", "").replaceAll("\\*", "mul").replaceAll("\\/", "div")
-//								.replaceAll("\\(|\\)", "bra").replaceAll(",", "com")
-//						+ "_block";
-//				updateBlockInputUpdateFunctionBody(update);
-//			}
-//		}
-//	}
-
-
+	// public void
+	// updateBlockInputUpdateFunctionBodyForStructInput(StructDeclaration
+	// structInput){
+	// String structInputName = structInput.getDeclarationName();
+	// if (!structInput.getIsArray()) {
+	// if (!structInput.getDeclarationType().matches("(struct.*)|(union.*)")) {
+	// /*
+	// * String update = this.structInputName + "." +
+	// * structInput.getStructComponentName() + " = " +
+	// * this.structInputName + "_" +
+	// * structInput.getDeclarationName().replaceAll("\\+",
+	// * "plus").replaceAll("\\" + "-", "minus") .replaceAll("^\\*",
+	// * "").replaceAll("\\*", "mul").replaceAll("\\/", "div")
+	// * .replaceAll("\\(|\\)", "bra").replaceAll(",", "com") +
+	// * "_inputs[blockInputUpdate_i];";
+	// * updateBlockInputUpdateFunctionBody(update);
+	// */
+	// } else {
+	// String update = structInputName + "_block" + "." +
+	// structInput.getDeclarationName() + " = "
+	// + structInput.getDeclarationName().replaceAll("\\+",
+	// "plus").replaceAll("\\" + "-", "minus")
+	// .replaceAll("^\\*", "").replaceAll("\\*", "mul").replaceAll("\\/", "div")
+	// .replaceAll("\\(|\\)", "bra").replaceAll(",", "com")
+	// + "_block";
+	// updateBlockInputUpdateFunctionBody(update);
+	// }
+	// }
+	// }
 
 	public void writeBlockInputsForwardDeclarationToInputsSourceFile(Formatter inputsSourceFileFormatter) {
 		inputsSourceFileFormatter.format("%s", "/*Forward declaration*/\n");
@@ -412,12 +404,12 @@ public class InputsSourceFileGenerator {
 					+ this.blockInputUpdateFunctionBody + " \n");
 			inputsSourceFileFormatter.format("%s", "\n} \n" + " \n");
 		}
-		if (this.wcetTargetInfo.isMakingTimingMeasurementModule() || this.wcetTargetInfo.isFinalStepToAdjustRcall() || this.wcetTargetInfo.isInsertingBlockContentToTimingMeasurementModule()) {
+		if (this.wcetTargetInfo.isMakingTimingMeasurementModule() || this.wcetTargetInfo.isFinalStepToAdjustRcall()
+				|| this.wcetTargetInfo.isInsertingBlockContentToTimingMeasurementModule()) {
 			writeUpdatedBlockInputUpdateFunctionForMakingTimingMeasurementModule(inputsSourceFileFormatter);
 		}
 
 	}
-
 
 	public void writeBlockExecutionTimeMeasurementForPreparingToGettingPointerValues(
 			Formatter inputsSourceFileFormatter) {
@@ -427,25 +419,25 @@ public class InputsSourceFileGenerator {
 		inputsSourceFileFormatter.format("%s", "\n");
 		inputsSourceFileFormatter.format("%s", "\n}");
 	}
-	
-	public void writeIncludedHeaderFilesToInputsSourceFile(Formatter inputsSourceFileFormatter){
+
+	public void writeIncludedHeaderFilesToInputsSourceFile(Formatter inputsSourceFileFormatter) {
 		inputsSourceFileFormatter.format("%s", "#include \"inputs.h\"\n");
 		inputsSourceFileFormatter.format("%s",
 				"#include \"" + this.originalFileAbsolutePath.replace(".c", ".h") + "\"\n" + " \n");
 	}
-	
-	public void writeGeneratedInputToInputsSourceFile(Formatter inputsSourceFileFormatter) throws IOException{
-		BufferedReader inputsTxtFileReader = new BufferedReader(new FileReader(this.workDirectoryAbsolutePath + "\\inputs.txt"));
+
+	public void writeGeneratedInputToInputsSourceFile(Formatter inputsSourceFileFormatter) throws IOException {
+		BufferedReader inputsTxtFileReader = new BufferedReader(
+				new FileReader(this.workDirectoryAbsolutePath + "\\inputs.txt"));
 		String inputsTxtFileReaderLine = "";
-		while((inputsTxtFileReaderLine = inputsTxtFileReader.readLine()) != null){
+		while ((inputsTxtFileReaderLine = inputsTxtFileReader.readLine()) != null) {
 			inputsSourceFileFormatter.format("%s", inputsTxtFileReaderLine + "\n\n");
 		}
-		
+
 		inputsTxtFileReader.close();
 	}
-	
-	public void constructSourseFileForPreparingToGettingPointerValues()
-			throws IOException {
+
+	public void constructSourseFileForPreparingToGettingPointerValues() throws IOException {
 		System.out.println("\n Generating inputs.c file for blockR" + this.blockStartLineNumber + "...");
 		Formatter inputsSourceFileFormatter = getInputsSourceFileFormatter();
 		writeIncludedHeaderFilesToInputsSourceFile(inputsSourceFileFormatter);
@@ -456,7 +448,6 @@ public class InputsSourceFileGenerator {
 		inputsSourceFileFormatter.close();
 		System.out.println("\ninputs.c file generated for blockR" + this.blockStartLineNumber + "!");
 	}
-
 
 	public void writeBlockExecutionTimeMeasurementForGettingPointerValues(Formatter inputsSourceFileFormatter)
 			throws IOException {
@@ -517,7 +508,6 @@ public class InputsSourceFileGenerator {
 		for (Declaration input : this.inputDeclarationList) {
 			String initializationAssembly = this.lssFileReader.getInitializationAssembly(input);
 			input.setInitializationAssembly(initializationAssembly);
-
 		}
 	}
 
@@ -683,6 +673,13 @@ public class InputsSourceFileGenerator {
 		inputsSourceFileFormatter.format("%s", "\t\"BlockContent_End:\\n\\t\"\n");
 	}
 
+	private void insertCodeInCaseExistsCodeAfterTheTocFlagDueToJumpInstructions(Formatter inputsSourceFileFormatter)
+			throws IOException {
+		String CodeAfterTheTocFlagDueToJumpInstructions = this.lssFileReader
+				.getCodeAfterTheTocFlagDueToJumpInstructions();
+		inputsSourceFileFormatter.format("%s", CodeAfterTheTocFlagDueToJumpInstructions);
+	}
+
 	public void writeBlockExecutionTimeMeasurementForMakingTimingMeasurementModule(Formatter inputsSourceFileFormatter)
 			throws IOException {
 		inputsSourceFileFormatter.format("%s", "/*BLock execution time measurement*/\n");
@@ -722,12 +719,10 @@ public class InputsSourceFileGenerator {
 	public void writeCodeToAssignGeneratedInputValueToGlobalInput(Declaration input,
 			Formatter inputsSourceFileFormatter) throws IOException {
 
-		
 		int inputDataMemorySize = this.mapFileReader.getMemorySpaceSizeOfInput(input);
-		
+
 		for (int variablelengthcounter = 0; variablelengthcounter < inputDataMemorySize; variablelengthcounter++) {
-			
-			
+
 			inputsSourceFileFormatter.format("%s",
 					"\t\"lds	" + "r14" + ", 0x"
 							+ Integer.toHexString(Integer.parseInt(input.getBlockAddress(), 16) + variablelengthcounter)
@@ -745,39 +740,56 @@ public class InputsSourceFileGenerator {
 		return isInputLocal;
 	}
 
+	public int getTheLowestRegisterNumberInInitializationAssembly(String initializationAssembly) {
+		String[] initializationAssemblyLine = initializationAssembly.split("\\n");
+
+		int numberOfInitializationAssemblyLines = initializationAssemblyLine.length;
+		int lineCounter = 0;
+		int lowestRegisterNumber = 31;
+
+		for (lineCounter = 0; lineCounter < numberOfInitializationAssemblyLines; lineCounter++) {
+			String[] initializationAssemblyLine_Split = initializationAssemblyLine[lineCounter].split("\\s");
+
+			if (initializationAssemblyLine_Split[1].replace(",", "").matches("^r\\d*")) {
+				int registerNumber = Integer
+						.parseInt(initializationAssemblyLine_Split[1].replace(",", "").replace("r", ""));
+
+				if (registerNumber < lowestRegisterNumber)
+					lowestRegisterNumber = registerNumber;
+			}
+		}
+
+		return lowestRegisterNumber;
+
+	}
+
 	public void writeCodeToAssignGeneratedInputValueToLocalInput(Declaration input, Formatter inputsSourceFileFormatter)
 			throws IOException {
 
 		String stack_address_org = this.mapFileReader.getAddress("stack_address_org");
 		String register_address_org = this.mapFileReader.getAddress("register_address_org");
 		String initializationAssembly = input.getInitializationAssembly();
-		String[] initializationAssembly_Split = initializationAssembly.split("\\n");
-
-		int numberOfInitializationAssemblyLines = initializationAssembly_Split.length;
+		String[] initializationAssemblyLine = initializationAssembly.split("\\n");
+		int numberOfInitializationAssemblyLines = initializationAssemblyLine.length;
 		int lineCounter = 0;
 		int stdInstructionCounter = 0;
 
+		int lowestRegisterNumber = getTheLowestRegisterNumberInInitializationAssembly(initializationAssembly);
+
 		for (lineCounter = 0; lineCounter < numberOfInitializationAssemblyLines; lineCounter++) {
-			String initializationAssemblyLineCut = initializationAssembly_Split[lineCounter].replaceAll(",.*", "")
-					.replaceAll("\\s+", " ");
+			String[] initializationAssemblyLine_Split = initializationAssemblyLine[lineCounter].split("\\s");
 
-			String[] initializationAssemblyLineCut_Split = initializationAssemblyLineCut.split("\\s");
-			String register = initializationAssemblyLineCut_Split[initializationAssemblyLineCut_Split.length - 1];
-		
-			int registerNumber = initializationAssemblyLineCut_Split[initializationAssemblyLineCut_Split.length - 1]
-					.matches("^r\\d*")
-							? Integer.parseInt(
-									initializationAssemblyLineCut_Split[initializationAssemblyLineCut_Split.length - 1]
-											.replaceAll("r", ""))
-							: 0;
+			String register = initializationAssemblyLine_Split[1].replace(",", "");
 
-			String assemblyInstruction = initializationAssemblyLineCut_Split[initializationAssemblyLineCut_Split.length
-					- 2];
+			int registerNumber = initializationAssemblyLine_Split[1].replace(",", "").matches("^r\\d*")
+					? Integer.parseInt(initializationAssemblyLine_Split[1].replace(",", "").replace("r", "")) : 0;
+
+			String assemblyInstruction = initializationAssemblyLine_Split[0];
 
 			if (assemblyInstruction.matches("ldi|lds|ld|ldd|mov")) {
 				inputsSourceFileFormatter.format("%s",
-						"\t\"lds	" + register + ", 0x"
-								+ Integer.toHexString(Integer.parseInt(input.getBlockAddress(), 16) + lineCounter)
+						"\t\"lds	" + register + ", 0x" + Integer.toHexString(
+								Integer.parseInt(input.getBlockAddress(), 16) + registerNumber - lowestRegisterNumber)
 								+ "\\n\\t\"\n");
 				inputsSourceFileFormatter.format("%s",
 						"\t\"sts	0x"
@@ -786,24 +798,27 @@ public class InputsSourceFileGenerator {
 
 			} else if (assemblyInstruction.matches("movw")) {
 
+				int temperalRegisterNumber = Integer.parseInt(register.replace("r", "")) + 1;
+
 				inputsSourceFileFormatter.format("%s",
-						"\t\"lds	" + register + ", 0x"
-								+ Integer.toHexString(Integer.parseInt(input.getBlockAddress(), 16) + lineCounter)
+						"\t\"lds	" + "r" + temperalRegisterNumber + ", 0x"
+								+ Integer.toHexString(Integer.parseInt(input.getBlockAddress(), 16) + registerNumber
+										- lowestRegisterNumber + 1)
 								+ "\\n\\t\"\n");
+
 				inputsSourceFileFormatter.format("%s",
-						"\t\"lds	" + "r" + ((lineCounter + 1) * 2 - 1) + ", 0x"
-								+ Integer.toHexString(
-										Integer.parseInt(input.getBlockAddress(), 16) + ((lineCounter + 1) * 2 - 1))
+						"\t\"sts	0x"
+								+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registerNumber + 1)
+								+ "," + "r" + temperalRegisterNumber + "\\n\\t\"\n");
+
+				inputsSourceFileFormatter.format("%s",
+						"\t\"lds	" + register + ", 0x" + Integer.toHexString(
+								Integer.parseInt(input.getBlockAddress(), 16) + registerNumber - lowestRegisterNumber)
 								+ "\\n\\t\"\n");
 				inputsSourceFileFormatter.format("%s",
 						"\t\"sts	0x"
 								+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registerNumber)
-								+ ", s" + register + "\\n\\t\"\n");
-				inputsSourceFileFormatter.format("%s",
-						"\t\"sts	0x"
-								+ Integer.toHexString(
-										Integer.parseInt(register_address_org, 16) + ((lineCounter + 1) * 2 - 1))
-								+ "," + "r" + ((lineCounter + 1) * 2 - 1) + "\\n\\t\"\n");
+								+ ", " + register + "\\n\\t\"\n");
 
 			} else if (assemblyInstruction.matches("st|std")) {
 
@@ -827,7 +842,63 @@ public class InputsSourceFileGenerator {
 					System.err.println("Wrong stack register!");
 				}
 
-			} else {
+			} else if (input.getIsForLoopCounter() && assemblyInstruction.matches("cpi|cpc")) {
+				String formattedAssemblyCode = "";
+				String registerInitialValue_Hex = initializationAssemblyLine[lineCounter]
+						.replaceAll(".*registerInitialValue_Hex:", "");
+				int temperalRegisterNumber = Integer.parseInt(register.replace("r", "")) - 1;
+
+				if (temperalRegisterNumber < 2) {
+					System.err.println("temperalRegister cannot be R1 or R0!");
+					IOException e = new IOException();
+					throw e;
+				}
+
+				if (assemblyInstruction.matches("cpi")) {
+						formattedAssemblyCode = "\t\"lds	" + register + ", 0x" + Integer.toHexString(
+							Integer.parseInt(input.getBlockAddress(), 16) + registerNumber - lowestRegisterNumber)
+							+ "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+					formattedAssemblyCode = "\t\"ldi	" + "r" + temperalRegisterNumber + ", "
+							+ registerInitialValue_Hex + "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+					formattedAssemblyCode = "\t\"add	" + register + ", " + "r" + temperalRegisterNumber
+							+ "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+					formattedAssemblyCode = "\t\"sts	0x"
+							+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registerNumber) + ", "
+							+ register + "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+				}
+				if (assemblyInstruction.matches("cpc")) {
+
+					formattedAssemblyCode = "\t\"lds	" + register + ", 0x" + Integer.toHexString(
+							Integer.parseInt(input.getBlockAddress(), 16) + registerNumber - lowestRegisterNumber)
+							+ "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+					formattedAssemblyCode = "\t\"ldi	" + "r" + temperalRegisterNumber + ", "
+							+ registerInitialValue_Hex + "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+					formattedAssemblyCode = "\t\"adc	" + register + ", " + "r" + temperalRegisterNumber
+							+ "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+
+					formattedAssemblyCode = "\t\"sts	0x"
+							+ Integer.toHexString(Integer.parseInt(register_address_org, 16) + registerNumber) + ", "
+							+ register + "\\n\\t\"\n";
+					inputsSourceFileFormatter.format("%s", formattedAssemblyCode);
+					
+				}
+
+			}
+
+			else {
 				System.err.println("Unexpected assembly instruction!");
 			}
 		}
@@ -850,16 +921,15 @@ public class InputsSourceFileGenerator {
 
 		inputsSourceFileFormatter.format("%s", "\t/*Assign the inputs values to the block*/\n");
 		for (Declaration input : this.inputDeclarationList) {
-
 			if (getIsInputGlobal(input)) {
 				writeCodeToAssignGeneratedInputValueToGlobalInput(input, inputsSourceFileFormatter);
 			} else if (getIsInputLocal(input)) {
-				
 				writeCodeToAssignGeneratedInputValueToLocalInput(input, inputsSourceFileFormatter);
-			} /*
-				 * else if(!getIsInputGlobal(input)&&!getIsInputLocal(input)) {
-				 * IOException e = new IOException(); throw e; }
-				 */
+			}  else if(!getIsInputGlobal(input)&&!getIsInputLocal(input)) {
+				  IOException e = new IOException(); 
+				  throw e; 
+			}
+				
 		}
 
 		// restore register values from register_address_block
@@ -869,9 +939,8 @@ public class InputsSourceFileGenerator {
 		inputsSourceFileFormatter.format("%s", "\n} \n" + " \n");
 	}
 
-	public void constructSourseFileForMakingTimingMeasurementModule()
-			throws IOException {
-		System.out.println("\n Generating inputs.c file for blockR" + this.blockStartLineNumber + "...");
+	public void constructSourseFileForMakingTimingMeasurementModule() throws IOException {
+		System.out.println("\nGenerating inputs.c file for blockR" + this.blockStartLineNumber + "...");
 		Formatter inputsSourceFileFormatter = getInputsSourceFileFormatter();
 		writeIncludedHeaderFilesToInputsSourceFile(inputsSourceFileFormatter);
 		writeGeneratedInputToInputsSourceFile(inputsSourceFileFormatter);
@@ -881,9 +950,9 @@ public class InputsSourceFileGenerator {
 		inputsSourceFileFormatter.close();
 		System.out.println("\ninputs.c file generated for blockR" + this.blockStartLineNumber + "!");
 	}
-	
-	public void writeBlockExecutionTimeMeasurementForInsertingBlockContentToTimingMeasurementModule(Formatter inputsSourceFileFormatter)
-			throws IOException {
+
+	public void writeBlockExecutionTimeMeasurementForInsertingBlockContentToTimingMeasurementModule(
+			Formatter inputsSourceFileFormatter) throws IOException {
 		inputsSourceFileFormatter.format("%s", "/*BLock execution time measurement*/\n");
 		inputsSourceFileFormatter.format("%s", "void benchmarkBlock(void)\n");
 		inputsSourceFileFormatter.format("%s", "{\n");
@@ -900,6 +969,7 @@ public class InputsSourceFileGenerator {
 		writeCodeToStartExecutionCycleCounter_Tic(inputsSourceFileFormatter);
 		insertTheAssemblyBlockContentToTheMeasurementModule(inputsSourceFileFormatter);
 		writeCodeToStopExecutionCycleCounter_Toc(inputsSourceFileFormatter);
+		insertCodeInCaseExistsCodeAfterTheTocFlagDueToJumpInstructions(inputsSourceFileFormatter);
 		writeCodeToSetTheStackBacktoTheStateBeforeExecutingTheBlockCodeInTheMeasurementModule(
 				inputsSourceFileFormatter);
 		writeCodeToSetRegisterValuesBacktToTheStateBefore(inputsSourceFileFormatter);
@@ -910,9 +980,8 @@ public class InputsSourceFileGenerator {
 		inputsSourceFileFormatter.format("%s", "\n}");
 
 	}
-	
-	public void constructSourseFileForInsertingBlockContentToTimingMeasurementModule()
-			throws IOException {
+
+	public void constructSourseFileForInsertingBlockContentToTimingMeasurementModule() throws IOException {
 		System.out.println("\n Generating inputs.c file for blockR" + this.blockStartLineNumber + "...");
 		Formatter inputsSourceFileFormatter = getInputsSourceFileFormatter();
 		writeIncludedHeaderFilesToInputsSourceFile(inputsSourceFileFormatter);
@@ -926,15 +995,17 @@ public class InputsSourceFileGenerator {
 
 	public void finalStepToAdjustRcall() throws IOException {
 		System.out.println("\n Adjusting rcall target in inputs.c file for blockR" + this.blockStartLineNumber + "...");
-		
+
 		File inputsSourceFile = this.getInputsSourceFile();
 		BufferedReader inputsFileReader = this.getInputsSourceFileReader();
 		String inputsFileReaderLine = "";
 		File inputsSourceFile_Temp = new File(this.avrFilesOutputDirectoryAbsolutePath + "\\inputs_temp.c");
 		Formatter inputcformatter_temp = new Formatter(inputsSourceFile_Temp);
 		Boolean isBlockContent = false;
-		String rcallAdressesOfBlockContentInMeaurementModule = this.lssFileReader.getRcallAdressesOfBlockContentInMeaurementModule();
-		String[] rcallAdressesOfBlockContentInMeaurementModule_Split = rcallAdressesOfBlockContentInMeaurementModule.split(";");
+		String rcallAdressesOfBlockContentInMeaurementModule = this.lssFileReader
+				.getRcallAdressesOfBlockContentInMeaurementModule();
+		String[] rcallAdressesOfBlockContentInMeaurementModule_Split = rcallAdressesOfBlockContentInMeaurementModule
+				.split(";");
 
 		int rcallCounter = 0;
 		while ((inputsFileReaderLine = inputsFileReader.readLine()) != null) {
@@ -949,42 +1020,44 @@ public class InputsSourceFileGenerator {
 					int rcallDistance = 0;
 					String rcallTargetAddress = inputsFileReaderLine.replaceAll("^.*//0x", "");
 					String assemblyCodeAddress = rcallAdressesOfBlockContentInMeaurementModule_Split[rcallCounter];
-						
-					rcallDistance = Integer.parseInt(rcallTargetAddress, 16) - Integer.parseInt(assemblyCodeAddress, 16) - 2;
+
+					rcallDistance = Integer.parseInt(rcallTargetAddress, 16) - Integer.parseInt(assemblyCodeAddress, 16)
+							- 2;
 					if (rcallDistance > 0)
-						inputsFileReaderLine = "\t\"rcall .+" + rcallDistance +"\\n\\t\"" + "    //0x" + rcallTargetAddress;
+						inputsFileReaderLine = "\t\"rcall .+" + rcallDistance + "\\n\\t\"" + "    //0x"
+								+ rcallTargetAddress;
 					else
-						inputsFileReaderLine = "\t\"rcall ." + rcallDistance  + "\\n\\t\"" + "    //0x" + rcallTargetAddress;
-					
+						inputsFileReaderLine = "\t\"rcall ." + rcallDistance + "\\n\\t\"" + "    //0x"
+								+ rcallTargetAddress;
+
 					rcallCounter++;
 				}
 			}
 			inputcformatter_temp.format("%s", inputsFileReaderLine + "\n");
 		}
-		
+
 		inputcformatter_temp.close();
 		inputsFileReader.close();
 		inputsSourceFile.delete();
 		inputsSourceFile_Temp.renameTo(inputsSourceFile);
 		System.out.println("\nrcall target adjusted for inputs.c file for blockR" + this.blockStartLineNumber + "!");
 	}
-	
 
 	public File getInputsSourceFile() {
 		File inputsSourceFile = new File(this.workDirectoryAbsolutePath + "\\inputs.c");
 		return inputsSourceFile;
 	}
 
-	public BufferedReader getInputsSourceFileReader() throws FileNotFoundException{
+	public BufferedReader getInputsSourceFileReader() throws FileNotFoundException {
 		BufferedReader inputsSourceFileReader = new BufferedReader(new FileReader(getInputsSourceFile()));
 		return inputsSourceFileReader;
 	}
-	
-	public Formatter getInputsSourceFileFormatter() throws FileNotFoundException{
+
+	public Formatter getInputsSourceFileFormatter() throws FileNotFoundException {
 		Formatter inputsSourceFileFormatter = new Formatter(getInputsSourceFile());
 		return inputsSourceFileFormatter;
 	}
-	
+
 	public void logGeneratedInputs() throws IOException {
 
 	}

@@ -1,9 +1,7 @@
 #include "inputs.h"
 #include "C:\Users\HLi\AppData\Roaming\Local Libraries\Local Documents\workspaceJava\WCET\TEST\iir\iir.h"
  
- 
- 
- 
+/*Forward declaration*/
 
  
 
@@ -256,7 +254,6 @@ void benchmarkBlock(void)
 	"lds	r29, 0x1dc\n\t"
 	"lds	r30, 0x1dd\n\t"
 	"lds	r31, 0x1de\n\t"
-	/*set stack pointer to stackpointer_address_block*/
 	/*restore the values in registers r14 and r15*/
 	"lds	r14, 0x1cd\n\t"
 	"lds	r15, 0x1ce\n\t"

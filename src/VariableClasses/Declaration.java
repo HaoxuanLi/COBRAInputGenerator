@@ -1,4 +1,6 @@
 package VariableClasses;
+
+
 public class Declaration {
 	private String declarationName;
 	private String declarationType;
@@ -11,6 +13,7 @@ public class Declaration {
 	private int variablelength;
 	private int lineNumber;
 	private String initializationassembly;
+	private Boolean isForLoopCounter;
 
 	public String getDeclarationType() {
 		return declarationType;
@@ -99,6 +102,14 @@ public class Declaration {
 
 	public void setInitializationAssembly(String initializationassembly) {
 		this.initializationassembly = initializationassembly;
+	}
+	
+	public Boolean getIsForLoopCounter() {
+		return isForLoopCounter;
+	}
+
+	public void setIsForLoopCounter(Boolean isForLoopCounter) {
+		this.isForLoopCounter = isForLoopCounter;
 	}
 
 }
